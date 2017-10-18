@@ -1,0 +1,36 @@
+<ion-content padding>
+  <div class="spacer" style="width:300px;height:27px;"></div>
+  <div>
+    <img src="assets/img/ux3dFcMiSE2qW6M6Kas3_logo.jpg" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;"
+    />
+  </div>
+  <div class="spacer" style="width:300px;height:26px;"></div>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label>
+          Login
+        </ion-label>
+        <ion-input id="login" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          Senha
+        </ion-label>
+        <ion-input id="password" type="password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button ion-button large color="stable" block on-click="login()">
+      Acessar
+    </button>
+  </form>
+  <div class="spacer" style="width:300px;height:50px;"></div>
+  <div style="text-align:center;" class="show-list-numbers-and-dots">
+    <p style="color:#000000;font-size:10px;">
+      Versão
+      <strong>
+        {{version}}
+      </strong>
+    </p>
+  </div>
+</ion-content>

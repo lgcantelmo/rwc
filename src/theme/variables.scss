@@ -88,3 +88,14 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+
+
+
+ion-toast.success .toast-wrapper {
+	background: green;
+}
+
+ion-toast.error .toast-wrapper {
+	background: #f53d3d;
+}

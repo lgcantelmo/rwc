@@ -15,7 +15,8 @@ import { LoginPage } from '../pages/login/login';
 export class RWC {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = SearchItemPage;
+  //rootPage: any = LoginPage;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();

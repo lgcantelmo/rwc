@@ -33,6 +33,11 @@ export class LoginPage {
       return;
     }
 
+    else if( login == "" || password == "") {
+      this.presentToast("Login/senha são obrigatórios", 'error');
+      return;
+    }
+
     const loading = this.loadingCtrl.create({ content: "Aguarde..." });
     loading.present();
 
@@ -47,7 +52,7 @@ export class LoginPage {
           this.presentToast(response.msg, 'error');
           return;
         }
-
+      
         this.nav.setRoot(HomePage);
       },
       error => {

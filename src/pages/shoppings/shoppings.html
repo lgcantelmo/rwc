@@ -10,52 +10,10 @@
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-item color="none" on-click="goToShopping()">
+    <ion-item color="none" *ngFor="let shopping of shoppings" on-click="goToShopping(shopping.number)">
       <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()">
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
-    </ion-item>
-    <ion-item color="none" on-click="goToShopping()" >
-      <ion-icon name="checkbox-outline" item-left></ion-icon>
-      15/09/2017
-      <ion-note item-right></ion-note>
+      {{shopping.date}}
+      <ion-note item-right>{{shopping.total != "0,00" ? 'R$ ' + shopping.total : shopping.total}}</ion-note>
       <ion-icon name="arrow-round-forward" item-right></ion-icon>
     </ion-item>
   </ion-list>

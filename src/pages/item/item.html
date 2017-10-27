@@ -22,7 +22,7 @@
         <strong>
           Cód. Barras:
         </strong>
-        7897001010403
+        {{item.barcode}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -30,7 +30,7 @@
         <strong>
           Código:
         </strong>
-        25030
+        {{item.code}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -38,7 +38,7 @@
         <strong>
           Descrição:
         </strong>
-        OLEO DE SOJA 900ml
+        {{item.description}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -46,6 +46,7 @@
         <strong>
           Marca:
         </strong>
+        {{item.mark}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -53,7 +54,7 @@
         <strong>
           Grupo:
         </strong>
-        MERCEARIA
+        {{item.groupName}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -61,7 +62,7 @@
         <strong>
           Sub-Grupo:
         </strong>
-        OLEOS
+        {{item.subgroupName}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -69,7 +70,7 @@
         <strong>
           Bloqueado:
         </strong>
-        NÃO
+        {{item.blocked ? 'SIM' : 'NÃO'}}
       </p>
     </div>
   </div>
@@ -87,7 +88,7 @@
           <strong>
             Custo:
           </strong>
-          R$ 2,62
+          {{item.cost != "0,00" ? 'R$ ' + item.cost : item.cost}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -95,7 +96,7 @@
           <strong>
             Venda:
           </strong>
-          R$ 2,85
+          {{item.price != "0,00" ? 'R$ ' + item.price : item.price}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -103,7 +104,7 @@
           <strong>
             Margem (%):
           </strong>
-          8,78
+          {{item.gain}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -111,7 +112,7 @@
           <strong>
             Margem Ideal (%):
           </strong>
-          15,00
+         {{item.idealGain}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -119,7 +120,7 @@
           <strong>
             Data Reajuste:
           </strong>
-          07/06/2017
+          {{item.readjustDate}} {{item.readjustHour}}
         </p>
       </div>
     </ion-item>
@@ -146,7 +147,7 @@
           <strong>
             Total:
           </strong>
-          R$ 1.353,00
+          {{item.stock != "0,00" ? 'R$ ' + item.stock : item.stock}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -154,7 +155,7 @@
           <strong>
             Reservado:
           </strong>
-          0,000
+          {{item.stockReserved != "0,00" ? 'R$ ' + item.stockReserved : item.stockReserved}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -162,7 +163,15 @@
           <strong>
             Perda:
           </strong>
-          60
+          {{item.stockLoss != "0,00" ? 'R$ ' + item.stockLoss : item.stockLoss}}
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Devolver:
+          </strong>
+          {{item.stockReturned != "0,00" ? 'R$ ' + item.stockReturned : item.stockReturned}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -170,7 +179,7 @@
           <strong>
             Disponível:
           </strong>
-          R$ 1.493,00
+         {{item.stockAvailable != "0,00" ? 'R$ ' + item.stockAvailable : item.stockAvailable}}
         </p>
       </div>
     </ion-item>
@@ -197,16 +206,7 @@
       </strong>
     </p>
     <p style="color:#000000;">
-      BALABCO EFETUADO TC X COLINAS 28/5/14 BALANCO EFET. EVELIN 13/1/15
-    </p>
-    <p style="color:#000000;">
-      transferencia de tcbase para colinas
-    </p>
-    <p style="color:#000000;">
-      balanco mauricio e celso em 17/5/16
-    </p>
-    <p style="color:#000000;">
-      balanco evelin em 16/6/17
+      {{item.observation}}
     </p>
   </div>
   <div class="spacer" style="width:300px;height:7px;"></div>

@@ -22,7 +22,7 @@
         <strong>
           Nota Fiscal:
         </strong>
-        919207
+        {{shopping.number}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -30,7 +30,7 @@
         <strong>
           Data Entrada:
         </strong>
-        15/09/2017
+        {{shopping.date}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -38,7 +38,7 @@
         <strong>
           Data Emissão:
         </strong>
-        13/09/2017
+        --
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -46,7 +46,7 @@
         <strong>
           Fornecedor:
         </strong>
-        UNIVALE (P)
+       {{shopping.provider}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -54,7 +54,7 @@
         <strong>
           Quantidade:
         </strong>
-        96
+        {{shopping.stock}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -62,7 +62,7 @@
         <strong>
           Unidade:
         </strong>
-        UN
+        {{shopping.unit}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -70,7 +70,7 @@
         <strong>
           Vr. Unitário:
         </strong>
-        R$ 2,65
+        {{shopping.cost}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -78,7 +78,7 @@
         <strong>
           Vr. Total:
         </strong>
-        R$265,50
+        {{shopping.total}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -86,6 +86,7 @@
         <strong>
           ICMS:
         </strong>
+        --
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -93,7 +94,7 @@
         <strong>
           IPI:
         </strong>
-        0
+        --
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -101,7 +102,7 @@
         <strong>
           Preço Custo:
         </strong>
-        R$1,99
+        {{shopping.cost}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -109,6 +110,7 @@
         <strong>
           Complemento:
         </strong>
+        --
       </p>
     </div>
   </div>

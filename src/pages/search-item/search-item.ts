@@ -1,27 +1,76 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { ItemPage } from '../item/item';
+import { ItemProvider } from '../../providers/item/item';
 
 @Component({
   selector: 'page-search-item',
-  templateUrl: 'search-item.html'
+  templateUrl: 'search-item.html',
+  providers: [
+    ItemProvider
+  ]
 })
 export class SearchItemPage {
 
-  constructor(public nav: NavController) {
+  barcode: string = "7896102502947";
+
+  constructor(
+    public nav: NavController,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
+    private itemProvider: ItemProvider) {
   }
-
-  searchItem(params) {
-
-    // valida se tem valor digitado na caixa de texto
-    // chama funcao ajax de consulta
-    // se obtiver retorno positivo, passa o objeto para a controller ItemPage
-
-    if (!params) params = {};
-    this.nav.setRoot(ItemPage);
-  }
-
-  pressEnder(ev) {
+  pressEnter(ev) {
     console.log(ev.target.value);
+    // -> se for tecla ENTER chama searchItem
   }
+
+  searchItem() {
+
+    if (this.barcode == "") {
+      this.presentToast("Informe o código de barras primeiro", 'error');
+      return;
+    }
+
+    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
+    loading.present();
+
+    this.itemProvider.search(this.barcode).subscribe(
+      data => {
+        loading.dismiss();
+
+        const response = JSON.parse((data as any)._body);
+
+        if (response.ok == false) {
+          this.presentToast(response.msg, 'error');
+          return;
+        }
+
+        this.nav.push(ItemPage, {item: response.item});
+      },
+      error => {
+        loading.dismiss();
+        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+      }
+    );
+
+  }
+
+  presentToast(msg: string, type: string, log?: string) {
+
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'botton',
+      cssClass: type
+    });
+
+    toast.onDidDismiss(() => {
+      console.log(log);
+    });
+
+    toast.present();
+  }
+
 }
+

@@ -15,7 +15,6 @@ export class LoginProvider {
   private private_key: string = "457e6a233a52302534727d4f28";
 
   constructor(public http: Http) {
-    console.log('LoginProvider Provider Loaded');
   }
 
   login(login: string, password: string) {

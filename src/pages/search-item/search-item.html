@@ -12,12 +12,10 @@
   <h5 style="color:#000000;">
     Informe o código abaixo:
   </h5>
-  <form>
-    <ion-item>
-      <ion-label></ion-label>
-      <ion-input type="text" placeholder="Código de Barras" id="barcode"></ion-input>
-    </ion-item>
-  </form>
+  <ion-item>
+    <ion-label></ion-label>
+    <ion-input type="text" placeholder="Código de Barras" [(ngModel)]="barcode"></ion-input>
+  </ion-item>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <button ion-button large color="assertive" block icon-left on-click="searchItem()">
     <ion-icon name="search"></ion-icon>

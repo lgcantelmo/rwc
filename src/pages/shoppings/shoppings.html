@@ -9,6 +9,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
+  <div class="show-list-numbers-and-dots">
+    <p style="color:#000000;">
+      <strong>
+        {{shoppings.length > 0 ? "Exibindo histórico dos últimos 3 meses." : "Nenhuma compra realizada nos últimos 3 meses."}}
+      </strong>
+    </p>
+  </div>
   <ion-list>
     <ion-item color="none" *ngFor="let shopping of shoppings" on-click="goToShopping(shopping.number)">
       <ion-icon name="checkbox-outline" item-left></ion-icon>

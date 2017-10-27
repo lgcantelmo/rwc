@@ -13,18 +13,15 @@ export class HomePage {
   constructor(public nav: NavController) {
   }
 
-  goToSearchItem(params) {
-    if (!params) params = {};
+  goToSearchItem() {
     this.nav.setRoot(SearchItemPage);
   }
 
-  goToInventory(params) {
-    if (!params) params = {};
+  goToInventory() {
     this.nav.setRoot(InventoryPage);
   }
 
-  goToReceipt(params) {
-    if (!params) params = {};
+  goToReceipt() {
     this.nav.setRoot(ReceiptPage);
   }
 

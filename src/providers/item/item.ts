@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { GlobalDefinitions } from '../../app/definitions';
 
 /*
   Generated class for the ItemProvider provider  shoppings(arg0: any): any {
@@ -14,24 +15,27 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ItemProvider {
 
-  private server_url: string = "http://192.168.1.5:8085/recobase";
-  private private_key: string = "457e6a233a52302534727d4f28";
-
   constructor(public http: Http) {
   }
 
   search(barcode: string) {
-    var url = this.server_url + "/item/search.json?barcode=" + barcode + "&key=" + this.private_key;
+
+    var url = GlobalDefinitions.server_url + "/item/search.json?barcode=" + barcode + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
-  purchases(itemId: Number) {
-    var url = this.server_url + "/item/purchases.json?itemId=" + itemId + "&key=" + this.private_key;
+  orders(itemId: string) {
+    var url = GlobalDefinitions.server_url + "/item/orders.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
-  shoppings(itemId: Number) {
-    var url = this.server_url + "/item/shoppings.json?itemId=" + itemId + "&key=" + this.private_key;
+  shoppings(itemId: string) {
+    var url = GlobalDefinitions.server_url + "/item/shoppings.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  sales(itemId: string) {
+    var url = GlobalDefinitions.server_url + "/item/sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

@@ -22,7 +22,7 @@
         <strong>
           Num. Pedido:
         </strong>
-        789700101
+        {{order.code}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -30,7 +30,7 @@
         <strong>
           Data:
         </strong>
-        15/09/2017
+        {{order.date}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -38,7 +38,7 @@
         <strong>
           Fornecedor:
         </strong>
-        Fulano
+        {{order.company}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -46,6 +46,7 @@
         <strong>
           Quantidade:
         </strong>
+        {{order.qty}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -53,7 +54,7 @@
         <strong>
           Saldo Restante:
         </strong>
-        15
+        {{order.balance}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -61,7 +62,7 @@
         <strong>
           Vr. Unitário:
         </strong>
-        R$ 2,65
+        {{order.value}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -69,7 +70,7 @@
         <strong>
           Vr. Total:
         </strong>
-        R$265,50
+        {{order.total}}
       </p>
     </div>
   </div>

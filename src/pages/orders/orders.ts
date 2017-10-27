@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
-import { NavParams } from 'ionic-angular';
 import { OrderPage } from '../order/order';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
+import { ItemSession } from '../../sessions/item/item';
+import { Order } from '../../models/order/order';
 
 @Component({
   selector: 'page-orders',
@@ -14,24 +15,33 @@ import { ItemProvider } from '../../providers/item/item';
 })
 export class OrdersPage {
 
-  orders: Array<PurchaseOrder>;
+  orders: Array<Order>;
 
   constructor(
     public nav: NavController,
-    private param: NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private itemProvider: ItemProvider) {
+    private itemProvider: ItemProvider,
+    private itemSession: ItemSession) {
   }
 
   ionViewCanEnter() {
 
+    this.orders = this.itemSession.getItem().orders;
+
+    if (this.orders.length != 0)
+      return;
+
+    this.searchOrders();
+  }
+
+  private searchOrders() {
+
     const loading = this.loadingCtrl.create({ content: "Aguarde..." });
     loading.present();
 
-    let itemId = this.param.get('itemId');
-
-    this.itemProvider.purchases(itemId).subscribe(
+    let itemId = this.itemSession.getItem().id;
+    this.itemProvider.orders(itemId).subscribe(
       data => {
         loading.dismiss();
 
@@ -42,33 +52,15 @@ export class OrdersPage {
           return;
         }
 
-        let ordersDto = response.purchases;
-
-        this.orders = [];
-        for (let i = 0; i < ordersDto.length; i++) {
-          let dto = ordersDto[i];
-          this.orders.push({
-            id: dto.id,
-            itemId: dto.itemId,
-            code: dto.code,
-            unit: dto.unit,
-            description: dto.description,
-            value: dto.value,
-            date: dto.date,
-            qty: dto.qty,
-            balance: dto.balance,
-            situation: dto.situation,
-            company: dto.company
-          });
-        }
+        this.orders = response.orders;
+        this.itemSession.getItem().orders = response.orders;
 
       },
       error => {
         loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-
   }
 
   goToOrder(orderId: Number) {
@@ -77,7 +69,7 @@ export class OrdersPage {
 
     for (let i = 0; i < this.orders.length; i++) {
       let loaded = this.orders[i];
-      if(loaded.id == orderId) {
+      if (loaded.id == orderId) {
         order = loaded;
         break;
       }
@@ -87,11 +79,14 @@ export class OrdersPage {
   }
 
   returnToItem() {
-    this.nav.setRoot(ItemPage);
+    this.nav.push(ItemPage)
+      .then(() => {
+        const startIndex = this.nav.getActive().index - 1;
+        this.nav.remove(startIndex, 1);
+      });
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-
+  presentToast(msg: string, type: string, log?: string) {    
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,
@@ -105,22 +100,4 @@ export class OrdersPage {
 
     toast.present();
   }
-}
-
-export class PurchaseOrder {
-
-  id: Number;
-  itemId: Number;
-  code: string;
-  unit: string;
-  description: string;
-  value: string;
-  total: string;
-  date: string;
-  qty: string;
-  balance: string;
-  situation: string;
-  company: string;
-
-  constructor() { }
 }

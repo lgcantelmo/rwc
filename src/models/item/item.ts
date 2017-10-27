@@ -1,0 +1,34 @@
+import { Shopping } from '../shopping/shopping';
+import { Order } from '../order/order';
+import { Sale } from '../sale/sale';
+
+export class Item {
+
+  id: string;
+  code: string;
+  description: string;
+  barcode: string;
+  mark: string;
+  cost: string;
+  gain: string;
+  idealGain: string;
+  price: string;
+  readjustDate: string;
+  readjustHour: string;
+  stock: string;
+  stockReserved: string;
+  stockReturned: string;
+  stockLoss: string;
+  stockAvailable: string;
+  observation: string;
+  blocked: string;
+  groupName: string;
+  subgroupName: string;
+
+  orders: Array<Order> = [];   
+  shoppings: Array<Shopping> = [];   
+  sales: Array<Sale> = [];   
+
+  constructor() {}
+
+}

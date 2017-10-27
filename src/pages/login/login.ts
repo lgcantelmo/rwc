@@ -23,6 +23,11 @@ export class LoginPage {
     private loginProvider: LoginProvider) {
   }
 
+  ionViewCanEnter() {
+    // -> verifica na sessao se tem um usuario logado
+    // -> se tiver redireciona para o dashboard
+  }
+
   login() {
 
     var login = this.user.login;
@@ -53,6 +58,8 @@ export class LoginPage {
           return;
         }
       
+        // -> salva o usuario na sessao e la dentro salva ele no storage
+
         this.nav.setRoot(HomePage);
       },
       error => {
@@ -64,7 +71,6 @@ export class LoginPage {
   }
 
   presentToast(msg: string, type: string, log?: string) {
-
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

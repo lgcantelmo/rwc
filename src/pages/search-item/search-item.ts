@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
+import { ItemSession } from '../../sessions/item/item';
 
 @Component({
   selector: 'page-search-item',
@@ -18,8 +19,10 @@ export class SearchItemPage {
     public nav: NavController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private itemProvider: ItemProvider) {
+    private itemProvider: ItemProvider,
+    private itemSession: ItemSession) {
   }
+  
   pressEnter(ev) {
     console.log(ev.target.value);
     // -> se for tecla ENTER chama searchItem
@@ -46,7 +49,9 @@ export class SearchItemPage {
           return;
         }
 
-        this.nav.push(ItemPage, {item: response.item});
+        this.itemSession.setItem(response.item);
+
+        this.nav.push(ItemPage);
       },
       error => {
         loading.dismiss();
@@ -56,8 +61,7 @@ export class SearchItemPage {
 
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-
+  presentToast(msg: string, type: string, log?: string) {    
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

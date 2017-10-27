@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { NavParams } from 'ionic-angular';
 import { ShoppingsPage } from '../shoppings/shoppings';
+import { Shopping } from '../../models/shopping/shopping';
 
 @Component({
   selector: 'page-shopping',
@@ -17,25 +18,12 @@ export class ShoppingPage {
   ionViewCanEnter() {
     this.shopping = this.param.get('shopping');
   }
-
+  
   returnToShoppings() {
-    this.nav.setRoot(ShoppingsPage);
+    this.nav.push(ShoppingsPage)
+      .then(() => {
+        const startIndex = this.nav.getActive().index - 2;
+        this.nav.remove(startIndex, 2);
+      });
   }
-}
-
-export class Shopping {
-
-  itemId: Number;
-  date: string;
-  number: string;
-  provider: string;
-  stock: string;
-  cost: string;
-  operation: string;
-  code: string;
-  description: string;
-  unit: string;
-  total: string;
-
-  constructor() { }
 }

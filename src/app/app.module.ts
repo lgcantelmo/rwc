@@ -11,7 +11,6 @@ import { OrderPage } from '../pages/order/order';
 import { OrdersPage } from '../pages/orders/orders';
 import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingsPage } from '../pages/shoppings/shoppings';
-import { SalePage } from '../pages/sale/sale';
 import { SalesPage } from '../pages/sales/sales';
 import { InventoryPage } from '../pages/inventory/inventory';
 import { ReceiptPage } from '../pages/receipt/receipt';
@@ -21,6 +20,9 @@ import { ConfigPage } from '../pages/config/config';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ListPage } from '../pages/list/list';
+
+import { ItemSession } from '../sessions/item/item';
+import { GlobalDefinitions } from './definitions';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,6 @@ import { ListPage } from '../pages/list/list';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
-    SalePage,
     SalesPage,
     InventoryPage,
     ReceiptPage,
@@ -43,7 +44,7 @@ import { ListPage } from '../pages/list/list';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(RWC)    
+    IonicModule.forRoot(RWC)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +56,6 @@ import { ListPage } from '../pages/list/list';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
-    SalePage,
     SalesPage,
     InventoryPage,
     ReceiptPage,
@@ -66,7 +66,9 @@ import { ListPage } from '../pages/list/list';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    GlobalDefinitions,
+    ItemSession
   ]
 })
 export class AppModule {

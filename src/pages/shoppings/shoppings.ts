@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
-import { NavParams } from 'ionic-angular';
 import { ShoppingPage } from '../shopping/shopping';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
+import { ItemSession } from '../../sessions/item/item';
+import { Shopping } from '../../models/shopping/shopping';
 
 @Component({
   selector: 'page-shoppings',
@@ -18,19 +19,27 @@ export class ShoppingsPage {
 
   constructor(
     public nav: NavController,
-    private param: NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private itemProvider: ItemProvider) {
+    private itemProvider: ItemProvider,
+    private itemSession: ItemSession) {
   }
 
   ionViewCanEnter() {
+    this.shoppings = this.itemSession.getItem().shoppings;
+
+    if (this.shoppings.length != 0)
+      return;
+
+    this.searchShoppings();
+  }
+
+  private searchShoppings() {
 
     const loading = this.loadingCtrl.create({ content: "Aguarde..." });
     loading.present();
 
-    let itemId = this.param.get('itemId');
-
+    let itemId = this.itemSession.getItem().id;
     this.itemProvider.shoppings(itemId).subscribe(
       data => {
         loading.dismiss();
@@ -42,33 +51,14 @@ export class ShoppingsPage {
           return;
         }
 
-        let shoppingsDto = response.shoppings;
-
-        this.shoppings = [];
-        for (let i = 0; i < shoppingsDto.length; i++) {
-          let dto = shoppingsDto[i];
-          this.shoppings.push({
-            itemId: dto.itemId,
-            date: dto.date,
-            number: dto.number,
-            provider: dto.provider,
-            stock: dto.stock,
-            cost: dto.cost,
-            operation: dto.operation,
-            code: dto.code,
-            description: dto.description,
-            unit: dto.unit,
-            total: dto.total
-          });
-        }
-
+        this.shoppings = response.shoppings;
+        this.itemSession.getItem().shoppings = response.shoppings;
       },
       error => {
         loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-
   }
 
   goToShopping(number: String) {
@@ -86,12 +76,15 @@ export class ShoppingsPage {
     this.nav.push(ShoppingPage, { shopping: shopping });
   }
 
-  returnToItem() {
-    this.nav.setRoot(ItemPage);
+  returnToItem() {    
+    this.nav.push(ItemPage)
+      .then(() => {
+        const startIndex = this.nav.getActive().index - 1;
+        this.nav.remove(startIndex, 1);
+      });   
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-
+  presentToast(msg: string, type: string, log?: string) {    
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,
@@ -105,21 +98,4 @@ export class ShoppingsPage {
 
     toast.present();
   }
-}
-
-export class Shopping {
-
-  itemId: Number;
-  date: string;
-  number: string;
-  provider: string;
-  stock: string;
-  cost: string;
-  operation: string;
-  code: string;
-  description: string;
-  unit: string;
-  total: string;
-
-  constructor() { }
 }

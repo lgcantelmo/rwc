@@ -27,30 +27,29 @@ export class RWC {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    //-> recuperar o user do storage e seta no loginProvider
+    //-> recuperar a url do servidor do storage e setar na configProvider
+    //-> se tiver algum config salvo, atualizo os dados do definitions.js
   }
 
-  goToHome(params){
-    if (!params) params = {};
+  goToHome() {
     this.nav.setRoot(HomePage);
   }
 
-  goToSearchItem(params){
-    if (!params) params = {};
+  goToSearchItem() {
     this.nav.setRoot(SearchItemPage);
   }
 
-  goToInventory(params){
-    if (!params) params = {};
+  goToInventory() {
     this.nav.setRoot(InventoryPage);
   }
 
-  goToReceipt(params){
-    if (!params) params = {};
+  goToReceipt() {
     this.nav.setRoot(ReceiptPage);
   }
 
-  logout(params){
-    if (!params) params = {};
+  logout() {
     this.nav.setRoot(LoginPage);
   }
 }

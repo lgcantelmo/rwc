@@ -9,33 +9,73 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <div class="show-list-numbers-and-dots">
-    <p style="color:#000000;">
-      <strong>
-        {{sales.length > 0 ? "Exibindo histórico dos últimos 3 meses." : "Nenhuma venda realizada nos últimos 3 meses."}}
-      </strong>
-    </p>
-  </div>
   <ion-list>
     <ion-item>
-      <ion-thumbnail item-start>
-        <img src="img/thumbnail-totoro.png">
-      </ion-thumbnail>
-      <h2>My Neighbor Totoro</h2>
-      <p>Hayao Miyazaki • 1988</p>
-      <button ion-button clear item-end>View</button>
+      <ion-label>Selecione a Unidade</ion-label>
+      <ion-select [(ngModel)]="gaming">
+        <ion-option value="un" selected="true">UN</ion-option>
+        <ion-option value="un2">UN 2</ion-option>
+        <ion-option value="un3">UN 3</ion-option>
+        <ion-option value="un4">UN 4</ion-option>
+      </ion-select>
     </ion-item>
   </ion-list>
-
-
-
-
   <ion-list>
     <ion-item>
       <div style="text-align:center;" class="show-list-numbers-and-dots">
         <p style="margin-top:0px;color:#000000;">
           <strong>
-            Relatório - Abril/2017
+            Relatório - Outubro/2017
+          </strong>
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Vr. Total:
+          </strong>
+          R$550,00
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total:
+          </strong>
+          1.500
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total NF:
+          </strong>
+          1.300
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total CF:
+          </strong>
+          1.200
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Unidade:
+          </strong>
+          UN
+        </p>
+      </div>
+      <div class="spacer" style="width:300px;height:10px;"></div>
+    </ion-item>
+    <ion-item>
+      <div style="text-align:center;" class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Relatório - Novembro/2017
           </strong>
         </p>
       </div>
@@ -80,7 +120,58 @@
         </p>
       </div>
     </ion-item>
+    <ion-item>
+      <div style="text-align:center;" class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Relatório - Dezembro/2017
+          </strong>
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Vr. Total:
+          </strong>
+          R$550,00
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total:
+          </strong>
+          1.500
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total NF:
+          </strong>
+          1.300
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Qtd. Total CF:
+          </strong>
+          1.200
+        </p>
+      </div>
+      <div class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#000000;">
+          <strong>
+            Unidade:
+          </strong>
+          UN
+        </p>
+      </div>
+      <div class="spacer" style="width:300px;height:10px;"></div>
+    </ion-item>
   </ion-list>
+  <div class="spacer" style="width:300px;height:10px;"></div>
   <button ion-button large color="assertive" block icon-left on-click="returnToItem()">
     <ion-icon name="return-left"></ion-icon>
     Voltar

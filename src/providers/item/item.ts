@@ -35,7 +35,7 @@ export class ItemProvider {
   }
 
   sales(itemId: string) {
-    var url = GlobalDefinitions.server_url + "/item/sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/item/grouped-sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

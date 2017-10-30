@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
@@ -13,7 +13,8 @@ import { ItemSession } from '../../sessions/item/item';
 })
 export class SearchItemPage {
 
-  barcode: string = "7896102502947";
+  @ViewChild('input') barcodeInput;
+  barcode: string = "7896508200034";
 
   constructor(
     public nav: NavController,
@@ -22,14 +23,18 @@ export class SearchItemPage {
     private itemProvider: ItemProvider,
     private itemSession: ItemSession) {
   }
-  
-  pressEnter(ev) {
-    console.log(ev.target.value);
-    // -> se for tecla ENTER chama searchItem
+
+  ionViewCanEnter() {
+    setTimeout(() => {
+      this.barcodeInput.setFocus();
+    }, 150);
+  }
+
+  selectAll(event): void {
+    event.target.select();
   }
 
   searchItem() {
-
     if (this.barcode == "") {
       this.presentToast("Informe o código de barras primeiro", 'error');
       return;
@@ -43,14 +48,12 @@ export class SearchItemPage {
         loading.dismiss();
 
         const response = JSON.parse((data as any)._body);
-
         if (response.ok == false) {
           this.presentToast(response.msg, 'error');
           return;
         }
 
         this.itemSession.setItem(response.item);
-
         this.nav.push(ItemPage);
       },
       error => {
@@ -61,7 +64,7 @@ export class SearchItemPage {
 
   }
 
-  presentToast(msg: string, type: string, log?: string) {    
+  presentToast(msg: string, type: string, log?: string) {
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

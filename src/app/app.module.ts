@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { RWC } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -44,7 +45,8 @@ import { GlobalDefinitions } from './definitions';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(RWC)
+    IonicModule.forRoot(RWC),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

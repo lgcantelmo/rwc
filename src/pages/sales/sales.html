@@ -12,20 +12,17 @@
   <ion-list>
     <ion-item>
       <ion-label>Selecione a Unidade</ion-label>
-      <ion-select [(ngModel)]="gaming">
-        <ion-option value="un" selected="true">UN</ion-option>
-        <ion-option value="un2">UN 2</ion-option>
-        <ion-option value="un3">UN 3</ion-option>
-        <ion-option value="un4">UN 4</ion-option>
+      <ion-select [(ngModel)]="selectedUnit">
+        <ion-option value="unit" *ngFor="let unit of units">{{unit}}</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let sale of sales">
       <div style="text-align:center;" class="show-list-numbers-and-dots">
         <p style="margin-top:0px;color:#000000;">
           <strong>
-            Relatório - Outubro/2017
+            Relatório - {{sale.month}}/{{sale.year}}
           </strong>
         </p>
       </div>
@@ -34,7 +31,7 @@
           <strong>
             Vr. Total:
           </strong>
-          R$550,00
+          {{sale.total != "0,00" ? 'R$ ' + sale.total : sale.total}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -42,7 +39,7 @@
           <strong>
             Qtd. Total:
           </strong>
-          1.500
+          {{sale.qtyTotal != "0,00" ? 'R$ ' + sale.qtyTotal : sale.qtyTotal}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -50,7 +47,7 @@
           <strong>
             Qtd. Total NF:
           </strong>
-          1.300
+          {{sale.qtyNF != "0,00" ? 'R$ ' + sale.qtyNF : sale.qtyNF}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -58,7 +55,7 @@
           <strong>
             Qtd. Total CF:
           </strong>
-          1.200
+          {{sale.qtyCF != "0,00" ? 'R$ ' + sale.qtyCF : sale.qtyCF}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -66,106 +63,7 @@
           <strong>
             Unidade:
           </strong>
-          UN
-        </p>
-      </div>
-      <div class="spacer" style="width:300px;height:10px;"></div>
-    </ion-item>
-    <ion-item>
-      <div style="text-align:center;" class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Relatório - Novembro/2017
-          </strong>
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Vr. Total:
-          </strong>
-          R$550,00
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total:
-          </strong>
-          1.500
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total NF:
-          </strong>
-          1.300
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total CF:
-          </strong>
-          1.200
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Unidade:
-          </strong>
-          UN
-        </p>
-      </div>
-    </ion-item>
-    <ion-item>
-      <div style="text-align:center;" class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Relatório - Dezembro/2017
-          </strong>
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Vr. Total:
-          </strong>
-          R$550,00
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total:
-          </strong>
-          1.500
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total NF:
-          </strong>
-          1.300
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Qtd. Total CF:
-          </strong>
-          1.200
-        </p>
-      </div>
-      <div class="show-list-numbers-and-dots">
-        <p style="margin-top:0px;color:#000000;">
-          <strong>
-            Unidade:
-          </strong>
-          UN
+          {{sale.unit}}
         </p>
       </div>
       <div class="spacer" style="width:300px;height:10px;"></div>

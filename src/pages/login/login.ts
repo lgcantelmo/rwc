@@ -3,12 +3,14 @@ import { NavController, ToastController, LoadingController } from 'ionic-angular
 import { LoginProvider } from '../../providers/login/login';
 import { ConfigPage } from '../config/config';
 import { HomePage } from '../home/home';
+import { UserSession } from '../../sessions/user/user';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
   providers: [
-    LoginProvider
+    LoginProvider,
+    UserSession
   ]
 })
 export class LoginPage {
@@ -20,12 +22,8 @@ export class LoginPage {
     public nav: NavController,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    private loginProvider: LoginProvider) {
-  }
-
-  ionViewCanEnter() {
-    // -> verifica na sessao se tem um usuario logado
-    // -> se tiver redireciona para o dashboard
+    private loginProvider: LoginProvider,
+    private userSession: UserSession) {
   }
 
   login() {
@@ -58,7 +56,7 @@ export class LoginPage {
           return;
         }
       
-        // -> salva o usuario na sessao e la dentro salva ele no storage
+        this.userSession.login(response.user);
 
         this.nav.setRoot(HomePage);
       },

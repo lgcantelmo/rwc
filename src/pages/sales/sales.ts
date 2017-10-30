@@ -14,6 +14,7 @@ import { Sale } from '../../models/sale/sale';
 })
 export class SalesPage {
 
+  units: Array<string>;
   sales: Array<Sale>;
 
   constructor(
@@ -51,16 +52,35 @@ export class SalesPage {
           return;
         }
 
-        this.sales = response.sales;
-        this.itemSession.getItem().sales = response.sales;
+        this.itemSession.getItem().sales = response.groupedSales;
 
+        this.units = response.units;
+
+        if(this.units.length != 0)
+          this.loadSales(this.units[0]);
       },
       error => {
         loading.dismiss();
         this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-  }    
+  }
+
+  private loadSales(unit: string) {
+
+    this.sales = [];
+
+    let allSales = this.itemSession.getItem().sales;
+
+    if (allSales.length == 0 || unit == null)
+      return;
+
+    for (let i = 0; i < allSales.length; i++) {
+      if (allSales[i].unit == unit) {
+        this.sales.push(allSales[i]);
+      }
+    }
+  }
 
   returnToItem() {
     this.nav.push(ItemPage)
@@ -70,7 +90,7 @@ export class SalesPage {
       });
   }
 
-  presentToast(msg: string, type: string, log?: string) {    
+  presentToast(msg: string, type: string, log?: string) {
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

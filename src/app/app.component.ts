@@ -11,6 +11,7 @@ import { ReceiptPage } from '../pages/receipt/receipt';
 import { LoginPage } from '../pages/login/login';
 import { UserSession } from '../sessions/user/user';
 import { User } from '../models/user/user';
+import { GlobalDefinitions } from './definitions';
 
 @Component({
   templateUrl: 'app.html',
@@ -40,17 +41,14 @@ export class RWC {
     });
 
     this.loadUser();
-
-    //-> recuperar a url do servidor do storage e setar na configProvider
-    //-> se tiver algum config salvo, atualizo os dados do definitions.js
+    this.loadConfig();
   }
 
   private loadUser() {
-
     let user: User = new User();
 
     this.storage.get('user.login').then((val) => {
-      if(val == null) {
+      if (val == null) {
         this.userSession.setUser(null);
         return;
       }
@@ -58,16 +56,25 @@ export class RWC {
       user.login = val;
 
       this.storage.get('user.name').then((val) => {
-        if(val == null) 
+        if (val == null)
           val = "";
-        
-        user.name = val;
-        this.userSession.setUser(user);
 
+        user.name = val;
+
+        this.userSession.setUser(user);
         this.nav.setRoot(HomePage);
       });
-      
-    });    
+
+    });
+  }
+
+  private loadConfig() {
+    this.storage.get('server_url').then((val) => {
+      if (val == null) 
+        return;
+    
+      GlobalDefinitions.server_url = val;
+    });
   }
 
   goToHome() {

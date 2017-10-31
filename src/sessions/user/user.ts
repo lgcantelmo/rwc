@@ -7,7 +7,8 @@ import { User } from '../../models/user/user';
 @Injectable()
 export class UserSession {
 
-  user: User; 
+  private user: User; 
+  private testing: boolean = false;
 
   constructor(private storage: Storage) {
   }
@@ -32,6 +33,14 @@ export class UserSession {
     this.storage.remove('user.name');
 
     this.user = null;
+    this.testing = false;
   }
 
+  setTestMode() {
+    this.testing = true;
+  }
+
+  isTesting() {
+    return this.testing;
+  }
 }

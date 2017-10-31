@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { LoginProvider } from '../../providers/login/login';
 import { LoginPage } from '../login/login';
-        
+import { GlobalDefinitions } from '../../app/definitions';
+
 @Component({
   selector: 'page-config',
   templateUrl: 'config.html',
@@ -12,20 +14,38 @@ import { LoginPage } from '../login/login';
 })
 export class ConfigPage {
 
+  url: string;
+
   constructor(
     public navCtrl: NavController,
     private toastCtrl: ToastController,
-    private loginProvider: LoginProvider) {
+    private loginProvider: LoginProvider,
+    private storage: Storage) {
   }
 
-  testGet(params) {
+  ionViewCanEnter() {
+    this.url = GlobalDefinitions.server_url;
+  }
 
+  save() {
+
+    if (this.url == "") {
+      this.presentToast("URL obrigatória", 'error');
+      return;
+    }
+
+    this.storage.set('server_url', this.url);
+    GlobalDefinitions.server_url = this.url;
+
+    this.presentToast("URL salva com sucesso!", 'success');
+  }
+
+  testGet() {
     var login = "K2ADMIN";
 
     this.loginProvider.testGet(login).subscribe(
       data => {
-        const response = (data as any);
-        const object = JSON.parse(response._body);
+        const object = JSON.parse((data as any)._body);
         console.log(object);
         this.presentToast('OK! ' + object.msg, 'success');
       },
@@ -37,14 +57,11 @@ export class ConfigPage {
   }
 
   testPost(params) {
-
     var login = "K2ADMIN";
 
     this.loginProvider.testPost(login).subscribe(
       data => {
-        const response = (data as any);
-        const object = JSON.parse(response._body);
-        console.log(object);
+        const object = JSON.parse((data as any)._body);
         this.presentToast('OK! ' + object.msg, 'success');
       },
       error => {
@@ -54,28 +71,11 @@ export class ConfigPage {
 
   }
 
-  testPost2() {
-
-    var login = "K2ADMIN";
-    var password = "123";
-
-    this.loginProvider.testPost2(login, password)
-      .then((result: any) => {
-        console.log("result ok: " + result);
-        this.presentToast('OK! ' + result.msg, 'success');
-      })
-      .catch((error: any) => {
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
-      });
-
-  }
-
   logout(params) {
     this.navCtrl.setRoot(LoginPage);
   }
 
   presentToast(msg: string, type: string, log?: string) {
-
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

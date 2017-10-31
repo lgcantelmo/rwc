@@ -1,14 +1,23 @@
 <ion-content padding>
+  <h5 style="color:#000000;">
+    Informe a URL do servidor:
+  </h5>
+  <ion-item>
+    <ion-label></ion-label>
+    <ion-input type="text" placeholder="URL" [(ngModel)]="url"></ion-input>
+  </ion-item>
+  <button ion-button large color="assertive" block on-click="save()">
+    GRAVAR
+  </button>
+  <div class="spacer" style="width:300px;height:50px;"></div>
   <button ion-button large color="stable" block on-click="testGet()">
     Teste GET
   </button>
   <button ion-button large color="stable" block on-click="testPost()">
     Teste POST
   </button>
-  <button ion-button large color="stable" block on-click="testPost2()">
-    Teste POST2
-  </button>
-  <button ion-button large block on-click="logout()">
+  <div class="spacer" style="width:300px;height:50px;"></div>
+  <button ion-button large color="stable" block on-click="logout()">
     SAIR
   </button>
 </ion-content>

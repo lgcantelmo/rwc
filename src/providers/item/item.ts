@@ -19,10 +19,9 @@ export class ItemProvider {
   }
 
   search(barcode: string) {
-
     var url = GlobalDefinitions.server_url + "/item/search.json?barcode=" + barcode + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
-  }
+ }
 
   orders(itemId: string) {
     var url = GlobalDefinitions.server_url + "/item/orders.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
@@ -35,7 +34,7 @@ export class ItemProvider {
   }
 
   sales(itemId: string) {
-    var url = GlobalDefinitions.server_url + "/item/grouped-sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/item/sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

@@ -5,6 +5,7 @@ import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { Order } from '../../models/order/order';
+import { UserSession } from '../../sessions/user/user';
 
 @Component({
   selector: 'page-orders',
@@ -22,7 +23,8 @@ export class OrdersPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private itemProvider: ItemProvider,
-    private itemSession: ItemSession) {
+    private itemSession: ItemSession,
+    private userSession: UserSession) {
   }
 
   ionViewCanEnter() {
@@ -31,8 +33,14 @@ export class OrdersPage {
 
     if (this.orders.length != 0)
       return;
-
-    this.searchOrders();
+    
+    if(this.userSession.isTesting()) {
+      this.itemSession.loadTestOrders();
+      this.orders = this.itemSession.getItem().orders;
+    }
+    else {
+      this.searchOrders();
+    }
   }
 
   private searchOrders() {
@@ -86,7 +94,7 @@ export class OrdersPage {
       });
   }
 
-  presentToast(msg: string, type: string, log?: string) {    
+  presentToast(msg: string, type: string, log?: string) {
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

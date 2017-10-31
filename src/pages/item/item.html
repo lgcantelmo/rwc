@@ -73,6 +73,14 @@
         {{item.blocked ? 'SIM' : 'NÃO'}}
       </p>
     </div>
+    <div class="show-list-numbers-and-dots">
+      <p style="color:#000000;">
+        <strong>
+          Fase de Compra:
+        </strong>
+        {{item.phase}}
+      </p>
+    </div>
   </div>
   <ion-list>
     <ion-item>
@@ -112,7 +120,7 @@
           <strong>
             Margem Ideal (%):
           </strong>
-         {{item.idealGain}}
+          {{item.idealGain}}
         </p>
       </div>
       <div class="show-list-numbers-and-dots">
@@ -179,7 +187,7 @@
           <strong>
             Disponível:
           </strong>
-         {{item.stockAvailable != "0,00" ? 'R$ ' + item.stockAvailable : item.stockAvailable}}
+          {{item.stockAvailable != "0,00" ? 'R$ ' + item.stockAvailable : item.stockAvailable}}
         </p>
       </div>
     </ion-item>

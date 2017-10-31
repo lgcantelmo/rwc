@@ -20,10 +20,10 @@ import { ConfigPage } from '../pages/config/config';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ListPage } from '../pages/list/list';
 
-import { ItemSession } from '../sessions/item/item';
 import { GlobalDefinitions } from './definitions';
+import { ItemSession } from '../sessions/item/item';
+import { UserSession } from '../sessions/user/user';
 
 @NgModule({
   declarations: [
@@ -39,8 +39,7 @@ import { GlobalDefinitions } from './definitions';
     InventoryPage,
     ReceiptPage,
     LoginPage,
-    ConfigPage,
-    ListPage
+    ConfigPage
   ],
   imports: [
     BrowserModule,
@@ -62,15 +61,15 @@ import { GlobalDefinitions } from './definitions';
     InventoryPage,
     ReceiptPage,
     LoginPage,
-    ConfigPage,
-    ListPage
+    ConfigPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     GlobalDefinitions,
-    ItemSession
+    ItemSession,
+    UserSession
   ]
 })
 export class AppModule {

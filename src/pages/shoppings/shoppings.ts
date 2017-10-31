@@ -5,6 +5,7 @@ import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { Shopping } from '../../models/shopping/shopping';
+import { UserSession } from '../../sessions/user/user';
 
 @Component({
   selector: 'page-shoppings',
@@ -22,7 +23,8 @@ export class ShoppingsPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private itemProvider: ItemProvider,
-    private itemSession: ItemSession) {
+    private itemSession: ItemSession,
+    private userSession: UserSession) {
   }
 
   ionViewCanEnter() {
@@ -31,7 +33,13 @@ export class ShoppingsPage {
     if (this.shoppings.length != 0)
       return;
 
-    this.searchShoppings();
+    if (this.userSession.isTesting()) {
+      this.itemSession.loadTestShoppings();
+      this.shoppings = this.itemSession.getItem().shoppings;
+    }
+    else {
+      this.searchShoppings();
+    }
   }
 
   private searchShoppings() {
@@ -76,15 +84,15 @@ export class ShoppingsPage {
     this.nav.push(ShoppingPage, { shopping: shopping });
   }
 
-  returnToItem() {    
+  returnToItem() {
     this.nav.push(ItemPage)
       .then(() => {
         const startIndex = this.nav.getActive().index - 1;
         this.nav.remove(startIndex, 1);
-      });   
+      });
   }
 
-  presentToast(msg: string, type: string, log?: string) {    
+  presentToast(msg: string, type: string, log?: string) {
     const toast = this.toastCtrl.create({
       message: msg,
       duration: 2000,

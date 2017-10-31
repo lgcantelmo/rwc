@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { GlobalDefinitions } from '../../app/definitions';
 
 /*
   Generated class for the LoginProvider provider.
@@ -11,23 +12,20 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LoginProvider {
 
-  private server_url: string = "http://192.168.1.5:8085/recobase";
-  private private_key: string = "457e6a233a52302534727d4f28";
-
   constructor(public http: Http) {
   }
 
   login(login: string, password: string) {
-    var url = this.server_url + "/login.json?login=" + login + "&password=" + password + "&key=" + this.private_key;
+    var url = GlobalDefinitions.server_url +  "/login.json?login=" + login + "&password=" + password + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
   testGet(login: string) {
-    return this.http.get(this.server_url + "/test.json?login=" + login);
+    return this.http.get(GlobalDefinitions.server_url + "/test.json?login=" + login);
   }
 
   testPost(login: string) {
-    return this.http.post(this.server_url + "/test.json?login=" + login, JSON.stringify({}));
+    return this.http.post(GlobalDefinitions.server_url + "/test.json?login=" + login, JSON.stringify({}));
   }
 
   testPost2(login: string, password: string) {
@@ -41,10 +39,10 @@ export class LoginProvider {
       var params = {
         "req.login": login,
         "req.password": "123",
-        "req.key": this.private_key
+        "req.key": GlobalDefinitions.private_key
       }
 
-      this.http.post(this.server_url + "/test2.json", JSON.stringify(params), { headers: headers })
+      this.http.post(GlobalDefinitions.server_url + "/test2.json", JSON.stringify(params), { headers: headers })
         .subscribe((result: any) => {
           resolve(result.json());
         },

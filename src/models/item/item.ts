@@ -24,6 +24,7 @@ export class Item {
   blocked: string;
   groupName: string;
   subgroupName: string;
+  phase: string;
 
   orders: Array<Order> = [];   
   shoppings: Array<Shopping> = [];   

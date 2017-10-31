@@ -9,8 +9,7 @@ import { UserSession } from '../../sessions/user/user';
   selector: 'page-login',
   templateUrl: 'login.html',
   providers: [
-    LoginProvider,
-    UserSession
+    LoginProvider
   ]
 })
 export class LoginPage {
@@ -31,8 +30,14 @@ export class LoginPage {
     var login = this.user.login;
     var password = this.user.password;
 
-    if (login == "master" && password == "root") {
+    if (login == "master" && password == "config") {
       this.nav.setRoot(ConfigPage);
+      return;
+    }
+
+    else if (login == "master" && password == "test") {
+      this.userSession.setTestMode();
+      this.nav.setRoot(HomePage);
       return;
     }
 
@@ -46,7 +51,6 @@ export class LoginPage {
 
     this.loginProvider.login(login, password).subscribe(
       data => {
-
         loading.dismiss();
 
         const response = JSON.parse((data as any)._body);
@@ -57,7 +61,6 @@ export class LoginPage {
         }
       
         this.userSession.login(response.user);
-
         this.nav.setRoot(HomePage);
       },
       error => {

@@ -91,7 +91,6 @@ $colors: (
 
 
 
-
 ion-toast.success .toast-wrapper {
 	background: green;
 }
@@ -99,3 +98,6 @@ ion-toast.success .toast-wrapper {
 ion-toast.error .toast-wrapper {
 	background: #f53d3d;
 }
+
+
+$text-input-highlight-color-valid:       rgb(231, 229, 229) !default;

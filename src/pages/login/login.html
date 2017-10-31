@@ -16,7 +16,7 @@
       <ion-label>
         Senha
       </ion-label>
-      <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+      <ion-input type="password" [(ngModel)]="user.password" (keyup.enter)="login()"></ion-input>
     </ion-item>
   </ion-list>
   <button ion-button large color="stable" block (click)="login()">

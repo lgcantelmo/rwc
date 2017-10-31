@@ -4,6 +4,7 @@ import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { Sale } from '../../models/sale/sale';
+import { UserSession } from '../../sessions/user/user';
 
 @Component({
   selector: 'page-sales',
@@ -14,7 +15,6 @@ import { Sale } from '../../models/sale/sale';
 })
 export class SalesPage {
 
-  units: Array<string>;
   sales: Array<Sale>;
 
   constructor(
@@ -22,7 +22,8 @@ export class SalesPage {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private itemProvider: ItemProvider,
-    private itemSession: ItemSession) {
+    private itemSession: ItemSession,
+    private userSession: UserSession) {
   }
 
   ionViewCanEnter() {
@@ -32,7 +33,13 @@ export class SalesPage {
     if (this.sales.length != 0)
       return;
 
-    this.searchSales();
+    if (this.userSession.isTesting()) {
+      this.itemSession.loadTestSales();
+      this.sales = this.itemSession.getItem().sales;
+    }
+    else {
+      this.searchSales();
+    }
   }
 
   private searchSales() {
@@ -52,34 +59,15 @@ export class SalesPage {
           return;
         }
 
+        this.sales = response.sales;
         this.itemSession.getItem().sales = response.groupedSales;
 
-        this.units = response.units;
-
-        if(this.units.length != 0)
-          this.loadSales(this.units[0]);
       },
       error => {
         loading.dismiss();
         this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-  }
-
-  private loadSales(unit: string) {
-
-    this.sales = [];
-
-    let allSales = this.itemSession.getItem().sales;
-
-    if (allSales.length == 0 || unit == null)
-      return;
-
-    for (let i = 0; i < allSales.length; i++) {
-      if (allSales[i].unit == unit) {
-        this.sales.push(allSales[i]);
-      }
-    }
   }
 
   returnToItem() {

@@ -9,14 +9,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-label>Selecione a Unidade</ion-label>
-      <ion-select [(ngModel)]="selectedUnit">
-        <ion-option value="unit" *ngFor="let unit of units">{{unit}}</ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+  <div class="show-list-numbers-and-dots">
+    <p style="color:#000000;">
+      <strong>
+        {{sales.length > 0 ? "Histórico dos últimos 3 meses." : "Nenhuma venda realizada nos últimos 3 meses."}}
+      </strong>
+    </p>
+  </div>
   <ion-list>
     <ion-item *ngFor="let sale of sales">
       <div style="text-align:center;" class="show-list-numbers-and-dots">

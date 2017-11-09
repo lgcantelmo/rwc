@@ -62,7 +62,7 @@
         <strong>
           Vr. Unitário:
         </strong>
-        {{shopping.cost}}
+        {{shopping.cost != "0,00" ? 'R$ ' + shopping.cost : shopping.cost}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -70,7 +70,7 @@
         <strong>
           Vr. Total:
         </strong>
-        {{shopping.total}}
+        {{shopping.total != "0,00" ? 'R$ ' + shopping.total : shopping.total}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -78,7 +78,7 @@
         <strong>
           Preço Custo:
         </strong>
-        {{shopping.cost}}
+        {{shopping.cost != "0,00" ? 'R$ ' + shopping.cost : shopping.cost}}
       </p>
     </div>
   </div>

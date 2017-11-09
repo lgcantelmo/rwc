@@ -62,7 +62,7 @@
         <strong>
           Vr. Unitário:
         </strong>
-        {{order.value}}
+        {{order.value != "0,00" ? 'R$ ' + order.value : order.value}}
       </p>
     </div>
     <div class="show-list-numbers-and-dots">
@@ -70,7 +70,7 @@
         <strong>
           Vr. Total:
         </strong>
-        {{order.total}}
+        {{order.total != "0,00" ? 'R$ ' + order.total : order.total}}
       </p>
     </div>
   </div>

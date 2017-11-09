@@ -17,10 +17,10 @@
     </p>
   </div>
   <ion-list>
-    <ion-item color="none" *ngFor="let orders of order" on-click="goToShopping(order.id)">
+    <ion-item color="none" *ngFor="let order of orders" on-click="goToOrder(order.id)">
       <ion-icon name="checkbox-outline" item-left></ion-icon>
       {{order.date}}
-      <ion-note item-right>{{shopping.total != "0,00" ? 'R$ ' + shopping.total : shopping.total}}</ion-note>
+      <ion-note item-right>{{order.total != "0,00" ? 'R$ ' + order.total : order.total}}</ion-note>
       <ion-icon name="arrow-round-forward" item-right></ion-icon>
     </ion-item>
   </ion-list>

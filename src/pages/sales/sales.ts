@@ -60,7 +60,7 @@ export class SalesPage {
         }
 
         this.sales = response.sales;
-        this.itemSession.getItem().sales = response.groupedSales;
+        this.itemSession.getItem().sales = response.sales;
 
       },
       error => {

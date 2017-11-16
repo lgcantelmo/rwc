@@ -4,7 +4,7 @@ import { Sale } from '../sale/sale';
 
 export class Item {
 
-  id: string;
+  id: Number;
   code: string;
   description: string;
   barcode: string;

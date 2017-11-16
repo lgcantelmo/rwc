@@ -9,12 +9,28 @@ import { Sale } from '../../models/sale/sale';
 export class ItemSession {
 
   item: Item;
+  items: Array<Item>;
+  showBarcodeDiv: boolean = false;
 
   constructor() {
   }
 
+  clear() {
+    this.item = new Item();
+    this.items = [];
+    this.showBarcodeDiv = false;
+  }
+
   getItem() {
     return this.item;
+  }
+
+  getItems() {
+    return this.items;
+  }
+
+  isShowBarcodeDiv(): boolean {
+    return this.showBarcodeDiv;
   }
 
   setItem(item: Item) {
@@ -24,9 +40,17 @@ export class ItemSession {
     this.item.sales = [];
   }
 
+  setItems(items: Array<Item>) {
+    this.items = items;
+  }
+
+  setShowBarcodeDiv(showBarcodeDiv: boolean) {
+    this.showBarcodeDiv = showBarcodeDiv;
+  }
+
   loadTestItem() {
     let item: Item = new Item();
-    item.id = "24147";
+    item.id = 24147;
     item.code = "19261";
     item.description = "FUBA MIMOSO SINHA FINO 500G *REC09)*****";
     item.barcode = "7896090704545";
@@ -69,4 +93,36 @@ export class ItemSession {
 
     this.item.sales = sales;
   }
+
+  loadTestItems() {
+    let items: Array<Item> = [];
+
+    let item: Item = new Item();
+    item.id = 24147;
+    item.code = "19261";
+    item.description = "FUBA MIMOSO SINHA FINO 500G *REC09)*****";
+    item.barcode = "7896090704545";
+    item.cost = "0,75";
+    item.gain = "26,67";
+    item.price = "0,95";
+    item.readjustDate = "29/10/2015";
+    item.readjustHour = "10:03";
+    item.stock = "40,00";
+    item.stockReserved = "0,00";
+    item.stockReturned = "0,00";
+    item.stockLoss = "0,00";
+    item.stockAvailable = "40,00";
+    item.observation = "BALANCO EFETUADO TC E COLINAS 20/05/2015";
+    item.blocked = "false";
+    item.groupName = "PRODUTOS ESPECIAIS";
+    item.subgroupName = "ESPECIAIS";
+    item.phase = "0,00";
+
+    for(let i=0; i<20; i++) {
+      items.push(item);
+    }
+
+    this.items = items;
+  }
 }
+

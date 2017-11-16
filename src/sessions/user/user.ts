@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
 import { User } from '../../models/user/user';
+import { ItemSession } from '../item/item';
 
 @Injectable()
 export class UserSession {
@@ -10,7 +11,7 @@ export class UserSession {
   private user: User; 
   private testing: boolean = false;
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, private itemSession: ItemSession) {
   }
 
   setUser(user: User) {
@@ -32,6 +33,8 @@ export class UserSession {
     this.storage.remove('user.login');
     this.storage.remove('user.name');
 
+    this.itemSession.clear();
+    
     this.user = null;
     this.testing = false;
   }

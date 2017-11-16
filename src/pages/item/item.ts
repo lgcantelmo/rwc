@@ -43,6 +43,7 @@ export class ItemPage {
   }
 
   returnToSearchItem() {
+    this.itemSession.setItems(new Array<Item>());
     this.nav.setRoot(SearchItemPage);
   }
 

@@ -21,20 +21,25 @@ export class ItemProvider {
   search(barcode: string) {
     var url = GlobalDefinitions.server_url + "/item/search.json?barcode=" + barcode + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
- }
+  }
 
-  orders(itemId: string) {
+  orders(itemId: Number) {
     var url = GlobalDefinitions.server_url + "/item/orders.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
-  shoppings(itemId: string) {
+  shoppings(itemId: Number) {
     var url = GlobalDefinitions.server_url + "/item/shoppings.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
-  sales(itemId: string) {
+  sales(itemId: Number) {
     var url = GlobalDefinitions.server_url + "/item/sales.json?itemId=" + itemId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  searchDetail(query: string) {
+    var url = GlobalDefinitions.server_url + "/item/search-detail.json?query=" + query + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

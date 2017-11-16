@@ -9,21 +9,37 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <h5 style="color:#000000;">
-    Informe o código abaixo:
-  </h5>
+  <div [hidden]="showBarcodeDiv">
+    <h5 style="color:#000000;">
+      Informe o código abaixo:
+    </h5>
+    <ion-item>
+      <ion-label></ion-label>
+      <ion-input type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
+    </ion-item>
+    <div class="spacer" style="width:300px;height:10px;"></div>
+    <button ion-button large color="assertive" block icon-left on-click="searchItem()">
+      <ion-icon name="search"></ion-icon>
+      Consultar
+    </button>
+    <div class="show-list-numbers-and-dots">
+      <p style="color:#000000;font-size:10px;">
+        Se preferir, identifique o código de barras através do leitor.
+      </p>
+    </div>
+  </div>
   <ion-item>
-    <ion-label></ion-label>
-    <ion-input type="text" #input placeholder="Código de Barras" [(ngModel)]="barcode" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
+    <ion-label> Consultar por descrição ou código</ion-label>
+    <ion-toggle color="assertive" [(ngModel)]="showBarcodeDiv" (ionChange)="changeBarcodeDiv()"></ion-toggle>
   </ion-item>
-  <div class="spacer" style="width:300px;height:10px;"></div>
-  <button ion-button large color="assertive" block icon-left on-click="searchItem()">
-    <ion-icon name="search"></ion-icon>
-    Consultar
-  </button>
-  <div class="show-list-numbers-and-dots">
-    <p style="color:#000000;font-size:10px;">
-      Se preferir, identifique o código de barras através do leitor.
-    </p>
+  <div [hidden]="!showBarcodeDiv">
+    <ion-searchbar #queryInput (keyup.enter)="searchItems($event)" placeholder="Buscar ..."></ion-searchbar>
+    <ion-list>
+      <ion-item color="none" *ngFor="let item of items" on-click="goToItem(item.id)">
+        <h3>{{item.code}}</h3>
+        <p>{{item.description}}</p>
+        <ion-icon name="arrow-round-forward" item-right></ion-icon>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

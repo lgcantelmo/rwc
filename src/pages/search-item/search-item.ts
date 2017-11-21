@@ -133,6 +133,8 @@ export class SearchItemPage {
       const loading = this.loadingCtrl.create({ content: "Aguarde..." });
       loading.present();
 
+      query = query.toUpperCase();
+      
       this.itemProvider.searchDetail(query).subscribe(
         data => {
           loading.dismiss();

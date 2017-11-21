@@ -9,6 +9,11 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
+  <button ion-button large color="stable" block icon-left on-click="returnToSearchItem()">
+    <ion-icon name="refresh"></ion-icon>
+    Consultar outro item
+  </button>
+  <div class="spacer" style="width:300px;height:7px;"></div>
   <div>
     <div style="text-align:center;" class="show-list-numbers-and-dots">
       <p style="color:#000000;">
@@ -44,41 +49,9 @@
     <div class="show-list-numbers-and-dots">
       <p style="color:#000000;">
         <strong>
-          Marca:
-        </strong>
-        {{item.mark}}
-      </p>
-    </div>
-    <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;">
-        <strong>
-          Grupo:
-        </strong>
-        {{item.groupName}}
-      </p>
-    </div>
-    <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;">
-        <strong>
-          Sub-Grupo:
-        </strong>
-        {{item.subgroupName}}
-      </p>
-    </div>
-    <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;">
-        <strong>
           Bloqueado:
         </strong>
-        {{item.blocked ? 'SIM' : 'NÃO'}}
-      </p>
-    </div>
-    <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;">
-        <strong>
-          Fase de Compra:
-        </strong>
-        {{item.phase}}
+        {{item.blocked == 'S' ? 'SIM' : 'NÃO'}}
       </p>
     </div>
   </div>
@@ -217,9 +190,4 @@
       {{item.observation}}
     </p>
   </div>
-  <div class="spacer" style="width:300px;height:7px;"></div>
-  <button ion-button large color="stable" block icon-left on-click="returnToSearchItem()">
-    <ion-icon name="refresh"></ion-icon>
-    Consultar outro item
-  </button>
 </ion-content>

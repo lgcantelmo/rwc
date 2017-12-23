@@ -40,7 +40,8 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   stable:     #f4f4f4,
-  assertive:  #f53d3d
+  assertive:  #f53d3d,
+  energized:  #faf600
 );
 
 
@@ -101,3 +102,8 @@ ion-toast.error .toast-wrapper {
 
 
 $text-input-highlight-color-valid:       rgb(231, 229, 229) !default;
+
+.item-inner {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}

@@ -7,8 +7,9 @@ import { Storage } from '@ionic/storage';
 import { HomePage } from '../pages/home/home';
 import { SearchItemPage } from '../pages/search-item/search-item';
 import { InventoryPage } from '../pages/inventory/inventory';
-import { ReceiptPage } from '../pages/receipt/receipt';
+import { InvoicesPage } from '../pages/invoices/invoices';
 import { LoginPage } from '../pages/login/login';
+
 import { UserSession } from '../sessions/user/user';
 import { User } from '../models/user/user';
 import { GlobalDefinitions } from './definitions';
@@ -22,8 +23,8 @@ import { GlobalDefinitions } from './definitions';
 export class RWC {
   @ViewChild(Nav) nav: Nav;
 
-  //rootPage: any = SearchItemPage;
-  rootPage: any = LoginPage;
+  rootPage: any = HomePage;
+  //rootPage: any = LoginPage;
 
   constructor(
     public platform: Platform,
@@ -42,6 +43,9 @@ export class RWC {
 
     this.loadUser();
     this.loadConfig();
+
+    // remover isso aqui depois
+    this.userSession.setTestMode();
   }
 
   private loadUser() {
@@ -89,8 +93,8 @@ export class RWC {
     this.nav.setRoot(InventoryPage);
   }
 
-  goToReceipt() {
-    this.nav.setRoot(ReceiptPage);
+  goToInvoices() {
+    this.nav.setRoot(InvoicesPage);
   }
 
   logout() {

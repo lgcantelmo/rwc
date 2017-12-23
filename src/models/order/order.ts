@@ -1,6 +1,8 @@
 
 export class Order {
   
+    /* PEDIDO DE COMPRA */
+
     id: Number;
     itemId: Number;
     code: string;

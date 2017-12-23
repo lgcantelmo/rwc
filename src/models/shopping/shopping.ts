@@ -1,6 +1,8 @@
 
 export class Shopping {
   
+     /* COMPRA  */
+
     itemId: Number;
     date: string;
     number: string;

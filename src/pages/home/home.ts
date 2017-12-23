@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SearchItemPage } from '../search-item/search-item';
 import { InventoryPage } from '../inventory/inventory';
-import { ReceiptPage } from '../receipt/receipt';
+import { InvoicesPage } from '../invoices/invoices';
 
 @Component({
   selector: 'page-home',
@@ -21,8 +21,8 @@ export class HomePage {
     this.nav.setRoot(InventoryPage);
   }
 
-  goToReceipt() {
-    this.nav.setRoot(ReceiptPage);
+  goToInvoices() {
+    this.nav.setRoot(InvoicesPage);
   }
 
 }

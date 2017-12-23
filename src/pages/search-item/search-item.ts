@@ -78,6 +78,9 @@ export class SearchItemPage {
       const loading = this.loadingCtrl.create({ content: "Aguarde..." });
       loading.present();
 
+      while(this.barcode.length < 13) 
+        this.barcode = "0" + this.barcode;
+
       this.itemProvider.search(this.barcode).subscribe(
         data => {
           loading.dismiss();

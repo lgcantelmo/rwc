@@ -14,7 +14,8 @@ import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingsPage } from '../pages/shoppings/shoppings';
 import { SalesPage } from '../pages/sales/sales';
 import { InventoryPage } from '../pages/inventory/inventory';
-import { ReceiptPage } from '../pages/receipt/receipt';
+import { EntryPage } from '../pages/entry/entry';
+import { InvoicesPage } from '../pages/invoices/invoices';
 import { LoginPage } from '../pages/login/login';
 import { ConfigPage } from '../pages/config/config';
 
@@ -23,6 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { GlobalDefinitions } from './definitions';
 import { ItemSession } from '../sessions/item/item';
+import { InvoiceSession } from '../sessions/invoice/invoice';
 import { UserSession } from '../sessions/user/user';
 
 @NgModule({
@@ -37,7 +39,8 @@ import { UserSession } from '../sessions/user/user';
     ShoppingsPage,
     SalesPage,
     InventoryPage,
-    ReceiptPage,
+    EntryPage,
+    InvoicesPage,
     LoginPage,
     ConfigPage
   ],
@@ -59,7 +62,8 @@ import { UserSession } from '../sessions/user/user';
     ShoppingsPage,
     SalesPage,
     InventoryPage,
-    ReceiptPage,
+    EntryPage,
+    InvoicesPage,
     LoginPage,
     ConfigPage
   ],
@@ -69,6 +73,7 @@ import { UserSession } from '../sessions/user/user';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     GlobalDefinitions,
     ItemSession,
+    InvoiceSession,
     UserSession
   ]
 })

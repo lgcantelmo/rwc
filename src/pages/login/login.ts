@@ -14,7 +14,7 @@ import { UserSession } from '../../sessions/user/user';
 })
 export class LoginPage {
 
-  public version: string = "1.0.4";
+  public version: string = "1.1.0";
   public user = { "login": "", "password": "" };
 
   constructor(

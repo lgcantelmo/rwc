@@ -4,6 +4,8 @@ import { Sale } from '../sale/sale';
 
 export class Item {
 
+   /* PRODUTO */
+
   id: Number;
   code: string;
   description: string;

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Entrada de Mercadorias
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list>
+    <ion-list-header>
+      Notas para conferência 1
+      <div class="show-list-numbers-and-dots">
+        <p style="color:#000000;">
+          <strong>
+            {{invoices.length > 0 ? "Notas pendentes" : "Nenhuma nota pendente."}}
+          </strong>
+        </p>
+      </div>
+    </ion-list-header>
+    <ion-item color="none" *ngFor="let invoice of invoices" on-click="goToEntry(invoice.id)">
+        <h3>{{invoice.number}}</h3>
+        <p>{{invoice.date}}</p>
+        <ion-note item-right>{{invoice.status == 'P1' ? 'Conferência 1' : invoice.status == 'P2' ? 'Conferência 2' : 'Recontagem'}}</ion-note>
+        <ion-icon name="arrow-round-forward" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <!--
+    <ion-item color="energized" on-click="goToRecount()">
+      <ion-icon name="repeat" item-left></ion-icon>
+      004444 - refazer
+      <ion-icon name="arrow-round-forward" item-right></ion-icon>
+    </ion-item>
+  -->
+  <button ion-button color="assertive" block icon-left on-click="refresh()">
+    <ion-icon name="refresh"></ion-icon>
+    Atualizar
+  </button>
+</ion-content>

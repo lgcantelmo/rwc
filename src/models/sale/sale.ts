@@ -1,6 +1,8 @@
 
 export class Sale {
 
+  /* VENDA */
+
   unit: string;
   month: string;
   year: string;

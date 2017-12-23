@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { GlobalDefinitions } from '../../app/definitions';
 
@@ -22,34 +22,12 @@ export class LoginProvider {
 
   testGet(login: string) {
     return this.http.get(GlobalDefinitions.server_url + "/test.json?login=" + login);
+    /*return this.http.get(GlobalDefinitions.server_url + "/test-get.json?param=123");*/
   }
 
   testPost(login: string) {
     return this.http.post(GlobalDefinitions.server_url + "/test.json?login=" + login, JSON.stringify({}));
-  }
-
-  testPost2(login: string, password: string) {
-    return new Promise((resolve, reject) => {
-
-      let headers = new Headers();
-      headers.append("Access-Control-Allow-Origin", '*');
-      headers.append("Content-Type", 'application/json');
-      headers.append("Accept", 'application/json');
-
-      var params = {
-        "req.login": login,
-        "req.password": "123",
-        "req.key": GlobalDefinitions.private_key
-      }
-
-      this.http.post(GlobalDefinitions.server_url + "/test2.json", JSON.stringify(params), { headers: headers })
-        .subscribe((result: any) => {
-          resolve(result.json());
-        },
-        (error) => {
-          reject(error.json());
-        });
-    });
+    /*return this.http.post(GlobalDefinitions.server_url + "/test-post.json?temperature=10&pressure=20&rpm=30&failure=aqui", JSON.stringify({}));*/
   }
 
 }

@@ -4,46 +4,29 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      Entrada de Mercadoria
+      Reconferência de Mercadoria
     </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <p style="color:#000000;">
     <strong>
-      1º) Informe o código abaixo:
+      Item: {{item.description}}
     </strong>    
   <p>
-  <ion-item>
-    <ion-label></ion-label>
-    <ion-input type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" [ngModelOptions]="{standalone: true}" (keyup.enter)="searchItem()"></ion-input>
-  </ion-item>
   <div class="spacer" style="width:300px;height:5px;"></div>
-  <button ion-button color="assertive" block icon-left on-click="searchItem()">
-    <ion-icon name="search"></ion-icon>
-    Consultar
-  </button>
-  <div class="show-list-numbers-and-dots">
-    <p style="color:#000000;font-size:10px;">
-      Se preferir, identifique o código de barras através do leitor.
-    </p>
-    <p style="color:#000000;font-size:10px;" [hidden]="!loadedItem">
-      <strong>Item: {{descriptionItem}}</strong>
-    </p>  
-  </div>
-  <div class="spacer" style="width:300px;height:5px;"></div>
-  <div [hidden]="!loadedItem">
+  <div>
     <ion-grid>
       <ion-row>
         <ion-col col-10>
           <p style="color:#000000;">
             <strong>
-              2º) Realize a contagem:
+              Realize a contagem:
             </strong>
           <p>
         </ion-col>
         <ion-col col-2>
-          <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}" [disabled]="!loadedItem"></ion-toggle>
+          <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}"></ion-toggle>
         </ion-col>
       </ion-row>
     </ion-grid>  
@@ -51,22 +34,22 @@
       <ion-label>
         Qtd. de caixas
       </ion-label>
-      <ion-input type="number" pattern="[0-9]*" [(ngModel)]="boxQty" [ngModelOptions]="{standalone: true}" [required]="false" [disabled]="!loadedItem"></ion-input>
+      <ion-input type="number" pattern="[0-9]*" [(ngModel)]="boxQty" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
     <ion-item >
       <ion-label>
         {{ countPerBox ? "Qtd. unit. por caixa" : "Qtd unitária" }}
       </ion-label>
-      <ion-input type="number" pattern="[0-9]*" [(ngModel)]="unitQty" [ngModelOptions]="{standalone: true}" [required]="false" [disabled]="!loadedItem"></ion-input>
+      <ion-input type="number" pattern="[0-9]*" [(ngModel)]="unitQty" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>
         Validade
       </ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" cancelText="Cancelar" doneText="OK" [min]="minYear" [max]="maxYear" [(ngModel)]="validate" [disabled]="!loadedItem"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY" cancelText="Cancelar" doneText="OK" [min]="minYear" [max]="maxYear" [(ngModel)]="validate"></ion-datetime>
     </ion-item>
     <div class="spacer" style="width:300px;height:5px;"></div>
-    <button ion-button color="assertive" block icon-left on-click="saveItem()" [disabled]="!loadedItem">
+    <button ion-button color="assertive" block icon-left on-click="saveItem()">
       <ion-icon name="add-circle"></ion-icon>
       Salvar Item
     </button>
@@ -75,7 +58,7 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="returnToInvoices()">
+        <button ion-button color="stable" full icon-left on-click="returnToItems()">
           <ion-icon name="return-left"></ion-icon>
           Voltar
         </button>

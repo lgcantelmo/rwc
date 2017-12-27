@@ -10,32 +10,53 @@
 </ion-header>
 <ion-content padding>
   <ion-list>
-    <ion-list-header>
-      Notas para conferência 1
-      <div class="show-list-numbers-and-dots">
-        <p style="color:#000000;">
-          <strong>
-            {{invoices.length > 0 ? "Notas pendentes" : "Nenhuma nota pendente."}}
-          </strong>
-        </p>
+    <ion-item text-wrap on-click="toggleLevel1(0)" [ngClass]="'active: isLevel1Shown(0)'">
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(0) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong>Notas para conferência 1</strong>
+        <ion-badge item-right *ngIf="invoices1 != null">{{invoices1.length}}</ion-badge> 
       </div>
-    </ion-list-header>
-    <ion-item color="none" *ngFor="let invoice of invoices" on-click="goToEntry(invoice.id)">
-        <h3>{{invoice.number}}</h3>
-        <p>{{invoice.date}}</p>
-        <ion-note item-right>{{invoice.status == 'P1' ? 'Conferência 1' : invoice.status == 'P2' ? 'Conferência 2' : 'Recontagem'}}</ion-note>
-        <ion-icon name="arrow-round-forward" item-right></ion-icon>
+      <ion-list  *ngIf="isLevel1Shown(0)">
+        <ion-item color="none" *ngFor="let invoice of invoices1" on-click="goToEntry(invoice.id)" text-wrap>
+          <h3>{{invoice.number}}</h3>
+          <ion-note item-right>{{invoice.date}}</ion-note>
+          <ion-icon name="arrow-round-forward" item-right></ion-icon>
+        </ion-item>
+      </ion-list>
     </ion-item>
-  </ion-list>
 
-  <!--
-    <ion-item color="energized" on-click="goToRecount()">
-      <ion-icon name="repeat" item-left></ion-icon>
-      004444 - refazer
-      <ion-icon name="arrow-round-forward" item-right></ion-icon>
+    <ion-item text-wrap on-click="toggleLevel1(1)" [ngClass]="'active: isLevel1Shown(1)'">
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong>Notas para conferência 2</strong>
+        <ion-badge item-right *ngIf="invoices2 != null">{{invoices2.length}}</ion-badge> 
+      </div>
+      <ion-list *ngIf="isLevel1Shown(1)">
+        <ion-item color="none" *ngFor="let invoice of invoices2" on-click="goToEntry(invoice.id)" text-wrap>
+          <h3>{{invoice.number}}</h3>
+          <ion-note item-right>{{invoice.date}}</ion-note>
+          <ion-icon name="arrow-round-forward" item-right></ion-icon>
+        </ion-item>
+      </ion-list>
     </ion-item>
-  -->
-  <button ion-button color="assertive" block icon-left on-click="refresh()">
+
+    <ion-item text-wrap on-click="toggleLevel1(2)" [ngClass]="'active: isLevel1Shown(2)'">
+      <div>
+          <ion-icon color="success" item-left [name]="isLevel1Shown(2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+          <strong>Notas para reconferência</strong>   
+          <ion-badge color="assertive" item-right *ngIf="invoicesR != null">{{invoicesR.length}}</ion-badge>    
+      </div>
+      <ion-list *ngIf="isLevel1Shown(2)">
+        <ion-item color="none" *ngFor="let invoice of invoicesR" on-click="goToRecounts(invoice.id)" text-wrap>
+          <ion-icon name="repeat" item-left></ion-icon>
+          {{invoice.number}}
+          <ion-note item-right>{{invoice.date}}</ion-note>
+          <ion-icon name="arrow-round-forward" item-right></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-item>    
+  </ion-list>
+  <button ion-button color="stable" block icon-left on-click="refresh()">
     <ion-icon name="refresh"></ion-icon>
     Atualizar
   </button>

@@ -3,18 +3,17 @@ import { NavController, NavParams, ToastController, AlertController } from 'ioni
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
+import { Item } from '../../models/item/item';
+import { RecountsPage } from '../recounts/recounts';
 
 @Component({
-  selector: 'page-entry',
-  templateUrl: 'entry.html'
+  selector: 'page-recount',
+  templateUrl: 'recount.html'
 })
-export class EntryPage {
+export class RecountPage {
   
   @ViewChild('barcodeInput') barcodeInput;
 
-  barcode: string = "";
-  descriptionItem: String = "";
-  loadedItem: boolean = false;
   countPerBox: boolean = false;
   boxQty: Number;
   unitQty: Number;
@@ -23,8 +22,9 @@ export class EntryPage {
   minYear: Number;
   maxYear: Number;
 
+  public item: Item;
   private bean: InvoiceItem = new InvoiceItem();
-
+  
   constructor(public nav: NavController, 
     private param: NavParams,
     private toastCtrl: ToastController,
@@ -36,49 +36,10 @@ export class EntryPage {
   }
 
   ionViewCanEnter() {
+    this.item = this.param.get('item');
     this.bean.invoiceId = this.param.get('invoiceId');
+    this.bean.itemId = this.item.id;
   }    
-
-  ionViewWillEnter() {
-    setTimeout(() => {
-      this.barcodeInput.setFocus();
-    }, 150);
-  }
-
-  selectAll(event): void {
-    event.target.select();
-  }
-
-  searchItem() {
-
-    if (this.barcode == "") {
-      this.presentToast("Informe o código de barras primeiro", 'error');
-      this.barcodeInput.setFocus();
-      return;
-    }
-    
-    if(this.userSession.isTesting()) {
-
-      if(this.barcode == "xxx") {
-        this.saveNotFoundItem();
-        return;
-      }
-
-      this.descriptionItem = "FUBA MIMOSO SINHA FINO 500G **";
-      this.loadedItem = true;
-      return;
-    }
-
-  }
-
-  restartView() {
-    this.loadedItem = false;
-    this.unitQty = null;
-    this.boxQty = null;
-    this.validate = null;
-    this.barcode = "";
-    this.descriptionItem = "";
-  }
 
   saveItem() {
 
@@ -92,17 +53,21 @@ export class EntryPage {
     }
    
     if(this.userSession.isTesting()) {
-        this.restartView();
         this.presentToast("Operação salva com sucesso!", 'success');
+        this.returnToItems();
         return;
     }
 
     // envia para o servidor
-    this.restartView();
+    this.returnToItems();
   }
 
-  returnToInvoices () {
-    this.nav.setRoot(InvoicesPage);
+  returnToItems () {
+    this.nav.push(RecountsPage)
+      .then(() => {
+        const startIndex = this.nav.getActive().index - 2;
+        this.nav.remove(startIndex, 2);
+      });
   }
 
   presentToast(msg: string, type: string, log?: string) {
@@ -198,51 +163,4 @@ export class EntryPage {
     prompt.present();
   }
     
-  saveNotFoundItem () {    
-    let prompt = this.alertCtrl.create({
-      title: 'Item não encontrado!',
-      inputs: [
-        {
-          placeholder: "Descrição",
-          value: ""
-        },
-        {
-          placeholder: "Quantidade",
-          value: "",
-          type: "number"
-        },
-        {
-          placeholder: "Validade",
-          value: "",
-          type: "date"
-        },
-        {
-          placeholder: "Observações",
-          value: ""
-        }
-        ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-          }
-        },
-        {
-          text: 'Salvar',
-          handler: data => {
-            // salva o item no servidor
-            console.log(data[0]);
-            console.log(data[1]);
-            console.log(data[2]);
-            console.log(data[3]);
-
-            this.presentToast("Item registrado com sucesso!", 'success');
-            return;
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }   
-
 }

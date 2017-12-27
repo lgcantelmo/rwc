@@ -1,31 +1,44 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController } from 'ionic-angular';
 import { Invoice } from '../../models/invoice/invoice';
 import { EntryPage } from '../entry/entry';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
+import { RecountsPage } from '../recounts/recounts';
+import { InvoiceProvider } from '../../providers/invoice/invoice';
 
 @Component({
   selector: 'page-invoices',
-  templateUrl: 'invoices.html'
+  templateUrl: 'invoices.html',
+  providers: [
+    InvoiceProvider
+  ]
 })
 export class InvoicesPage {
 
-  invoices: Array<Invoice>;
+  invoices1: Array<Invoice> = [];
+  invoices2: Array<Invoice> = [];
+  invoicesR: Array<Invoice> = [];
+  showLevel1 = null;
 
   constructor(public nav: NavController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private userSession: UserSession,
     private invoiceSession: InvoiceSession,
-    private userSession: UserSession) {
+    private invoiceProvider: InvoiceProvider) {
+      this.refresh();
   }
 
   ionViewCanEnter() {
-    this.refresh();
   }
 
   refresh() {
     if (this.userSession.isTesting()) {
       this.invoiceSession.loadTestInvoices();
-      this.invoices = this.invoiceSession.getInvoices();
+      this.invoices1 = this.invoiceSession.getInvoices1();
+      this.invoices2 = this.invoiceSession.getInvoices2();
+      this.invoicesR = this.invoiceSession.getInvoicesR();
     }
     else {
       this.searchInvoices();
@@ -36,19 +49,17 @@ export class InvoicesPage {
     this.nav.push(EntryPage, { invoiceId: id });
   }
     
-  goToRecount(id: Number) {
-
+  goToRecounts(id: Number) {
+    this.invoiceSession.setInvoiceId(id);
+    this.nav.push(RecountsPage);
   }
     
   searchInvoices() {
-    /*
+    
     const loading = this.loadingCtrl.create({ content: "Aguarde..." });
     loading.present();
 
-    while(this.barcode.length < 13) 
-      this.barcode = "0" + this.barcode;
-
-    this.itemProvider.search(this.barcode).subscribe(
+    this.invoiceProvider.invoices().subscribe(
       data => {
         loading.dismiss();
 
@@ -58,16 +69,44 @@ export class InvoicesPage {
           return;
         }
 
-        this.itemSession.setItem(response.item);
-        this.nav.push(ItemPage);
+        this.invoices1 = response.invoices1;
+        this.invoices2 = response.invoices2;
+        this.invoicesR = response.invoicesR;
+
       },
       error => {
         loading.dismiss();
         this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
-        this.barcodeInput.setFocus();
       }
     );
-    */
   }
+
+  toggleLevel1(idx) {
+    if (this.isLevel1Shown(idx)) {
+      this.showLevel1 = null;
+    } else {
+      this.showLevel1 = idx;
+    }
+  };
+
+  isLevel1Shown(idx) {
+    return this.showLevel1 === idx;
+  };
+
+  presentToast(msg: string, type: string, log?: string) {
+    const toast = this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      position: 'botton',
+      cssClass: type
+    });
+
+    toast.onDidDismiss(() => {
+      console.log(log);
+    });
+
+    toast.present();
+  }
+
 
 }

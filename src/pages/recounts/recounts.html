@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Reconferência de Mercadorias
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div class="show-list-numbers-and-dots" [hidden]="items.length != 0">
+      <strong>
+        Itens para reconferência
+      </strong>
+  </div>
+  <ion-list>
+    <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
+      <h3>{{item.code}}</h3>
+      <p>{{item.description}}</p>
+      <ion-icon name="arrow-round-forward" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
+  <button ion-button color="assertive" block icon-left on-click="refresh()">
+    <ion-icon name="refresh"></ion-icon>
+    Atualizar
+  </button>
+</ion-content>

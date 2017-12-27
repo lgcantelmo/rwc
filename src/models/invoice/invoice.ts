@@ -7,7 +7,6 @@ export class Invoice {
   id: Number;
   number: String;
   date: string;
-  status: string;
 
   items: Array<InvoiceItem> = [];  
 

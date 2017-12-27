@@ -23,8 +23,8 @@ import { GlobalDefinitions } from './definitions';
 export class RWC {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
-  //rootPage: any = LoginPage;
+  //rootPage: any = HomePage;
+  rootPage: any = LoginPage;
 
   constructor(
     public platform: Platform,
@@ -43,9 +43,6 @@ export class RWC {
 
     this.loadUser();
     this.loadConfig();
-
-    // remover isso aqui depois
-    this.userSession.setTestMode();
   }
 
   private loadUser() {
@@ -101,4 +98,5 @@ export class RWC {
     this.userSession.logout();
     this.nav.setRoot(LoginPage);
   }
+
 }

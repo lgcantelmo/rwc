@@ -18,6 +18,8 @@ import { EntryPage } from '../pages/entry/entry';
 import { InvoicesPage } from '../pages/invoices/invoices';
 import { LoginPage } from '../pages/login/login';
 import { ConfigPage } from '../pages/config/config';
+import { RecountsPage } from '../pages/recounts/recounts';
+import { RecountPage } from '../pages/recount/recount';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,6 +39,8 @@ import { UserSession } from '../sessions/user/user';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
+    RecountPage,
+    RecountsPage,
     SalesPage,
     InventoryPage,
     EntryPage,
@@ -60,6 +64,8 @@ import { UserSession } from '../sessions/user/user';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
+    RecountPage,
+    RecountsPage,
     SalesPage,
     InventoryPage,
     EntryPage,

@@ -13,27 +13,13 @@
     <ion-item text-wrap on-click="toggleLevel1(0)" [ngClass]="'active: isLevel1Shown(0)'">
       <div>
         <ion-icon color="success" item-left [name]="isLevel1Shown(0) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
-        <strong>Notas para conferência 1</strong>
-        <ion-badge item-right *ngIf="invoices1 != null">{{invoices1.length}}</ion-badge> 
+        <strong>Notas para conferência</strong>
+        <ion-badge item-right *ngIf="invoices != null">{{invoices.length}}</ion-badge> 
       </div>
       <ion-list  *ngIf="isLevel1Shown(0)">
         <ion-item color="none" *ngFor="let invoice of invoices1" on-click="goToEntry(invoice.id)" text-wrap>
           <h3>{{invoice.number}}</h3>
-          <ion-note item-right>{{invoice.date}}</ion-note>
-          <ion-icon name="arrow-round-forward" item-right></ion-icon>
-        </ion-item>
-      </ion-list>
-    </ion-item>
-
-    <ion-item text-wrap on-click="toggleLevel1(1)" [ngClass]="'active: isLevel1Shown(1)'">
-      <div>
-        <ion-icon color="success" item-left [name]="isLevel1Shown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
-        <strong>Notas para conferência 2</strong>
-        <ion-badge item-right *ngIf="invoices2 != null">{{invoices2.length}}</ion-badge> 
-      </div>
-      <ion-list *ngIf="isLevel1Shown(1)">
-        <ion-item color="none" *ngFor="let invoice of invoices2" on-click="goToEntry(invoice.id)" text-wrap>
-          <h3>{{invoice.number}}</h3>
+          <p>{{invoice.detail == 1 ? "Aguardando conferência 1 e 2" : "Aguardando conferência 2"}}</p>
           <ion-note item-right>{{invoice.date}}</ion-note>
           <ion-icon name="arrow-round-forward" item-right></ion-icon>
         </ion-item>
@@ -50,6 +36,7 @@
         <ion-item color="none" *ngFor="let invoice of invoicesR" on-click="goToRecounts(invoice.id)" text-wrap>
           <ion-icon name="repeat" item-left></ion-icon>
           {{invoice.number}}
+          <p>{{invoice.detail == 1 ? "Aguardando conferência 1 e 2" : "Aguardando conferência 2"}}</p>
           <ion-note item-right>{{invoice.date}}</ion-note>
           <ion-icon name="arrow-round-forward" item-right></ion-icon>
         </ion-item>

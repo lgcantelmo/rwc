@@ -1,42 +1,48 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
+import { InvoiceProvider } from '../../providers/invoice/invoice';
 
 @Component({
   selector: 'page-entry',
-  templateUrl: 'entry.html'
+  templateUrl: 'entry.html',
+  providers: [
+    InvoiceProvider
+  ]
 })
 export class EntryPage {
   
   @ViewChild('barcodeInput') barcodeInput;
 
   barcode: string = "";
-  descriptionItem: String = "";
+  description: String = "";
   loadedItem: boolean = false;
   countPerBox: boolean = false;
   boxQty: Number;
   unitQty: Number;
-  validate: String;
+  validate: string;
 
   minYear: Number;
   maxYear: Number;
 
-  private bean: InvoiceItem = new InvoiceItem();
+  private dto: InvoiceItem = new InvoiceItem();
 
   constructor(public nav: NavController, 
     private param: NavParams,
+    private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private userSession: UserSession) {
+    private userSession: UserSession,
+    private invoiceProvider: InvoiceProvider) {
       let now = new Date();
       this.minYear = now.getFullYear();
       this.maxYear = now.getFullYear() + 5;
   }
 
   ionViewCanEnter() {
-    this.bean.invoiceId = this.param.get('invoiceId');
+    this.dto.invoiceId = this.param.get('invoiceId');
   }    
 
   ionViewWillEnter() {
@@ -49,6 +55,15 @@ export class EntryPage {
     event.target.select();
   }
 
+  restartView() {
+    this.loadedItem = false;
+    this.unitQty = null;
+    this.boxQty = null;
+    this.validate = null;
+    this.barcode = "";
+    this.description = "";
+  }
+
   searchItem() {
 
     if (this.barcode == "") {
@@ -58,26 +73,38 @@ export class EntryPage {
     }
     
     if(this.userSession.isTesting()) {
-
       if(this.barcode == "xxx") {
         this.saveNotFoundItem();
         return;
       }
-
-      this.descriptionItem = "FUBA MIMOSO SINHA FINO 500G **";
+      this.description = "FUBA MIMOSO SINHA FINO 500G **";
       this.loadedItem = true;
       return;
     }
 
-  }
+    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
+    loading.present();
 
-  restartView() {
-    this.loadedItem = false;
-    this.unitQty = null;
-    this.boxQty = null;
-    this.validate = null;
-    this.barcode = "";
-    this.descriptionItem = "";
+    this.invoiceProvider.search_item(this.barcode, this.dto.invoiceId).subscribe(
+      data => {
+        loading.dismiss();
+
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.saveNotFoundItem();
+          return;
+        }
+
+        this.dto.itemId = response.item.id;
+        this.description = response.item.description;
+        this.loadedItem = true;
+      },
+      error => {
+        loading.dismiss();
+        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+      }
+    );
+
   }
 
   saveItem() {
@@ -98,7 +125,36 @@ export class EntryPage {
     }
 
     // envia para o servidor
-    this.restartView();
+    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
+    loading.present();
+
+    let qty: Number = 0;
+    if(this.countPerBox) 
+      qty = Number(this.boxQty) * Number(this.unitQty);
+    else
+      qty = Number(this.unitQty);
+
+    this.dto.qty = qty;
+    this.dto.validate = this.validate;
+
+    this.invoiceProvider.save_item( this.dto ).subscribe(
+      data => {
+        loading.dismiss();
+
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.presentToast(response.msg, 'error');
+          return;
+        }
+
+        this.restartView();
+        this.presentToast("Operação salva com sucesso!", 'success');
+      },
+      error => {
+        loading.dismiss();
+        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+      }
+    );
   }
 
   returnToInvoices () {

@@ -16,8 +16,7 @@ import { InvoiceProvider } from '../../providers/invoice/invoice';
 })
 export class InvoicesPage {
 
-  invoices1: Array<Invoice> = [];
-  invoices2: Array<Invoice> = [];
+  invoices: Array<Invoice> = [];
   invoicesR: Array<Invoice> = [];
   showLevel1 = null;
 
@@ -30,14 +29,10 @@ export class InvoicesPage {
       this.refresh();
   }
 
-  ionViewCanEnter() {
-  }
-
   refresh() {
     if (this.userSession.isTesting()) {
       this.invoiceSession.loadTestInvoices();
-      this.invoices1 = this.invoiceSession.getInvoices1();
-      this.invoices2 = this.invoiceSession.getInvoices2();
+      this.invoices = this.invoiceSession.getInvoices();
       this.invoicesR = this.invoiceSession.getInvoicesR();
     }
     else {
@@ -69,8 +64,7 @@ export class InvoicesPage {
           return;
         }
 
-        this.invoices1 = response.invoices1;
-        this.invoices2 = response.invoices2;
+        this.invoices = response.invoices;
         this.invoicesR = response.invoicesR;
 
       },
@@ -99,10 +93,6 @@ export class InvoicesPage {
       duration: 2000,
       position: 'botton',
       cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
     });
 
     toast.present();

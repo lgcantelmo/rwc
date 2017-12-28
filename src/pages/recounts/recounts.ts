@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { Item } from '../../models/item/item';
 import { RecountPage } from '../recount/recount';
-import { InvoicesPage } from '../invoices/invoices';
 
 @Component({
   selector: 'page-recounts',
@@ -16,14 +15,12 @@ export class RecountsPage {
   invoiceId: Number;
 
   constructor(public nav: NavController,
-    private param: NavParams,
     private invoiceSession: InvoiceSession,
     private userSession: UserSession) {
   }
 
   ionViewCanEnter() {
     this.invoiceId = this.invoiceSession.getInvoiceId();
-    console.log(this.invoiceId);
     this.refresh();
   }
 

@@ -28,6 +28,7 @@ import { GlobalDefinitions } from './definitions';
 import { ItemSession } from '../sessions/item/item';
 import { InvoiceSession } from '../sessions/invoice/invoice';
 import { UserSession } from '../sessions/user/user';
+import { GlobalView } from './global.view';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { UserSession } from '../sessions/user/user';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     GlobalDefinitions,
+    GlobalView,
     ItemSession,
     InvoiceSession,
     UserSession

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-entry',
@@ -31,14 +32,13 @@ export class EntryPage {
 
   constructor(public nav: NavController, 
     private param: NavParams,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
+    private global: GlobalView,
     private alertCtrl: AlertController,
     private userSession: UserSession,
     private invoiceProvider: InvoiceProvider) {
       let now = new Date();
       this.minYear = now.getFullYear();
-      this.maxYear = now.getFullYear() + 5;
+      this.maxYear = now.getFullYear() + 10;
   }
 
   ionViewCanEnter() {
@@ -62,15 +62,20 @@ export class EntryPage {
     this.validate = null;
     this.barcode = "";
     this.description = "";
+    this.barcodeInput.setFocus();
   }
 
   searchItem() {
 
     if (this.barcode == "") {
-      this.presentToast("Informe o código de barras primeiro", 'error');
+      this.global.presentToast("Informe o código de barras primeiro", 'error');
       this.barcodeInput.setFocus();
       return;
     }
+
+    this.unitQty = null;
+    this.boxQty = null;
+    this.validate = null;
     
     if(this.userSession.isTesting()) {
       if(this.barcode == "xxx") {
@@ -82,16 +87,21 @@ export class EntryPage {
       return;
     }
 
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     this.invoiceProvider.search_item(this.barcode, this.dto.invoiceId).subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
-          this.saveNotFoundItem();
+
+          if (response.showModalNotFound == true) {
+            this.saveNotFoundItem();
+            return;
+          }
+
+          this.global.presentToast(response.msg, 'error');
           return;
         }
 
@@ -100,8 +110,8 @@ export class EntryPage {
         this.loadedItem = true;
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
 
@@ -114,19 +124,18 @@ export class EntryPage {
       return;
 
     if(this.countPerBox && this.boxQty == null) {
-      this.presentToast("Qtd. por caixa é obrigatória!", 'error');
+      this.global.presentToast("Qtd. por caixa é obrigatória!", 'error');
       return;
     }
    
     if(this.userSession.isTesting()) {
         this.restartView();
-        this.presentToast("Operação salva com sucesso!", 'success');
+        this.global.presentToast("Apontamento salvo e nota finalizada!", 'success');
         return;
     }
 
     // envia para o servidor
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     let qty: Number = 0;
     if(this.countPerBox) 
@@ -139,37 +148,33 @@ export class EntryPage {
 
     this.invoiceProvider.save_item( this.dto ).subscribe(
       data => {
-        loading.dismiss();
-
+      
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.finalizeProcess();
+          this.global.presentToast(response.msg, 'error');
           return;
         }
-
-        this.restartView();
-        this.presentToast("Operação salva com sucesso!", 'success');
+        
+        if (response.finalized == false) {
+          this.global.finalizeProcess();
+          this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+          this.restartView();
+        }
+        else {
+          this.global.presentToast("Apontamento salvo e nota finalizada!", 'success');
+          this.nav.setRoot(InvoicesPage);
+        }
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
   }
 
   returnToInvoices () {
     this.nav.setRoot(InvoicesPage);
-  }
-
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.present();
   }
 
   validateForm() {
@@ -191,7 +196,7 @@ export class EntryPage {
     }
     
     if(error)
-      this.presentToast("Campos obrigatórios!", 'error');
+      this.global.presentToast("Campos obrigatórios!", 'error');
 
     return error;
   }
@@ -212,11 +217,30 @@ export class EntryPage {
 
             if(this.userSession.isTesting()) {
               this.nav.setRoot(InvoicesPage);
-              this.presentToast("Nota finalizada com sucesso!", 'success');
+              this.global.presentToast("Nota finalizada com sucesso!", 'success');
               return;
             }
 
             // finaliza a nota no servidor
+            this.global.waitingProcess();
+
+            this.invoiceProvider.invoice_finalize( this.dto.invoiceId ).subscribe(
+              data => {
+        
+                const response = JSON.parse((data as any)._body);
+                if (response.ok == false) {
+                  this.global.presentToast(response.msg, 'error');
+                  return;
+                }
+                        
+                this.nav.setRoot(InvoicesPage);
+                this.global.presentToast("Nota finalizada com sucesso!", 'success');
+              },
+              error => {
+                this.global.finalizeProcess();
+                this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+              }
+            );
           }
         }
       ]
@@ -242,11 +266,34 @@ export class EntryPage {
         {
           text: 'Salvar',
           handler: data => {
-            // salva a observação no servidor
-            console.log(data[0]);
+            
+            let observation = data[0];
+            if( observation.length == 0 ) {
+              this.global.presentToast("Observação obrigatória", 'error');
+              return;
+            }
 
-            this.presentToast("Observação registrada com sucesso!", 'success');
-            return;
+            // envia para o servidor
+            this.global.waitingProcess();
+
+            this.invoiceProvider.save_observation( this.dto.invoiceId, observation ).subscribe(
+              data => {
+                this.global.finalizeProcess();
+        
+                const response = JSON.parse((data as any)._body);
+                if (response.ok == false) {
+                  this.global.presentToast(response.msg, 'error');
+                  return;
+                }
+        
+                this.restartView();
+                this.global.presentToast("Observação salva com sucesso!", 'success');
+              },
+              error => {
+                this.global.finalizeProcess();
+                this.global.presentToast('Erro inesperado! Verifique o status do servidor!!', 'error', error.error);
+              }
+            );
           }
         }
       ]
@@ -286,14 +333,48 @@ export class EntryPage {
         {
           text: 'Salvar',
           handler: data => {
-            // salva o item no servidor
-            console.log(data[0]);
-            console.log(data[1]);
-            console.log(data[2]);
-            console.log(data[3]);
 
-            this.presentToast("Item registrado com sucesso!", 'success');
-            return;
+            let description = data[0];
+            if( description.length == 0 ) {
+              this.global.presentToast("Descrição obrigatória", 'error');
+              return;
+            }
+
+            if(  data[1].length == 0 ) {
+              this.global.presentToast("Quantidade obrigatória", 'error');
+              return;
+            }
+
+            let qty: Number = Number(data[1]);
+            if(  qty <= 0 ) {
+              this.global.presentToast("Quantidade inválida", 'error');
+              return;
+            }
+
+            let validate =  data[2];
+            let observation =  data[3];
+
+            // envia para o servidor
+            this.global.waitingProcess();
+
+            this.invoiceProvider.save_notfound_item( this.dto.invoiceId, description, qty, validate, observation ).subscribe(
+              data => {
+                this.global.finalizeProcess();
+        
+                const response = JSON.parse((data as any)._body);
+                if (response.ok == false) {
+                  this.global.presentToast(response.msg, 'error');
+                  return;
+                }
+        
+                this.restartView();
+                this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+              },
+              error => {
+                this.global.finalizeProcess();
+                this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+              }
+            );
           }
         }
       ]

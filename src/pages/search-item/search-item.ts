@@ -1,10 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { UserSession } from '../../sessions/user/user';
 import { Item } from '../../models/item/item';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-search-item',
@@ -23,8 +24,7 @@ export class SearchItemPage {
 
   constructor(
     public nav: NavController,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
+    private global: GlobalView,
     private itemProvider: ItemProvider,
     private itemSession: ItemSession,
     private userSession: UserSession) {      
@@ -47,14 +47,12 @@ export class SearchItemPage {
   }
 
   changeBarcodeDiv() {
-
     if(this.showBarcodeDiv)
       this.barcodeInput.setFocus();
     else
       this.queryInput.setFocus();
 
     this.itemSession.setShowBarcodeDiv(this.showBarcodeDiv);
-
   }
 
   selectAll(event): void {
@@ -64,7 +62,7 @@ export class SearchItemPage {
   searchItem() {
 
     if (this.barcode == "") {
-      this.presentToast("Informe o código de barras primeiro", 'error');
+      this.global.presentToast("Informe o código de barras primeiro", 'error');
       this.barcodeInput.setFocus();
       return;
     }
@@ -75,19 +73,18 @@ export class SearchItemPage {
     }
 
     else {
-      const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-      loading.present();
+      this.global.waitingProcess();
 
       while(this.barcode.length < 13) 
         this.barcode = "0" + this.barcode;
 
       this.itemProvider.search(this.barcode).subscribe(
         data => {
-          loading.dismiss();
+          this.global.finalizeProcess();
 
           const response = JSON.parse((data as any)._body);
           if (response.ok == false) {
-            this.presentToast(response.msg, 'error');
+            this.global.presentToast(response.msg, 'error');
             return;
           }
 
@@ -95,8 +92,8 @@ export class SearchItemPage {
           this.nav.push(ItemPage);
         },
         error => {
-          loading.dismiss();
-          this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+          this.global.finalizeProcess();
+          this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
           this.barcodeInput.setFocus();
         }
       );
@@ -104,26 +101,11 @@ export class SearchItemPage {
 
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
-    });
-
-    toast.present();
-  }
-
   searchItems(event) {
     
     let query = event.target.value;
     if (query == "") {
-      this.presentToast("Informe uma descrição/código primeiro", 'error');
+      this.global.presentToast("Informe uma descrição/código primeiro", 'error');
       return;
     }
 
@@ -133,18 +115,17 @@ export class SearchItemPage {
     }
 
     else {
-      const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-      loading.present();
+      this.global.waitingProcess();
 
       query = query.toUpperCase();
       
       this.itemProvider.searchDetail(query).subscribe(
         data => {
-          loading.dismiss();
+          this.global.finalizeProcess();
 
           const response = JSON.parse((data as any)._body);
           if (response.ok == false) {
-            this.presentToast(response.msg, 'error');
+            this.global.presentToast(response.msg, 'error');
             return;
           }
 
@@ -152,15 +133,14 @@ export class SearchItemPage {
           this.itemSession.setItems(response.items);
         },
         error => {
-          loading.dismiss();
-          this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+          this.global.finalizeProcess();
+          this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
         }
       );
     }
   }
 
-  goToItem(itemId: Number) {
-    
+  goToItem(itemId: Number) {    
     let item = null;
 
     for (let i = 0; i < this.items.length; i++) {

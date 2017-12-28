@@ -28,6 +28,8 @@ export class Item {
   subgroupName: string;
   phase: string;
 
+  detail: Number;
+
   orders: Array<Order> = [];   
   shoppings: Array<Shopping> = [];   
   sales: Array<Sale> = [];   

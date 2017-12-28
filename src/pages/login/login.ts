@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { LoginProvider } from '../../providers/login/login';
 import { ConfigPage } from '../config/config';
 import { HomePage } from '../home/home';
 import { UserSession } from '../../sessions/user/user';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-login',
@@ -19,8 +20,7 @@ export class LoginPage {
 
   constructor(
     public nav: NavController,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
+    private global: GlobalView,
     private loginProvider: LoginProvider,
     private userSession: UserSession) {
   }
@@ -42,21 +42,20 @@ export class LoginPage {
     }
 
     else if( login == "" || password == "") {
-      this.presentToast("Login/senha são obrigatórios", 'error');
+      this.global.presentToast("Login/senha são obrigatórios", 'error');
       return;
     }
 
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     this.loginProvider.login(login, password).subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
 
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.presentToast(response.msg, 'error');
           return;
         }
       
@@ -64,26 +63,11 @@ export class LoginPage {
         this.nav.setRoot(HomePage);
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
 
-  }
-
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
-    });
-
-    toast.present();
   }
 
 }

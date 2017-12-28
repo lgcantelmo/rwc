@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { Invoice } from '../../models/invoice/invoice';
 import { EntryPage } from '../entry/entry';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { RecountsPage } from '../recounts/recounts';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-invoices',
@@ -21,12 +22,14 @@ export class InvoicesPage {
   showLevel1 = null;
 
   constructor(public nav: NavController,
-    private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
+    private global: GlobalView,
     private userSession: UserSession,
     private invoiceSession: InvoiceSession,
     private invoiceProvider: InvoiceProvider) {
-      this.refresh();
+  }
+
+  ionViewCanEnter() {
+    this.refresh();
   }
 
   refresh() {
@@ -50,27 +53,29 @@ export class InvoicesPage {
   }
     
   searchInvoices() {
-    
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+
+    this.global.waitingProcess();
 
     this.invoiceProvider.invoices().subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.presentToast(response.msg, 'error');
           return;
         }
 
         this.invoices = response.invoices;
         this.invoicesR = response.invoicesR;
 
+        if(this.invoices.length == 0 && this.invoicesR.length == 0) 
+          this.global.presentToast('Nenhuma nota pendente', 'warning');
+    
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
   }
@@ -86,17 +91,5 @@ export class InvoicesPage {
   isLevel1Shown(idx) {
     return this.showLevel1 === idx;
   };
-
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.present();
-  }
-
 
 }

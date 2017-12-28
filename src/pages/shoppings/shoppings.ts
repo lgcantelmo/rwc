@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { ShoppingPage } from '../shopping/shopping';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { Shopping } from '../../models/shopping/shopping';
 import { UserSession } from '../../sessions/user/user';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-shoppings',
@@ -20,8 +21,7 @@ export class ShoppingsPage {
 
   constructor(
     public nav: NavController,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
+    private global: GlobalView,
     private itemProvider: ItemProvider,
     private itemSession: ItemSession,
     private userSession: UserSession) {
@@ -44,18 +44,17 @@ export class ShoppingsPage {
 
   private searchShoppings() {
 
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     let itemId = this.itemSession.getItem().id;
     this.itemProvider.shoppings(itemId).subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
 
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.presentToast(response.msg, 'error');
           return;
         }
 
@@ -63,14 +62,13 @@ export class ShoppingsPage {
         this.itemSession.getItem().shoppings = response.shoppings;
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
   }
 
   goToShopping(number: String) {
-
     let shopping = null;
 
     for (let i = 0; i < this.shoppings.length; i++) {
@@ -92,18 +90,4 @@ export class ShoppingsPage {
       });
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
-    });
-
-    toast.present();
-  }
 }

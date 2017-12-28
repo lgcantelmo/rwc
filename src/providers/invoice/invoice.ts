@@ -12,7 +12,8 @@ import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
-*/
+*/ 
+
 @Injectable()
 export class InvoiceProvider {
 
@@ -34,4 +35,23 @@ export class InvoiceProvider {
     return this.http.post(url, JSON.stringify({}));
   }
 
+  save_notfound_item(invoiceId: Number, description: string, qty: Number, validate: string, observation: string) {
+    var url = GlobalDefinitions.server_url + "/invoice/save-notfound.json?invoiceId=" + invoiceId + "&description=" + description + "&qty=" + qty + "&validate=" + validate + "&observation=" + observation + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+  
+  save_observation(invoiceId: Number, observation: string) {
+    var url = GlobalDefinitions.server_url + "/invoice/save-observation.json?invoiceId=" + invoiceId + "&observation=" + observation + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  invoice_finalize(invoiceId: Number) {
+    var url = GlobalDefinitions.server_url + "/invoice/finalize.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  invoice_items(invoiceId: Number) {
+    var url = GlobalDefinitions.server_url + "/invoiceitems.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
 }

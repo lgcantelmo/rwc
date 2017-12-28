@@ -4,19 +4,26 @@ import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { Item } from '../../models/item/item';
 import { RecountPage } from '../recount/recount';
+import { InvoiceProvider } from '../../providers/invoice/invoice';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-recounts',
-  templateUrl: 'recounts.html'
+  templateUrl: 'recounts.html',
+  providers: [
+    InvoiceProvider
+  ]
 })
 export class RecountsPage {
 
-  items: Array<Item>;
+  items: Array<Item> = [];
   invoiceId: Number;
 
   constructor(public nav: NavController,
+    private global: GlobalView,
+    private userSession: UserSession,
     private invoiceSession: InvoiceSession,
-    private userSession: UserSession) {
+    private invoiceProvider: InvoiceProvider) {
   }
 
   ionViewCanEnter() {
@@ -34,7 +41,6 @@ export class RecountsPage {
   }
 
   goToRecount(id: Number) {
-
     let item = null;
     
     for (let i = 0; i < this.items.length; i++) {
@@ -49,33 +55,27 @@ export class RecountsPage {
   }
 
   searchInvoiceItems() {
-    /*
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    
+    this.global.waitingProcess();
 
-    while(this.barcode.length < 13) 
-      this.barcode = "0" + this.barcode;
-
-    this.itemProvider.search(this.barcode).subscribe(
+    this.invoiceProvider.invoice_items(this.invoiceId).subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.presentToast(response.msg, 'error');
           return;
         }
 
-        this.itemSession.setItem(response.item);
-        this.nav.push(ItemPage);
+        this.items = response.items;
+
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar!', 'error', error.error);
-        this.barcodeInput.setFocus();
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-    */
   }
 
 }

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { OrderPage } from '../order/order';
 import { ItemPage } from '../item/item';
 import { ItemProvider } from '../../providers/item/item';
 import { ItemSession } from '../../sessions/item/item';
 import { Order } from '../../models/order/order';
 import { UserSession } from '../../sessions/user/user';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-orders',
@@ -20,8 +21,7 @@ export class OrdersPage {
 
   constructor(
     public nav: NavController,
-    private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
+    private global: GlobalView,
     private itemProvider: ItemProvider,
     private itemSession: ItemSession,
     private userSession: UserSession) {
@@ -45,18 +45,17 @@ export class OrdersPage {
 
   private searchOrders() {
 
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     let itemId = this.itemSession.getItem().id;
     this.itemProvider.orders(itemId).subscribe(
       data => {
-        loading.dismiss();
+        this.global.finalizeProcess();
 
         const response = JSON.parse((data as any)._body);
 
         if (response.ok == false) {
-          this.presentToast(response.msg, 'error');
+          this.global.presentToast(response.msg, 'error');
           return;
         }
 
@@ -65,8 +64,8 @@ export class OrdersPage {
 
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
   }
@@ -94,18 +93,4 @@ export class OrdersPage {
       });
   }
 
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
-    });
-
-    toast.present();
-  }
 }

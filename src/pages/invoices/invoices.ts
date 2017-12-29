@@ -67,11 +67,7 @@ export class InvoicesPage {
         }
 
         this.invoices = response.invoices;
-        this.invoicesR = response.invoicesR;
-
-        if(this.invoices.length == 0 && this.invoicesR.length == 0) 
-          this.global.presentToast('Nenhuma nota pendente', 'warning');
-    
+        this.invoicesR = response.invoicesR;    
       },
       error => {
         this.global.finalizeProcess();

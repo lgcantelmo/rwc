@@ -218,7 +218,6 @@ export class RecountPage {
                   return;
                 }
         
-                this.restartView();
                 this.global.presentToast("Observação salva com sucesso!", 'success');
               },
               error => {

@@ -89,6 +89,9 @@ export class EntryPage {
 
     this.global.waitingProcess();
 
+    while(this.barcode.length < 13) 
+        this.barcode = "0" + this.barcode;
+
     this.invoiceProvider.search_item(this.barcode, this.dto.invoiceId).subscribe(
       data => {
         this.global.finalizeProcess();
@@ -286,7 +289,7 @@ export class EntryPage {
                   return;
                 }
         
-                this.restartView();
+                this.barcodeInput.setFocus();
                 this.global.presentToast("Observação salva com sucesso!", 'success');
               },
               error => {

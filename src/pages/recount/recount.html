@@ -10,26 +10,24 @@
 </ion-header>
 <ion-content padding>
   <p style="color:#000000;">
-    <strong>
-      Item: {{description}}
-    </strong>    
+    <strong>Nº da nota: </strong> {{invoice.number}} <br>
+    <strong>Data de Entrada: </strong> {{invoice.date}}<br>
+    <strong>Empresa: </strong> {{invoice.nick}} <br>
+    <strong>Item: </strong> {{item.description}}
   <p>
-  <div class="spacer" style="width:300px;height:5px;"></div>
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-10>
-          <p style="color:#000000;">
-            <strong>
-              Realize a contagem:
-            </strong>
-          <p>
-        </ion-col>
-        <ion-col col-2>
-          <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}"></ion-toggle>
-        </ion-col>
-      </ion-row>
-    </ion-grid>  
+  <div class="spacer" style="width:300px;height:10px;"></div>
+  <div class="div-box">   
+    <p style="color:#000000;">
+      <strong>
+        Realize a recontagem:
+      </strong>
+    <p>   
+    <ion-item style="background-color: rgb(223, 222, 222);">
+        <ion-label>
+          Contar por caixa
+        </ion-label>
+        <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}"></ion-toggle>
+      </ion-item> 
     <ion-item [hidden]="!countPerBox">
       <ion-label>
         Qtd. de caixas

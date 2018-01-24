@@ -107,3 +107,9 @@ $text-input-highlight-color-valid:       rgb(231, 229, 229) !default;
   border-bottom-color: transparent !important;
   box-shadow: none !important;
 }
+
+.div-box {
+  border-width: 1px; 
+  border-style: dashed;
+  padding: 5px 5px 5px 5px;
+}

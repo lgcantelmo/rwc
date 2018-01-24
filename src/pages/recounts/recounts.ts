@@ -6,6 +6,7 @@ import { Item } from '../../models/item/item';
 import { RecountPage } from '../recount/recount';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
+import { Invoice } from '../../models/invoice/invoice';
 
 @Component({
   selector: 'page-recounts',
@@ -17,7 +18,7 @@ import { GlobalView } from '../../app/global.view';
 export class RecountsPage {
 
   items: Array<Item> = [];
-  invoiceId: Number;
+  invoice: Invoice;
 
   constructor(public nav: NavController,
     private global: GlobalView,
@@ -26,8 +27,8 @@ export class RecountsPage {
     private invoiceProvider: InvoiceProvider) {
   }
 
-  ionViewCanEnter() {
-    this.invoiceId = this.invoiceSession.getInvoiceId();
+  ionViewCanEnter() {    
+    this.invoice = this.invoiceSession.getInvoice();
     this.refresh();
   }
 
@@ -51,14 +52,15 @@ export class RecountsPage {
       }
     }
 
-    this.nav.push(RecountPage, { item: item, invoiceId: this.invoiceId });
+    this.invoiceSession.setItem(item);
+    this.nav.push(RecountPage);
   }
 
   searchInvoiceItems() {
     
     this.global.waitingProcess();
 
-    this.invoiceProvider.invoice_items(this.invoiceId).subscribe(
+    this.invoiceProvider.invoice_items(this.invoice.id).subscribe(
       data => {
         this.global.finalizeProcess();
 

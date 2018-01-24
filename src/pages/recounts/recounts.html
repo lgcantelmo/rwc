@@ -16,9 +16,8 @@
   </div>
   <ion-list>
     <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
-      <strong>{{item.code}}</strong>
+      <h3>{{item.code}}</h3>
       <p>{{item.description}}</p>
-      <p>{{item.detail == 1 ? "Realizar conferências 1 e 2" : "Realizar conferência 2"}}</p>
       <ion-icon name="arrow-round-forward" item-right></ion-icon>
     </ion-item>
   </ion-list>

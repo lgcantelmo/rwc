@@ -7,7 +7,10 @@ import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 /*
   Generated class for the ItemProvider provider  shoppings(arg0: any): any {
     throw new Error("Method not implemented.");
+   save_item_recount(arg0: any): any {
+    throw new Error("Method not implemented.");
   }
+ }
 .
 
   See https://angular.io/guide/dependency-injection for more info on providers
@@ -30,8 +33,13 @@ export class InvoiceProvider {
     return this.http.post(url, JSON.stringify({}));
   }
 
-  save_item(dto: InvoiceItem) {
+  save_item(dto: InvoiceItem, detail: Number) {
     var url = GlobalDefinitions.server_url + "/invoice/save-pointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.qty + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  save_item_recount(dto: InvoiceItem) {
+    var url  = GlobalDefinitions.server_url + "/invoice/save-repointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.qty + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

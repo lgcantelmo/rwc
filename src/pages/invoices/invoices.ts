@@ -44,11 +44,31 @@ export class InvoicesPage {
   }
 
   goToEntry(id: Number) {
-    this.nav.push(EntryPage, { invoiceId: id });
+
+    let invoice: Invoice  = null;
+    for (let i = 0; i < this.invoices.length; i++) {
+      let loaded = this.invoices[i];
+      if (loaded.id == id) {
+        invoice = loaded;
+        break;
+      }
+    }
+
+    this.invoiceSession.setInvoice(invoice);
+    this.nav.push(EntryPage);
   }
     
   goToRecounts(id: Number) {
-    this.invoiceSession.setInvoiceId(id);
+
+    let invoice: Invoice;
+    for (let i = 0; i < this.invoicesR.length; i++) {
+      let loaded = this.invoicesR[i];
+      if (loaded.id == id) {
+        invoice = loaded;
+        break;
+      }
+    }
+    this.invoiceSession.setInvoice(invoice);
     this.nav.push(RecountsPage);
   }
     

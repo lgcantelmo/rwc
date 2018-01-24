@@ -5,6 +5,8 @@ import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
+import { Invoice } from '../../models/invoice/invoice';
+import { InvoiceSession } from '../../sessions/invoice/invoice';
 
 @Component({
   selector: 'page-entry',
@@ -29,12 +31,14 @@ export class EntryPage {
   maxYear: Number;
 
   private dto: InvoiceItem = new InvoiceItem();
+  private invoice: Invoice;
 
   constructor(public nav: NavController, 
     private param: NavParams,
     private global: GlobalView,
     private alertCtrl: AlertController,
     private userSession: UserSession,
+    private invoiceSession: InvoiceSession,
     private invoiceProvider: InvoiceProvider) {
       let now = new Date();
       this.minYear = now.getFullYear();
@@ -42,7 +46,8 @@ export class EntryPage {
   }
 
   ionViewCanEnter() {
-    this.dto.invoiceId = this.param.get('invoiceId');
+    this.invoice = this.invoiceSession.getInvoice();
+    this.dto.invoiceId = this.invoice.id;
   }    
 
   ionViewWillEnter() {
@@ -149,7 +154,7 @@ export class EntryPage {
     this.dto.qty = qty;
     this.dto.validate = this.validate;
 
-    this.invoiceProvider.save_item( this.dto ).subscribe(
+    this.invoiceProvider.save_item( this.dto , this.invoice.detail ).subscribe(
       data => {
       
         const response = JSON.parse((data as any)._body);
@@ -160,9 +165,32 @@ export class EntryPage {
         }
         
         if (response.finalized == false) {
-          this.global.finalizeProcess();
-          this.global.presentToast("Apontamento salvo com sucesso!", 'success');
-          this.restartView();
+          
+          // verifica se usuario deseja continuar apontando itens nessa nota
+          let prompt = this.alertCtrl.create({
+            title: 'Sucesso!',
+            message: "Deseja continuar apontando itens para essa nota carragada?",
+            buttons: [
+              {
+                text: 'Não',
+                handler: data => {
+                  this.global.finalizeProcess();
+                  this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+                  this.nav.setRoot(InvoicesPage);
+                }
+              },
+              {
+                text: 'SIM',
+                handler: data => {
+                  this.global.finalizeProcess();
+                  this.global.presentToast("OK! Informe o código de barras!", 'success');
+                  this.restartView();
+                }
+              }
+            ]
+          });
+          prompt.present();
+
         }
         else {
           this.global.presentToast("Apontamento salvo e nota finalizada!", 'success');
@@ -183,23 +211,14 @@ export class EntryPage {
   validateForm() {
     let error = false;
 
-    if(this.unitQty == null) {
+    if(this.unitQty == null) 
       error = true; 
-      // add class error in field
-    }
     
-    if(this.validate == null){
+    if(this.countPerBox && this.boxQty == null)
       error = true; 
-      // add class error in field
-    }
-    
-    if(this.countPerBox && this.boxQty == null){
-      error = true; 
-      // add class error in field
-    }
-    
+      
     if(error)
-      this.global.presentToast("Campos obrigatórios!", 'error');
+      this.global.presentToast("Quantidade obrigatória!", 'error');
 
     return error;
   }

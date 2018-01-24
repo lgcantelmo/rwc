@@ -9,8 +9,9 @@ export class InvoiceSession {
   invoices: Array<Invoice>;
   invoicesR: Array<Invoice>;
   items: Array<Item>;
-
-  invoiceId: Number;
+  
+  invoice: Invoice;
+  item: Item;
 
   constructor() {
   }
@@ -20,12 +21,20 @@ export class InvoiceSession {
     this.invoicesR = [];
   }
 
-  getInvoiceId() {
-    return this.invoiceId;
+  getItem() {
+    return this.item;
   }
 
-  setInvoiceId(invoiceId: Number) {
-    this.invoiceId = invoiceId;
+  setItem(item: Item) {
+    this.item = item;
+  }
+
+  getInvoice() {
+    return this.invoice;
+  }
+
+  setInvoice(invoice: Invoice) {
+    this.invoice = invoice;
   }
 
   getInvoices() {
@@ -44,12 +53,12 @@ export class InvoiceSession {
     let invoices: Array<Invoice> = [];
     let invoicesR: Array<Invoice> = [];
 
-    invoices.push({ "id": 1, "number": "004445", "date": "25/11/2017", "detail": 1, "items" : [] });
-    invoices.push({ "id": 2, "number": "004444", "date": "20/11/2017", "detail": 2, "items" : [] });
-    invoices.push({ "id": 3, "number": "004443", "date": "18/11/2017", "detail": 1, "items" : [] });
+    invoices.push({ "id": 1, "number": "004445", "date": "25/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
+    invoices.push({ "id": 2, "number": "004444", "date": "20/11/2017", "detail": 2, "nick" : "Master Alimentos", "items" : [] });
+    invoices.push({ "id": 3, "number": "004443", "date": "18/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
 
-    invoicesR.push({ "id": 6, "number": "004438", "date": "20/10/2017", "detail": 2, "items" : [] });
-    invoicesR.push({ "id": 7, "number": "004436", "date": "18/10/2017", "detail": 1, "items" : [] });
+    invoicesR.push({ "id": 6, "number": "004438", "date": "20/10/2017", "detail": 2, "nick" : "Master Alimentos", "items" : [] });
+    invoicesR.push({ "id": 7, "number": "004436", "date": "18/10/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
 
     this.invoices = invoices;
     this.invoicesR = invoicesR;

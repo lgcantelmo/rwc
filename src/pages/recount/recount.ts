@@ -1,11 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
 import { RecountsPage } from '../recounts/recounts';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
+import { Invoice } from '../../models/invoice/invoice';
+import { Item } from '../../models/item/item';
+import { InvoiceSession } from '../../sessions/invoice/invoice';
 
 @Component({
   selector: 'page-recount',
@@ -18,7 +21,6 @@ export class RecountPage {
   
   @ViewChild('barcodeInput') barcodeInput;
 
-  description: String = "";
   countPerBox: boolean = false;
   boxQty: Number;
   unitQty: Number;
@@ -28,12 +30,14 @@ export class RecountPage {
   maxYear: Number;
 
   private dto: InvoiceItem = new InvoiceItem();
+  private invoice: Invoice;
+  private item: Item;
   
   constructor(public nav: NavController, 
-    private param: NavParams,
     private global: GlobalView,
     private alertCtrl: AlertController,
     private userSession: UserSession,
+    private invoiceSession: InvoiceSession,
     private invoiceProvider: InvoiceProvider) {
       let now = new Date();
       this.minYear = now.getFullYear();
@@ -41,10 +45,11 @@ export class RecountPage {
   }
 
   ionViewCanEnter() {
-    let item = this.param.get('item');
-    this.dto.invoiceId = this.param.get('invoiceId');
-    this.dto.itemId = item.id;
-    this.description = item.description;
+    this.item = this.invoiceSession.getItem();
+    this.invoice = this.invoiceSession.getInvoice();
+
+    this.dto.invoiceId = this.invoice.id;
+    this.dto.itemId = this.item.id;
   }    
 
   saveItem() {
@@ -76,7 +81,7 @@ export class RecountPage {
     this.dto.qty = qty;
     this.dto.validate = this.validate;
 
-    this.invoiceProvider.save_item( this.dto ).subscribe(
+    this.invoiceProvider.save_item_recount( this.dto ).subscribe(
       data => {
 
         const response = JSON.parse((data as any)._body);

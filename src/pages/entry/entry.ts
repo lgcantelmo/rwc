@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoicesPage } from '../invoices/invoices';
@@ -34,7 +34,6 @@ export class EntryPage {
   private invoice: Invoice;
 
   constructor(public nav: NavController, 
-    private param: NavParams,
     private global: GlobalView,
     private alertCtrl: AlertController,
     private userSession: UserSession,

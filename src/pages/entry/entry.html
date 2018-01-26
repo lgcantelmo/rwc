@@ -9,21 +9,21 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <p style="color:#000000;">
-    <strong>Nº da nota: </strong> {{invoice.number}} <br>
-    <strong>Data de Entrada: </strong> {{invoice.date}}<br>
-    <strong>Empresa: </strong> {{invoice.nick}} <br>
-  <p>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Nº da nota:       </strong> {{invoice.number}}  <br>
+    <strong>Data de Entrada:  </strong> {{invoice.date}}    <br>
+    <strong>Empresa:          </strong> {{invoice.nick}}    <br>
+  </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
-    <p style="color:#000000;">
+    <p style="color:#000000; font-size: 18px">
       <strong>
         1º) Informe o código abaixo:
       </strong>    
-    <p>
+    </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
+      <ion-input style="font-size: 18px" type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
     </ion-item>
     <div class="spacer" style="width:300px;height:5px;"></div>
     <button ion-button color="assertive" block icon-left on-click="searchItem()">
@@ -31,42 +31,40 @@
       Consultar
     </button>
     <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;font-size:10px;">
+      <p style="color:#000000; font-size:12px;">
         Se preferir, identifique o código de barras através do leitor.
       </p>
-      <p style="color:#000000;" [hidden]="!loadedItem">
-        <strong>Item encontrado:</strong>
-        <br>
-        <strong>{{description}}</strong>
+      <p style="color:#000000; font-size: 18px" [hidden]="!loadedItem">
+        <strong>Item: </strong>{{description}}
       </p>  
     </div>
   </div>  
-  <div class="spacer" style="width:300px;height:10px;"></div>
-  <div class="div-box" style="padding-bottom:15px" [hidden]="!loadedItem">    
-    <p style="color:#000000;">
+  <div class="spacer" style="width:300px; height:10px;"></div>
+  <div class="div-box" style="padding-bottom:18px" [hidden]="!loadedItem">    
+    <p style="color:#000000; font-size: 18px">
       <strong>
         2º) Realize a contagem:
       </strong>
     <p>    
-    <ion-item style="background-color: rgb(223, 222, 222);">
+    <ion-item style="background-color: rgb(223, 222, 222); font-size: 18px">
       <ion-label>
         Contar por caixa
       </ion-label>
       <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}" [disabled]="!loadedItem"></ion-toggle>
     </ion-item> 
-    <ion-item [hidden]="!countPerBox">
+    <ion-item [hidden]="!countPerBox" style="font-size: 18px">
       <ion-label>
         Qtd. de caixas
       </ion-label>
       <ion-input type="number" pattern="[0-9]*" [(ngModel)]="boxQty" [ngModelOptions]="{standalone: true}" [disabled]="!loadedItem"></ion-input>
     </ion-item>
-    <ion-item >
+    <ion-item style="font-size: 18px">
       <ion-label>
         {{ countPerBox ? "Qtd. unit. por caixa" : "Qtd unitária" }}
       </ion-label>
       <ion-input type="number" pattern="[0-9]*" [(ngModel)]="unitQty" [ngModelOptions]="{standalone: true}" [disabled]="!loadedItem"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item style="font-size: 18px">
       <ion-label>
         Validade
       </ion-label>
@@ -87,12 +85,14 @@
           Voltar
         </button>
       </ion-col>
+      <!--
       <ion-col>
         <button ion-button color="primary" full icon-left style="border-radius:0px 0px 0px 0px;" on-click="closeInvoice()">
           <ion-icon name="checkbox-outline"></ion-icon>
           Finalizar Nota
         </button>
       </ion-col>
+      -->
     </ion-row>
     <ion-row>
         <ion-col>
@@ -102,5 +102,5 @@
           </button>
         </ion-col>
       </ion-row>
-  </ion-grid>  
+  </ion-grid>    
 </ion-content>

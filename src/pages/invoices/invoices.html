@@ -9,31 +9,35 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <ion-list>
+  <ion-list class="list-custom">
     <ion-item text-wrap on-click="toggleLevel1(0)" [ngClass]="'active: isLevel1Shown(0)'">
-      <ion-icon color="success" item-left [name]="isLevel1Shown(0) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
-      <strong>Notas para conferência</strong>
-      <ion-badge item-right *ngIf="invoices != null">{{invoices.length}}</ion-badge>
-      <ion-list  *ngIf="isLevel1Shown(0)">
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(0) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong style="font-size: 18px">Notas para conferência</strong>
+        <ion-badge item-right *ngIf="invoices != null">{{invoices.length}}</ion-badge>
+      </div>      
+      <ion-list class="list-custom" *ngIf="isLevel1Shown(0)">        
         <ion-item color="none" *ngFor="let invoice of invoices" on-click="goToEntry(invoice.id)" text-wrap>
-          <strong>{{invoice.number}}</strong>
-          <p>{{invoice.nick}}</p>          
-          <p>{{invoice.date}}</p>
-          <p item-right>{{invoice.detail == 1 e 2 ? "Conferir 1" : "Conferir 2"}}</p>
+          <strong style="font-size: 18px">{{invoice.number}}</strong>
+          <p style="font-size: 18px">{{invoice.nick}}</p>          
+          <p style="font-size: 14px">{{invoice.date}}</p>
+          <p style="font-size: 11px" item-right>{{invoice.detail == 1 ? "Conferir 1 e 2" : "Conferir 2"}}</p>
           <ion-icon name="arrow-round-forward" item-right></ion-icon>
-        </ion-item>
-      </ion-list>
+        </ion-item>     
+      </ion-list>   
     </ion-item>
 
     <ion-item text-wrap on-click="toggleLevel1(1)" [ngClass]="'active: isLevel1Shown(1)'">
-      <ion-icon color="success" item-left [name]="isLevel1Shown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
-      <strong>Notas para reconferência</strong>   
-      <ion-badge color="assertive" item-right *ngIf="invoicesR != null">{{invoicesR.length}}</ion-badge>   
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong style="font-size: 18px">Notas para reconferência</strong>   
+        <ion-badge color="assertive" item-right *ngIf="invoicesR != null">{{invoicesR.length}}</ion-badge>   
+      </div>
       <ion-list *ngIf="isLevel1Shown(1)">
         <ion-item color="none" *ngFor="let invoice of invoicesR" on-click="goToRecounts(invoice.id)" text-wrap>
-          <strong>{{invoice.number}}</strong>
-          <p>{{invoice.nick}}</p>
-          <h5>{{invoice.date}}</h5>
+          <strong style="font-size: 18px">{{invoice.number}}</strong>
+          <p style="font-size: 18px">{{invoice.nick}}</p>
+          <p style="font-size: 14px">{{invoice.date}}</p>
           <ion-icon name="arrow-round-forward" item-right></ion-icon>
         </ion-item>
       </ion-list>

@@ -190,7 +190,6 @@ export class RecountPage {
       title: 'Registrar observação',
       inputs: [
         {
-          label: "Observação",
           value: ""
         }
         ],
@@ -232,7 +231,8 @@ export class RecountPage {
             );
           }
         }
-      ]
+      ],
+      cssClass: 'alert-message'
     });
     prompt.present();
   }

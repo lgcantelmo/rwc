@@ -9,38 +9,38 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <p style="color:#000000;">
-    <strong>Nº da nota: </strong> {{invoice.number}} <br>
-    <strong>Data de Entrada: </strong> {{invoice.date}}<br>
-    <strong>Empresa: </strong> {{invoice.nick}} <br>
-    <strong>Item: </strong> {{item.description}}
-  <p>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Nº da nota:       </strong> {{invoice.number}}  <br>
+    <strong>Data de Entrada:  </strong> {{invoice.date}}    <br>
+    <strong>Empresa:          </strong> {{invoice.nick}}    <br>
+    <strong>Item:             </strong> {{item.description}}
+  </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">   
-    <p style="color:#000000;">
+    <p style="color:#000000; font-size: 18px">
       <strong>
         Realize a recontagem:
       </strong>
     <p>   
-    <ion-item style="background-color: rgb(223, 222, 222);">
+    <ion-item style="background-color: rgb(223, 222, 222); font-size: 18px">
         <ion-label>
           Contar por caixa
         </ion-label>
         <ion-toggle color="assertive" [(ngModel)]="countPerBox" [ngModelOptions]="{standalone: true}"></ion-toggle>
       </ion-item> 
-    <ion-item [hidden]="!countPerBox">
+    <ion-item [hidden]="!countPerBox" style="font-size: 18px">
       <ion-label>
         Qtd. de caixas
       </ion-label>
       <ion-input type="number" pattern="[0-9]*" [(ngModel)]="boxQty" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-    <ion-item >
+    <ion-item style="font-size: 18px">
       <ion-label>
         {{ countPerBox ? "Qtd. unit. por caixa" : "Qtd unitária" }}
       </ion-label>
       <ion-input type="number" pattern="[0-9]*" [(ngModel)]="unitQty" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item style="font-size: 18px">
       <ion-label>
         Validade
       </ion-label>
@@ -61,12 +61,14 @@
           Voltar
         </button>
       </ion-col>
+      <!--
       <ion-col>
         <button ion-button color="primary" full icon-left style="border-radius:0px 0px 0px 0px;" on-click="closeInvoice()">
           <ion-icon name="checkbox-outline"></ion-icon>
           Finalizar Nota
         </button>
       </ion-col>
+      -->
     </ion-row>
     <ion-row>
         <ion-col>

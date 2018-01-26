@@ -9,15 +9,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <div class="show-list-numbers-and-dots" [hidden]="items.length != 0">
-      <strong>
-        Itens para reconferência
-      </strong>
+  <div class="show-list-numbers-and-dots">
+      <strong style="font-size: 18px">Itens para reconferência</strong>
   </div>
-  <ion-list>
+  <ion-list class="list-custom">
     <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
-      <h3>{{item.code}}</h3>
-      <p>{{item.description}}</p>
+      <strong style="font-size: 18px">{{item.code}}</strong>
+      <p style="font-size: 18px">{{item.description}}</p>
       <ion-icon name="arrow-round-forward" item-right></ion-icon>
     </ion-item>
   </ion-list>

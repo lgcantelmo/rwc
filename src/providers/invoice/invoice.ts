@@ -33,13 +33,18 @@ export class InvoiceProvider {
     return this.http.post(url, JSON.stringify({}));
   }
 
-  save_item(dto: InvoiceItem, detail: Number) {
-    var url = GlobalDefinitions.server_url + "/invoice/save-pointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.qty + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
+  completed_invoice(dto: InvoiceItem) {
+    var url = GlobalDefinitions.server_url + "/invoice/completed-invoice.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  save_item(dto: InvoiceItem) {
+    var url = GlobalDefinitions.server_url + "/invoice/save-pointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&userId=" + dto.userId + "&qty=" + dto.getFinalQty() + "&validate=" + dto.validate + "&sendCount2=" + dto.sendCount2 + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
   save_item_recount(dto: InvoiceItem) {
-    var url  = GlobalDefinitions.server_url + "/invoice/save-repointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.qty + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
+    var url  = GlobalDefinitions.server_url + "/invoice/save-repointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.getFinalQty() + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

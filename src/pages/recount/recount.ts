@@ -78,7 +78,7 @@ export class RecountPage {
     else
       qty = Number(this.unitQty);
 
-    this.dto.qty = qty;
+    //this.dto.qty = qty;
     this.dto.validate = this.validate;
 
     this.invoiceProvider.save_item_recount( this.dto ).subscribe(

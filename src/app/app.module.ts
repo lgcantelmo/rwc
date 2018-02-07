@@ -14,7 +14,11 @@ import { ShoppingPage } from '../pages/shopping/shopping';
 import { ShoppingsPage } from '../pages/shoppings/shoppings';
 import { SalesPage } from '../pages/sales/sales';
 import { InventoryPage } from '../pages/inventory/inventory';
-import { EntryPage } from '../pages/entry/entry';
+import { EntryStep1Page } from '../pages/entry1/entry1';
+import { EntryStep2Page } from '../pages/entry2/entry2';
+import { EntryStep3Page } from '../pages/entry3/entry3';
+import { EntryStep4Page } from '../pages/entry4/entry4';
+import { EntryEndPage } from '../pages/entry-end/entry-end';
 import { InvoicesPage } from '../pages/invoices/invoices';
 import { LoginPage } from '../pages/login/login';
 import { ConfigPage } from '../pages/config/config';
@@ -44,7 +48,11 @@ import { GlobalView } from './global.view';
     RecountsPage,
     SalesPage,
     InventoryPage,
-    EntryPage,
+    EntryStep1Page,
+    EntryStep2Page,
+    EntryStep3Page,
+    EntryStep4Page,
+    EntryEndPage,
     InvoicesPage,
     LoginPage,
     ConfigPage
@@ -69,7 +77,11 @@ import { GlobalView } from './global.view';
     RecountsPage,
     SalesPage,
     InventoryPage,
-    EntryPage,
+    EntryStep1Page,
+    EntryStep2Page,
+    EntryStep3Page,
+    EntryStep4Page,
+    EntryEndPage,
     InvoicesPage,
     LoginPage,
     ConfigPage

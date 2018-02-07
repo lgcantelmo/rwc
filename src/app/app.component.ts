@@ -62,10 +62,16 @@ export class RWC {
 
         user.name = val;
 
-        this.userSession.setUser(user);
-        this.nav.setRoot(HomePage);
-      });
+        this.storage.get('user.id').then((val) => {
+          if (val == null)
+            val = "";
+  
+          user.id = Number(val);
 
+          this.userSession.setUser(user);
+          this.nav.setRoot(HomePage);
+        });
+      });
     });
   }
 

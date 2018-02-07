@@ -23,15 +23,19 @@ export class UserSession {
   }
 
   login(user: User) {
+    this.storage.set('user.id', user.id);
     this.storage.set('user.login', user.login);
     this.storage.set('user.name', user.name);
+    this.storage.set('user.password', user.password);
 
     this.user = user;
   }
 
-  logout() {
+  logout() {    
+    this.storage.remove('user.id');
     this.storage.remove('user.login');
     this.storage.remove('user.name');
+    this.storage.remove('user.password');
 
     this.itemSession.clear();
     

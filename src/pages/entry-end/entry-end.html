@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Confirmação
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Nº da nota:       </strong> {{invoice.number}}  <br>
+    <strong>Data de Entrada:  </strong> {{invoice.date}}    <br>
+    <strong>Empresa:          </strong> {{invoice.nick}}    <br>
+  </p>
+  <div class="spacer" style="width:300px;height:5px;"></div>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Item:             </strong> {{item.description}}  <br>
+    <strong>Código de barras: </strong> {{item.barcode}}      <br>
+  </p>
+  <div class="spacer" style="width:300px;height:5px;"></div>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Quantidade de caixas:    </strong> {{dto.boxQty}}  <br>
+    <strong>Quantidade unitária por caixa:   </strong> {{dto.unitQty}} <br>
+    <strong>Quantidade total contada:       </strong> {{dto.boxQty * dto.unitQty}} <br>
+    <strong>Validade:               </strong> {{dto.validate != null ? dto.validate : '-'}} <br>
+  </p>
+  <div class="spacer" style="width:300px;height:20px;"></div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="stable" full icon-left on-click="return()">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+          <p style="font-size: 15px"> Voltar </p>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="stable" full icon-left on-click="saveObservation()">
+          <ion-icon name="checkbox-outline"></ion-icon>
+          Observações
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="assertive" full icon-left on-click="save()">
+          <p style="font-size: 15px"> Finalizar Contagem </p>
+          <ion-icon name="save"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>    
+</ion-content>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Invoice } from '../../models/invoice/invoice';
-import { EntryPage } from '../entry/entry';
+import { EntryStep1Page } from '../entry1/entry1';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { RecountsPage } from '../recounts/recounts';
@@ -17,7 +17,8 @@ import { GlobalView } from '../../app/global.view';
 })
 export class InvoicesPage {
 
-  invoices: Array<Invoice> = [];
+  invoices1: Array<Invoice> = [];
+  invoices2: Array<Invoice> = [];
   invoicesR: Array<Invoice> = [];
   showLevel1 = null;
 
@@ -35,19 +36,24 @@ export class InvoicesPage {
   refresh() {
     if (this.userSession.isTesting()) {
       this.invoiceSession.loadTestInvoices();
-      this.invoices = this.invoiceSession.getInvoices();
+      this.invoices1 = this.invoiceSession.getInvoices1();
+      this.invoices1 = this.invoiceSession.getInvoices2();
       this.invoicesR = this.invoiceSession.getInvoicesR();
     }
     else {
       this.searchInvoices();
     }
+
+    this.invoiceSession.setItem(null);
+    this.invoiceSession.setInvoice(null);
+    this.invoiceSession.setInvoiceItem(null);
   }
 
-  goToEntry(id: Number) {
+  goToEntry1(id: Number) {
 
     let invoice: Invoice  = null;
-    for (let i = 0; i < this.invoices.length; i++) {
-      let loaded = this.invoices[i];
+    for (let i = 0; i < this.invoices1.length; i++) {
+      let loaded = this.invoices1[i];
       if (loaded.id == id) {
         invoice = loaded;
         break;
@@ -55,7 +61,22 @@ export class InvoicesPage {
     }
 
     this.invoiceSession.setInvoice(invoice);
-    this.nav.push(EntryPage);
+    this.nav.push(EntryStep1Page);
+  }
+
+  goToEntry2(id: Number) {
+
+    let invoice: Invoice  = null;
+    for (let i = 0; i < this.invoices2.length; i++) {
+      let loaded = this.invoices2[i];
+      if (loaded.id == id) {
+        invoice = loaded;
+        break;
+      }
+    }
+
+    this.invoiceSession.setInvoice(invoice);
+    this.nav.push(EntryStep1Page);
   }
     
   goToRecounts(id: Number) {
@@ -86,7 +107,8 @@ export class InvoicesPage {
           return;
         }
 
-        this.invoices = response.invoices;
+        this.invoices1 = response.invoices1;
+        this.invoices2 = response.invoices2;
         this.invoicesR = response.invoicesR;    
       },
       error => {

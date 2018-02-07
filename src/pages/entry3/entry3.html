@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Entrada de Mercadoria
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <p style="color:#000000; font-size: 18px">
+    <strong>Item:                 </strong> {{item.description}}  <br>
+    <strong>Código de barras:     </strong> {{item.barcode}}      <br>
+  </p>
+  <div class="spacer" style="width:300px;height:10px;"></div>
+  <div class="div-box">
+    <p style="color:#000000; font-size: 18px">
+      <strong>
+        3º) Informe a quantidade por caixa:
+      </strong>    
+    </p>
+    <ion-item>
+      <ion-label></ion-label>
+      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" #unitQtyInput placeholder="Qtd de caixas" [(ngModel)]="dto.unitQty" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
+    </ion-item>
+  </div>    
+  <div class="spacer" style="width:300px;height:30px;"></div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="stable" full icon-left on-click="return()">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+          <p style="font-size: 15px"> Voltar </p>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="assertive" full icon-right on-click="nextStep()">
+          <p style="font-size: 15px"> Próximo </p>
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>    
+</ion-content>

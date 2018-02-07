@@ -2,23 +2,37 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Invoice } from '../../models/invoice/invoice';
 import { Item } from '../../models/item/item';
+import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 
 @Injectable()
 export class InvoiceSession {
 
-  invoices: Array<Invoice>;
+  /* Listagens em me memoria (confirmar se tem necessidade manter isso aqui*/
+  invoices1: Array<Invoice>;
+  invoices2: Array<Invoice>;
   invoicesR: Array<Invoice>;
   items: Array<Item>;
   
+
   invoice: Invoice;
   item: Item;
+  dto: InvoiceItem;
 
   constructor() {
   }
 
   clear() {
-    this.invoices = [];
+    this.invoices1 = [];
+    this.invoices2 = [];
     this.invoicesR = [];
+  }
+
+  getInvoiceItem() {
+    return this.dto;
+  }
+
+  setInvoiceItem(dto: InvoiceItem) {
+    this.dto = dto;
   }
 
   getItem() {
@@ -37,8 +51,12 @@ export class InvoiceSession {
     this.invoice = invoice;
   }
 
-  getInvoices() {
-    return this.invoices;
+  getInvoices1() {
+    return this.invoices1;
+  }
+
+  getInvoices2() {
+    return this.invoices2;
   }
 
   getInvoicesR() {
@@ -50,17 +68,20 @@ export class InvoiceSession {
   }
 
   loadTestInvoices() {
-    let invoices: Array<Invoice> = [];
+    let invoices1: Array<Invoice> = [];
+    let invoices2: Array<Invoice> = [];
     let invoicesR: Array<Invoice> = [];
 
-    invoices.push({ "id": 1, "number": "004445", "date": "25/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
-    invoices.push({ "id": 2, "number": "004444", "date": "20/11/2017", "detail": 2, "nick" : "Master Alimentos", "items" : [] });
-    invoices.push({ "id": 3, "number": "004443", "date": "18/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
+    invoices1.push({ "id": 1, "number": "004445", "date": "25/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
+    invoices1.push({ "id": 2, "number": "004443", "date": "18/11/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
 
-    invoicesR.push({ "id": 6, "number": "004438", "date": "20/10/2017", "detail": 2, "nick" : "Master Alimentos", "items" : [] });
-    invoicesR.push({ "id": 7, "number": "004436", "date": "18/10/2017", "detail": 1, "nick" : "Master Alimentos", "items" : [] });
+    invoices2.push({ "id": 3, "number": "004444", "date": "20/11/2017", "detail": 2, "nick" : "Master Alimentos", "items" : [] });
 
-    this.invoices = invoices;
+    invoicesR.push({ "id": 6, "number": "004438", "date": "20/10/2017", "detail": 3, "nick" : "Master Alimentos", "items" : [] });
+    invoicesR.push({ "id": 7, "number": "004436", "date": "18/10/2017", "detail": 3, "nick" : "Master Alimentos", "items" : [] });
+
+    this.invoices1 = invoices1;
+    this.invoices2 = invoices2;
     this.invoicesR = invoicesR;
 
     let items: Array<Item> = [];

@@ -137,11 +137,10 @@ export class EntryEndPage {
   private saveItem() {
     this.invoiceProvider.save_item( this.dto ).subscribe(
       data => {
-
-        this.global.finalizeProcess();
       
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
+          this.global.finalizeProcess();
           this.global.presentToast(response.msg, 'error');
           return;
         }
@@ -153,6 +152,7 @@ export class EntryEndPage {
         }
         else {
           // navega para continuar a contagem
+          this.global.finalizeProcess();
           this.global.presentToast("Apontamento salvo com sucesso!", 'success');
           this.invoiceSession.clear();
           this.nav.setRoot(EntryStep1Page);
@@ -171,8 +171,9 @@ export class EntryEndPage {
     
     this.invoiceProvider.save_notfound_item( this.dto, this.item.description ).subscribe(
       data => {      
+
         this.global.finalizeProcess();
-        
+
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
           this.global.presentToast(response.msg, 'error');
@@ -194,8 +195,6 @@ export class EntryEndPage {
   private saveRecountItem() {
     this.invoiceProvider.save_item_recount( this.dto ).subscribe(
       data => {
-
-        this.global.finalizeProcess();
       
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {

@@ -35,6 +35,7 @@ export class RecountsPage {
   refresh() {
     if (this.userSession.isTesting()) {
       this.items = this.invoiceSession.getItems();
+      this.global.finalizeProcess();
     }
     else {
       this.searchInvoiceItems();

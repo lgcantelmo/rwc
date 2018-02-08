@@ -41,7 +41,7 @@ export class EntryStep1Page {
   ionViewWillEnter() {
     setTimeout(() => {
       this.barcodeInput.setFocus();
-    }, 150);
+    }, 250);
   }
 
   selectAll(event): void {

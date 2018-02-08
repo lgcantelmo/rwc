@@ -6,6 +6,7 @@ import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { Item } from '../../models/item/item';
 import { EntryStep1Page } from '../entry1/entry1';
 import { EntryStep3Page } from '../entry3/entry3';
+import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
 
 @Component({
   selector: 'page-entry2',
@@ -52,11 +53,21 @@ export class EntryStep2Page {
   }
 
   return () {
-    this.nav.push(EntryStep1Page)
-      .then(() => {
-        const startIndex = this.nav.getActive().index - 1;
-        this.nav.remove(startIndex, 1);
-      });
+
+    if( this.item.id != -1 ) {
+      this.nav.push(EntryStep1Page)
+        .then(() => {
+          const startIndex = this.nav.getActive().index - 1;
+          this.nav.remove(startIndex, 1);
+        });
+    }
+    else {
+      this.nav.push(EntryNotFoundStepPage)
+        .then(() => {
+          const startIndex = this.nav.getActive().index - 1;
+          this.nav.remove(startIndex, 1);
+        });
+    }
   }
 
 }

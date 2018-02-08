@@ -33,6 +33,7 @@ import { ItemSession } from '../sessions/item/item';
 import { InvoiceSession } from '../sessions/invoice/invoice';
 import { UserSession } from '../sessions/user/user';
 import { GlobalView } from './global.view';
+import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { GlobalView } from './global.view';
     EntryStep3Page,
     EntryStep4Page,
     EntryEndPage,
+    EntryNotFoundStepPage,
     InvoicesPage,
     LoginPage,
     ConfigPage
@@ -82,6 +84,7 @@ import { GlobalView } from './global.view';
     EntryStep3Page,
     EntryStep4Page,
     EntryEndPage,
+    EntryNotFoundStepPage,
     InvoicesPage,
     LoginPage,
     ConfigPage

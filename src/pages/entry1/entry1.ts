@@ -8,6 +8,8 @@ import { GlobalView } from '../../app/global.view';
 import { Invoice } from '../../models/invoice/invoice';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { EntryStep2Page } from '../entry2/entry2';
+import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
+import { Item } from '../../models/item/item';
 
 @Component({
   selector: 'page-entry1',
@@ -63,7 +65,10 @@ export class EntryStep1Page {
 
     if (this.userSession.isTesting()) {
       if (this.barcode == "xxx") {
-        //this.saveNotFoundItem();
+        let item = this.invoiceSession.getItem();
+        item.id = -1;
+        this.invoiceSession.setItem(item);
+        this.goToNotFoundItem();
         return;
       }
       this.invoiceSession.setInvoiceItem(new InvoiceItem());
@@ -79,15 +84,21 @@ export class EntryStep1Page {
 
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
-          /*
-          if (response.showModalNotFound == true) {
-            this.saveNotFoundItem();
+          
+          if (response.itemNotFound == true) {
+
+            let  item = new Item();
+            item.id = -1;
+            item.barcode = this.barcode;
+
+            this.invoiceSession.setItem(item);
+            this.invoiceSession.setInvoiceItem(new InvoiceItem());
+            this.goToNotFoundItem();
             return;
           }
 
           this.global.presentToast(response.msg, 'error');
           return;
-          */
         }
 
         this.invoiceSession.setItem(response.item);
@@ -102,15 +113,25 @@ export class EntryStep1Page {
 
   }
 
+  private goToNotFoundItem() {
+    this.nav.push(EntryNotFoundStepPage);
+  }
+
   private goToStep2() {
     this.nav.push(EntryStep2Page);
   }
 
   nextStep() {
-    if (this.invoiceSession.getItem() == null)
+    let item = this.invoiceSession.getItem();
+
+    if ( item == null ) 
       this.searchItem();
-    else
+
+    else if( item.id != -1 )
       this.goToStep2();
+
+    else
+      this.goToNotFoundItem();
   }
 
   return() {

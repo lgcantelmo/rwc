@@ -48,8 +48,8 @@ export class InvoiceProvider {
     return this.http.post(url, JSON.stringify({}));
   }
 
-  save_notfound_item(invoiceId: Number, description: string, qty: Number, validate: string, observation: string) {
-    var url = GlobalDefinitions.server_url + "/invoice/save-notfound.json?invoiceId=" + invoiceId + "&description=" + description + "&qty=" + qty + "&validate=" + validate + "&observation=" + observation + "&key=" + GlobalDefinitions.private_key;
+  save_notfound_item(dto: InvoiceItem, description: string) {
+    var url = GlobalDefinitions.server_url + "/invoice/save-notfound.json?invoiceId=" + dto.invoiceId + "&description=" + description + "&qty=" + dto.getFinalQty() + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
   

@@ -108,13 +108,20 @@ export class EntryEndPage {
         this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-
   }
 
   private saveCount() {
 
     this.global.waitingProcess();
 
+    if( this.item.id != -1 )
+      this.saveItem();
+    else
+      this.saveNotFoundItem();
+
+  }
+
+  private saveItem() {
     this.invoiceProvider.save_item( this.dto ).subscribe(
       data => {
 
@@ -146,8 +153,36 @@ export class EntryEndPage {
         this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
-
   }
+    
+  private saveNotFoundItem () {    
+
+    this.dto.invoiceId = this.invoice.id;
+    
+    this.invoiceProvider.save_notfound_item( this.dto, this.item.description ).subscribe(
+      data => {      
+        this.global.finalizeProcess();
+        
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.global.presentToast(response.msg, 'error');
+          return;
+        }
+
+        // limpa os dados da sessao 
+        this.invoiceSession.setInvoiceItem(new InvoiceItem());
+        this.invoiceSession.setItem(null);
+
+        // navega para continua a contagem
+        this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+        this.nav.setRoot(EntryStep1Page);
+      },
+      error => {
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+      }
+    );
+  } 
 
   return () {
     this.nav.push(EntryStep4Page)
@@ -207,88 +242,6 @@ export class EntryEndPage {
       ]
     });
     prompt.present();
-  }
-    
-  /*
-  saveNotFoundItem () {    
-    let prompt = this.alertCtrl.create({
-      title: 'Item não encontrado!',
-      inputs: [
-        {
-          placeholder: "Descrição",
-          value: ""
-        },
-        {
-          placeholder: "Quantidade",
-          value: "",
-          type: "number"
-        },
-        {
-          placeholder: "Validade",
-          value: "",
-          type: "date"
-        },
-        {
-          placeholder: "Observações",
-          value: ""
-        }
-        ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-          }
-        },
-        {
-          text: 'Salvar',
-          handler: data => {
-
-            let description = data[0];
-            if( description.length == 0 ) {
-              this.global.presentToast("Descrição obrigatória", 'error');
-              return;
-            }
-
-            if(  data[1].length == 0 ) {
-              this.global.presentToast("Quantidade obrigatória", 'error');
-              return;
-            }
-
-            let qty: Number = Number(data[1]);
-            if(  qty <= 0 ) {
-              this.global.presentToast("Quantidade inválida", 'error');
-              return;
-            }
-
-            let validate =  data[2];
-            let observation =  data[3];
-
-            // envia para o servidor
-            this.global.waitingProcess();
-
-            this.invoiceProvider.save_notfound_item( this.dto.invoiceId, description, qty, validate, observation ).subscribe(
-              data => {
-                this.global.finalizeProcess();
-        
-                const response = JSON.parse((data as any)._body);
-                if (response.ok == false) {
-                  this.global.presentToast(response.msg, 'error');
-                  return;
-                }
-        
-                this.global.presentToast("Apontamento salvo com sucesso!", 'success');
-              },
-              error => {
-                this.global.finalizeProcess();
-                this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
-              }
-            );
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }   
-  */
+  }  
 
 }

@@ -86,14 +86,14 @@ export class InvoiceSession {
 
     let items: Array<Item> = [];
     
-    let item: Item = new Item();
-    item.id = 24147;
-    item.code = "19261";
-    item.description = "FUBA MIMOSO SINHA FINO 500G *REC09)*****";
-    item.detail = 1;
+    this.item = new Item();
+    this.item.id = 24147;
+    this.item.code = "19261";
+    this.item.description = "FUBA MIMOSO SINHA FINO 500G *REC09)*****";
+    this.item.detail = 1;
 
     for(let i=0; i<5; i++) {
-      items.push(item);
+      items.push(this.item);
     }
 
     this.items = items;

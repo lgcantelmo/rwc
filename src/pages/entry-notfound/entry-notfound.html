@@ -9,20 +9,19 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <p style="color:#000000; font-size: 18px">
-    <strong>Item:                 </strong> {{item.description}}  <br>
-    <strong>Código de barras:     </strong> {{item.barcode}}      <br>
+  <p style="color:#d6af00; font-size: 18px">
+    <strong>Item não encontrado! </strong> 
   </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
     <p style="color:#000000; font-size: 18px">
       <strong>
-        Informe a validate:
+        Informe a descrição:
       </strong>    
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="date" pattern="[0,1]\d\/\d\d\d\d" #validateInput [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
+      <ion-input style="font-size: 18px" type="text" #descriptionInput placeholder="Descrição" [(ngModel)]="item.description" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
     </ion-item>
   </div>    
   <div class="spacer" style="width:300px;height:30px;"></div>

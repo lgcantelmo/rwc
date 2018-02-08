@@ -3,10 +3,10 @@ import { NavController } from 'ionic-angular';
 import { UserSession } from '../../sessions/user/user';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { Item } from '../../models/item/item';
-import { RecountPage } from '../recount/recount';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
 import { Invoice } from '../../models/invoice/invoice';
+import { EntryStep2Page } from '../entry2/entry2';
 
 @Component({
   selector: 'page-recounts',
@@ -52,8 +52,9 @@ export class RecountsPage {
       }
     }
 
+    this.invoiceSession.clear();
     this.invoiceSession.setItem(item);
-    this.nav.push(RecountPage);
+    this.nav.push(EntryStep2Page);
   }
 
   searchInvoiceItems() {
@@ -71,7 +72,6 @@ export class RecountsPage {
         }
 
         this.items = response.items;
-
       },
       error => {
         this.global.finalizeProcess();

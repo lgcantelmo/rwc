@@ -6,7 +6,7 @@ export class Item {
 
    /* PRODUTO */
 
-  id: Number;
+  id: Number = -1;
   code: string;
   description: string;
   barcode: string;

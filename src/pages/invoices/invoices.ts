@@ -7,6 +7,7 @@ import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { RecountsPage } from '../recounts/recounts';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
+import { NavigatePages } from '../../app/navigate';
 
 @Component({
   selector: 'page-invoices',
@@ -60,7 +61,9 @@ export class InvoicesPage {
       }
     }
 
+    this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
+    this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
     this.nav.push(EntryStep1Page);
   }
 
@@ -75,7 +78,9 @@ export class InvoicesPage {
       }
     }
 
+    this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
+    this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
     this.nav.push(EntryStep1Page);
   }
     
@@ -89,7 +94,10 @@ export class InvoicesPage {
         break;
       }
     }
+    
+    this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
+    this.invoiceSession.setNavigate(NavigatePages.EntryRecountItem);
     this.nav.push(RecountsPage);
   }
     

@@ -44,7 +44,7 @@ export class InvoiceProvider {
   }
 
   save_item_recount(dto: InvoiceItem) {
-    var url  = GlobalDefinitions.server_url + "/invoice/save-repointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&qty=" + dto.getFinalQty() + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
+    var url  = GlobalDefinitions.server_url + "/invoice/save-repointing.json?itemId=" + dto.itemId + "&invoiceId=" + dto.invoiceId + "&userId=" + dto.userId + "&qty=" + dto.getFinalQty() + "&validate=" + dto.validate + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 

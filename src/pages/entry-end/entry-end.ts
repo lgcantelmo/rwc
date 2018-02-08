@@ -10,6 +10,8 @@ import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { Item } from '../../models/item/item';
 import { EntryStep1Page } from '../entry1/entry1';
 import { EntryStep4Page } from '../entry4/entry4';
+import { RecountsPage } from '../recounts/recounts';
+import { NavigatePages } from '../../app/navigate';
 
 @Component({
   selector: 'page-entry-end',
@@ -75,7 +77,7 @@ export class EntryEndPage {
         // close waiting...
         this.global.finalizeProcess();
         
-        if (response.completed) {
+        if (response.completed && this.invoice.detail == 1) {
 
           let prompt = this.alertCtrl.create({
             title: 'Confirmação!',
@@ -114,10 +116,21 @@ export class EntryEndPage {
 
     this.global.waitingProcess();
 
-    if( this.item.id != -1 )
-      this.saveItem();
-    else
-      this.saveNotFoundItem();
+    let navigate = this.invoiceSession.getNavigate();
+    switch( navigate ) {
+
+      case( NavigatePages.EntryNormalCounter ) :
+        this.saveItem();
+      break;
+
+      case( NavigatePages.EntryNotFoundItem ) :
+        this.saveNotFoundItem();
+      break;
+
+      case( NavigatePages.EntryRecountItem ) :
+        this.saveRecountItem();
+      break;
+    }
 
   }
 
@@ -139,12 +152,9 @@ export class EntryEndPage {
           this.nav.setRoot(InvoicesPage);          
         }
         else {
-          // limpa os dados da sessao 
-          this.invoiceSession.setInvoiceItem(new InvoiceItem());
-          this.invoiceSession.setItem(null);
-
-          // navega para continua a contagem
+          // navega para continuar a contagem
           this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+          this.invoiceSession.clear();
           this.nav.setRoot(EntryStep1Page);
         }
       },
@@ -169,12 +179,9 @@ export class EntryEndPage {
           return;
         }
 
-        // limpa os dados da sessao 
-        this.invoiceSession.setInvoiceItem(new InvoiceItem());
-        this.invoiceSession.setItem(null);
-
         // navega para continua a contagem
         this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+        this.invoiceSession.clear();
         this.nav.setRoot(EntryStep1Page);
       },
       error => {
@@ -183,6 +190,37 @@ export class EntryEndPage {
       }
     );
   } 
+
+  private saveRecountItem() {
+    this.invoiceProvider.save_item_recount( this.dto ).subscribe(
+      data => {
+
+        this.global.finalizeProcess();
+      
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.global.presentToast(response.msg, 'error');
+          return;
+        }
+        
+        if (response.finalized) {
+          // navega para a listagem de notas pendentes
+          this.global.presentToast("Apontamento salvo e nota finalizada!", 'success');
+          this.nav.setRoot(InvoicesPage);          
+        }
+        else {
+          // navega para listagem de itens a serem recontados
+          this.global.presentToast("Apontamento salvo com sucesso!", 'success');
+          this.invoiceSession.clear();
+          this.nav.setRoot(RecountsPage);
+        }
+      },
+      error => {
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+      }
+    );
+  }
 
   return () {
     this.nav.push(EntryStep4Page)
@@ -216,6 +254,8 @@ export class EntryEndPage {
               this.global.presentToast("Observação obrigatória", 'error');
               return;
             }
+
+            this.dto.invoiceId = this.invoice.id;
 
             // envia para o servidor
             this.global.waitingProcess();

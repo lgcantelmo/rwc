@@ -25,6 +25,7 @@ export class RWC {
 
   //rootPage: any = HomePage;
   rootPage: any = LoginPage;
+  version: string = GlobalDefinitions.version;
 
   constructor(
     public platform: Platform,

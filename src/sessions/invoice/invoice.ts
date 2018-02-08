@@ -13,18 +13,18 @@ export class InvoiceSession {
   invoicesR: Array<Invoice>;
   items: Array<Item>;
   
-
   invoice: Invoice;
   item: Item;
   dto: InvoiceItem;
+
+  navigate: Number;
 
   constructor() {
   }
 
   clear() {
-    this.invoices1 = [];
-    this.invoices2 = [];
-    this.invoicesR = [];
+    this.item = new Item();
+    this.dto = new InvoiceItem();
   }
 
   getInvoiceItem() {
@@ -49,6 +49,14 @@ export class InvoiceSession {
 
   setInvoice(invoice: Invoice) {
     this.invoice = invoice;
+  }
+
+  getNavigate() {
+    return this.navigate;
+  }
+
+  setNavigate(navigate: number) {
+    this.navigate = navigate;
   }
 
   getInvoices1() {

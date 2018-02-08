@@ -7,6 +7,8 @@ import { Item } from '../../models/item/item';
 import { EntryStep1Page } from '../entry1/entry1';
 import { EntryStep3Page } from '../entry3/entry3';
 import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
+import { RecountsPage } from '../recounts/recounts';
+import { NavigatePages } from '../../app/navigate';
 
 @Component({
   selector: 'page-entry2',
@@ -54,20 +56,35 @@ export class EntryStep2Page {
 
   return () {
 
-    if( this.item.id != -1 ) {
-      this.nav.push(EntryStep1Page)
-        .then(() => {
-          const startIndex = this.nav.getActive().index - 1;
-          this.nav.remove(startIndex, 1);
-        });
+    let navigate = this.invoiceSession.getNavigate();
+    switch( navigate ) {
+
+      case( NavigatePages.EntryNormalCounter ) :
+        this.nav.push(EntryStep1Page)
+          .then(() => {
+            const startIndex = this.nav.getActive().index - 1;
+            this.nav.remove(startIndex, 1);
+          });
+      break;
+
+      case( NavigatePages.EntryNotFoundItem ) :
+        this.nav.push(EntryNotFoundStepPage)
+          .then(() => {
+            const startIndex = this.nav.getActive().index - 1;
+            this.nav.remove(startIndex, 1);
+          });
+      break;
+
+      case( NavigatePages.EntryRecountItem ) :
+        this.nav.push(RecountsPage)
+          .then(() => {
+            const startIndex = this.nav.getActive().index - 1;
+            this.nav.remove(startIndex, 1);
+          });
+      break;
+      
     }
-    else {
-      this.nav.push(EntryNotFoundStepPage)
-        .then(() => {
-          const startIndex = this.nav.getActive().index - 1;
-          this.nav.remove(startIndex, 1);
-        });
-    }
+
   }
 
 }

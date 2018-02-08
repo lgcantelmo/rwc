@@ -27,6 +27,9 @@ export class EntryStep4Page {
   ionViewCanEnter() {    
     this.item = this.invoiceSession.getItem();
     this.dto = this.invoiceSession.getInvoiceItem();
+
+    if(this.dto.validate == null)
+      this.dto.validate = '';
   }    
 
   ionViewWillEnter() {
@@ -39,13 +42,22 @@ export class EntryStep4Page {
     event.target.select();
   }
 
+  private isNumber(keyCode) {
+    return (keyCode>47 && keyCode<58) || keyCode==8 || keyCode==0;
+  }
+
+  onKeyPress(keyCode)  {
+
+    if( this.isNumber(keyCode) == false )
+      return false;
+
+    let val = this.dto.validate;
+    if( val.length == 2 )
+      val += '/';
+    this.dto.validate = val;
+  }
+
   nextStep() {    
-
-    if(this.dto.validate != null) {
-      let validate = this.dto.validate;
-      this.dto.validate = this.datepipe.transform( validate, 'dd/MM/yyyy');
-    }
-
     this.invoiceSession.setInvoiceItem(this.dto);
     this.nav.push(EntryEndPage);
   }

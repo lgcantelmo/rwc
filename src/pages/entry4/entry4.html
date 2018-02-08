@@ -22,7 +22,7 @@
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="date" pattern="[0,1]\d\/\d\d\d\d" #validateInput [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
+      <ion-input style="font-size: 18px" type="text" maxlength="7" placeholder="MM/YYYY" #validateInput [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keypress)="onKeyPress($event.keyCode)" (keyup.enter)="nextStep()"></ion-input>
     </ion-item>
   </div>    
   <div class="spacer" style="width:300px;height:30px;"></div>

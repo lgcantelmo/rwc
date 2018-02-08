@@ -3,7 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
-
 import { RWC } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SearchItemPage } from '../pages/search-item/search-item';
@@ -19,21 +18,19 @@ import { EntryStep2Page } from '../pages/entry2/entry2';
 import { EntryStep3Page } from '../pages/entry3/entry3';
 import { EntryStep4Page } from '../pages/entry4/entry4';
 import { EntryEndPage } from '../pages/entry-end/entry-end';
+import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
 import { InvoicesPage } from '../pages/invoices/invoices';
 import { LoginPage } from '../pages/login/login';
 import { ConfigPage } from '../pages/config/config';
 import { RecountsPage } from '../pages/recounts/recounts';
-import { RecountPage } from '../pages/recount/recount';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { GlobalDefinitions } from './definitions';
 import { ItemSession } from '../sessions/item/item';
 import { InvoiceSession } from '../sessions/invoice/invoice';
 import { UserSession } from '../sessions/user/user';
 import { GlobalView } from './global.view';
-import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
+import { NavigatePages } from './navigate';
 
 @NgModule({
   declarations: [
@@ -45,7 +42,6 @@ import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
-    RecountPage,
     RecountsPage,
     SalesPage,
     InventoryPage,
@@ -75,7 +71,6 @@ import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
     OrdersPage,
     ShoppingPage,
     ShoppingsPage,
-    RecountPage,
     RecountsPage,
     SalesPage,
     InventoryPage,
@@ -97,7 +92,8 @@ import { EntryNotFoundStepPage } from '../pages/entry-notfound/entry-notfound';
     GlobalView,
     ItemSession,
     InvoiceSession,
-    UserSession
+    UserSession,
+    NavigatePages
   ]
 })
 export class AppModule {

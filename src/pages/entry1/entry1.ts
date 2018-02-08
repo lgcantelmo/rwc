@@ -9,7 +9,7 @@ import { Invoice } from '../../models/invoice/invoice';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { EntryStep2Page } from '../entry2/entry2';
 import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
-import { Item } from '../../models/item/item';
+import { NavigatePages } from '../../app/navigate';
 
 @Component({
   selector: 'page-entry1',
@@ -35,11 +35,7 @@ export class EntryStep1Page {
 
   ionViewCanEnter() {
     this.invoice = this.invoiceSession.getInvoice();
-
-    let item = this.invoiceSession.getItem();
-    if (item != null)
-      this.barcode = item.barcode;
-
+    this.barcode = this.invoiceSession.getItem().barcode;
   }
 
   ionViewWillEnter() {
@@ -65,9 +61,7 @@ export class EntryStep1Page {
 
     if (this.userSession.isTesting()) {
       if (this.barcode == "xxx") {
-        let item = this.invoiceSession.getItem();
-        item.id = -1;
-        this.invoiceSession.setItem(item);
+        this.invoiceSession.clear();
         this.goToNotFoundItem();
         return;
       }
@@ -85,14 +79,9 @@ export class EntryStep1Page {
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
           
-          if (response.itemNotFound == true) {
-
-            let  item = new Item();
-            item.id = -1;
-            item.barcode = this.barcode;
-
-            this.invoiceSession.setItem(item);
-            this.invoiceSession.setInvoiceItem(new InvoiceItem());
+          if (response.itemNotFound == true) {            
+            this.invoiceSession.clear();
+            this.invoiceSession.getItem().barcode = this.barcode;
             this.goToNotFoundItem();
             return;
           }
@@ -101,8 +90,8 @@ export class EntryStep1Page {
           return;
         }
 
+        this.invoiceSession.clear();
         this.invoiceSession.setItem(response.item);
-        this.invoiceSession.setInvoiceItem(new InvoiceItem());
         this.goToStep2();
       },
       error => {
@@ -114,6 +103,7 @@ export class EntryStep1Page {
   }
 
   private goToNotFoundItem() {
+    this.invoiceSession.setNavigate(NavigatePages.EntryNotFoundItem);
     this.nav.push(EntryNotFoundStepPage);
   }
 
@@ -122,16 +112,23 @@ export class EntryStep1Page {
   }
 
   nextStep() {
-    let item = this.invoiceSession.getItem();
 
-    if ( item == null ) 
-      this.searchItem();
+    let navigate = this.invoiceSession.getNavigate();
+    switch( navigate ) {
 
-    else if( item.id != -1 )
-      this.goToStep2();
+      case( NavigatePages.EntryNormalCounter ) :
+        if( this.invoiceSession.item.id ==  -1 )
+          this.searchItem();
+        else
+          this.goToStep2();
+      break;
 
-    else
-      this.goToNotFoundItem();
+      case( NavigatePages.EntryNotFoundItem ) :
+        this.goToNotFoundItem();
+      break;
+      
+    }
+      
   }
 
   return() {

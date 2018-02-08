@@ -5,6 +5,7 @@ import { ConfigPage } from '../config/config';
 import { HomePage } from '../home/home';
 import { UserSession } from '../../sessions/user/user';
 import { GlobalView } from '../../app/global.view';
+import { GlobalDefinitions } from '../../app/definitions';
 
 @Component({
   selector: 'page-login',
@@ -15,7 +16,7 @@ import { GlobalView } from '../../app/global.view';
 })
 export class LoginPage {
 
-  public version: string = "1.1.0";
+  public version: string = GlobalDefinitions.version;
   public user = { "login": "", "password": "" };
 
   constructor(

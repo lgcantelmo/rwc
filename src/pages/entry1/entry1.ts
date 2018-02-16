@@ -10,6 +10,7 @@ import { InvoiceSession } from '../../sessions/invoice/invoice';
 import { EntryStep2Page } from '../entry2/entry2';
 import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
 import { NavigatePages } from '../../app/navigate';
+import { WeightsPage } from '../weights/weights';
 
 @Component({
   selector: 'page-entry1',
@@ -133,6 +134,11 @@ export class EntryStep1Page {
 
   return() {
     this.nav.setRoot(InvoicesPage);
+  }
+
+  goToWeights() {    
+    this.invoiceSession.setNavigate(NavigatePages.EntryWeightItem);
+    this.nav.push(WeightsPage);
   }
 
 }

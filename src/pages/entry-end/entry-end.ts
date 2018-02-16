@@ -12,6 +12,7 @@ import { EntryStep1Page } from '../entry1/entry1';
 import { EntryStep4Page } from '../entry4/entry4';
 import { RecountsPage } from '../recounts/recounts';
 import { NavigatePages } from '../../app/navigate';
+import { WeightsPage } from '../weights/weights';
 
 @Component({
   selector: 'page-entry-end',
@@ -130,6 +131,10 @@ export class EntryEndPage {
       case( NavigatePages.EntryRecountItem ) :
         this.saveRecountItem();
       break;
+
+      case( NavigatePages.EntryWeightItem ) :
+        this.saveItem();
+      break;
     }
 
   }
@@ -152,10 +157,44 @@ export class EntryEndPage {
         }
         else {
           // navega para continuar a contagem
-          this.global.finalizeProcess();
-          this.global.presentToast("Apontamento salvo com sucesso!", 'success');
           this.invoiceSession.clear();
-          this.nav.setRoot(EntryStep1Page);
+
+          if( this.invoiceSession.navigate == NavigatePages.EntryNormalCounter) {   
+            this.global.presentToast("Apontamento salvo com sucesso!", 'success');         
+            this.global.finalizeProcess();
+            this.nav.setRoot(EntryStep1Page);
+          }
+          else {
+            
+            // verifica se tem outros itens pesáveis disponiveis para contagem ou não
+            this.invoiceProvider.weight_items(this.invoice.id).subscribe(
+              data => {
+
+                this.global.finalizeProcess();
+                    
+                const response = JSON.parse((data as any)._body);
+                if (response.ok == false) {
+                  this.global.presentToast(response.msg, 'error');
+                  return;
+                }
+        
+                if( response.items != null && response.items.length )   {      
+                  this.global.presentToast("Apontamento salvo com sucesso!", 'success');         
+                  this.nav.setRoot(WeightsPage);  // encaminha para lista de itens pesáveis
+                }
+                else {
+                  this.global.presentToast("Todos itens pesáveis contados com sucesso!", 'success');
+                  this.nav.setRoot(EntryStep1Page); // encaminha para a tela de consulta de item por código de barras     
+                }          
+
+              },
+              error => {
+                this.global.finalizeProcess();
+                this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+              }
+            );
+
+          }
         }
       },
       error => {

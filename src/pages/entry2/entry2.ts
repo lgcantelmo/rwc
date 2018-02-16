@@ -9,6 +9,7 @@ import { EntryStep3Page } from '../entry3/entry3';
 import { EntryNotFoundStepPage } from '../entry-notfound/entry-notfound';
 import { RecountsPage } from '../recounts/recounts';
 import { NavigatePages } from '../../app/navigate';
+import { WeightsPage } from '../weights/weights';
 
 @Component({
   selector: 'page-entry2',
@@ -77,6 +78,14 @@ export class EntryStep2Page {
 
       case( NavigatePages.EntryRecountItem ) :
         this.nav.push(RecountsPage)
+          .then(() => {
+            const startIndex = this.nav.getActive().index - 1;
+            this.nav.remove(startIndex, 1);
+          });
+      break;
+
+      case( NavigatePages.EntryWeightItem ) :
+        this.nav.push(WeightsPage)
           .then(() => {
             const startIndex = this.nav.getActive().index - 1;
             this.nav.remove(startIndex, 1);

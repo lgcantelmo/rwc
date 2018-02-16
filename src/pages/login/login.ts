@@ -31,12 +31,15 @@ export class LoginPage {
     var login = this.user.login;
     var password = this.user.password;
 
-    if (login == "master" && password == "config") {
+    login = login.toUpperCase();
+    password = login.toLocaleUpperCase();
+
+    if (login == "MASTER" && password == "CONFIG") {
       this.nav.setRoot(ConfigPage);
       return;
     }
 
-    else if (login == "master" && password == "test") {
+    else if (login == "GNS" && password == "TEST") {
       this.userSession.setTestMode();
       this.nav.setRoot(HomePage);
       return;

@@ -15,8 +15,7 @@ import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
-*/ 
-
+*/  
 @Injectable()
 export class InvoiceProvider {
 
@@ -65,6 +64,11 @@ export class InvoiceProvider {
 
   invoice_items(invoiceId: Number) {
     var url = GlobalDefinitions.server_url + "/invoiceitems.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  weight_items(invoiceId: Number) {
+    var url = GlobalDefinitions.server_url + "/weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 }

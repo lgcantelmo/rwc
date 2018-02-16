@@ -31,6 +31,7 @@ import { InvoiceSession } from '../sessions/invoice/invoice';
 import { UserSession } from '../sessions/user/user';
 import { GlobalView } from './global.view';
 import { NavigatePages } from './navigate';
+import { WeightsPage } from '../pages/weights/weights';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { NavigatePages } from './navigate';
     EntryNotFoundStepPage,
     InvoicesPage,
     LoginPage,
-    ConfigPage
+    ConfigPage,
+    WeightsPage
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ import { NavigatePages } from './navigate';
     EntryNotFoundStepPage,
     InvoicesPage,
     LoginPage,
-    ConfigPage
+    ConfigPage,
+    WeightsPage
   ],
   providers: [
     StatusBar,

@@ -32,7 +32,7 @@ export class LoginPage {
     var password = this.user.password;
 
     login = login.toUpperCase();
-    password = login.toLocaleUpperCase();
+    password = password.toLocaleUpperCase();
 
     if (login == "MASTER" && password == "CONFIG") {
       this.nav.setRoot(ConfigPage);

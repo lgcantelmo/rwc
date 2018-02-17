@@ -26,6 +26,7 @@ export class RWC {
   //rootPage: any = HomePage;
   rootPage: any = LoginPage;
   version: string = GlobalDefinitions.version;
+  name: string = "";
 
   constructor(
     public platform: Platform,
@@ -62,6 +63,7 @@ export class RWC {
           val = "";
 
         user.name = val;
+        this.name = user.name;
 
         this.storage.get('user.id').then((val) => {
           if (val == null)

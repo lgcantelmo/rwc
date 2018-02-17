@@ -34,15 +34,21 @@ export class EntryStep1Page {
     private invoiceProvider: InvoiceProvider) {
   }
 
-  ionViewCanEnter() {
+  ionViewCanEnter() { 
     this.invoice = this.invoiceSession.getInvoice();
     this.barcode = this.invoiceSession.getItem().barcode;
+    this.checkWeightItems();
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad()
+  {
     setTimeout(() => {
       this.barcodeInput.setFocus();
-    }, 250);
+    },200)
+  }  
+
+  ionViewDidLeave() {
+    this.global.closeFixedToast();
   }
 
   selectAll(event): void {
@@ -139,6 +145,35 @@ export class EntryStep1Page {
   goToWeights() {    
     this.invoiceSession.setNavigate(NavigatePages.EntryWeightItem);
     this.nav.push(WeightsPage);
+  }
+
+  private checkWeightItems() {
+
+    this.global.waitingProcess();
+
+     // verifica se tem outros itens pesáveis disponiveis para contagem ou não
+     this.invoiceProvider.weight_items(this.invoice.id).subscribe(
+      data => {
+
+        this.global.finalizeProcess();
+            
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.global.presentToast(response.msg, 'error');
+          return;
+        }
+
+        if( response.items != null && response.items.length )   {      
+          this.global.presentFixedToast("Existem itens pesáveis nessa nota!", 'error');         
+        }        
+
+      },
+      error => {
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+      }
+    );
+
   }
 
 }

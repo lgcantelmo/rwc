@@ -7,8 +7,8 @@ export class InvoiceItem {
   itemId: Number;         // Id na NFEITENS
   userId: Number;         // Id na USUARIO
 
-  boxQty: Number;         // Qtd de caixas
-  unitQty: Number;        // Qtd em cada caixa
+  boxQty: string;         // Qtd de caixas
+  unitQty: string;        // Qtd em cada caixa
   validate: string;
 
   sendCount2: boolean = false;    // flag que indica para o servidor se deve enviar a nota para a contagem 2
@@ -16,7 +16,10 @@ export class InvoiceItem {
   constructor() {}
 
   getFinalQty() {
-    return Number(this.boxQty) * Number(this.unitQty);
+    if( this.boxQty != null)
+      return Number(this.boxQty) * Number(this.unitQty);
+    else
+      return this.unitQty;
   }
 
 }

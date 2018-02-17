@@ -7,6 +7,7 @@ export class GlobalView {
 
   private loading = null;
   private toast;
+  private fixedToast = null;
 
   constructor(
     private loadingCtrl: LoadingController,
@@ -33,6 +34,24 @@ export class GlobalView {
       cssClass: type
     });
     this.toast.present();
+  }
+
+  presentFixedToast(msg: string, type: string, log?: string) {
+    this.fixedToast = this.toastCtrl.create({
+      message: msg,
+      showCloseButton: true,
+      closeButtonText: "X",
+      position: 'botton',
+      cssClass: type
+    });
+    this.fixedToast.present();
+  }
+
+  closeFixedToast() {
+    if( this.fixedToast != null ) {
+      this.fixedToast.dismiss();
+      this.fixedToast = null;
+    }
   }
 
 }

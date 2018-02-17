@@ -11,7 +11,7 @@
 <ion-content padding>
   <p style="color:#000000; font-size: 18px">
     <strong>Item:                 </strong> {{item.description}}  <br>
-    <strong>Código de barras:     </strong> {{item.barcode}}      <br>
+    <strong *ngIf="navigate != 4">Código de barras:     </strong> {{item.barcode}}      <br *ngIf="navigate != 4">
   </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
@@ -22,7 +22,7 @@
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="text" maxlength="7" placeholder="MM/YYYY" #validateInput [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keypress)="onKeyPress($event.keyCode)" (keyup.enter)="nextStep()"></ion-input>
+      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" maxlength="6" #validateInput  placeholder="DDMMYY" [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>    
     </ion-item>
   </div>    
   <div class="spacer" style="width:300px;height:30px;"></div>
@@ -41,5 +41,13 @@
         </button>
       </ion-col>
     </ion-row>
-  </ion-grid>    
+    <ion-row>
+      <ion-col>
+        <button ion-button color="stable" full icon-left on-click="saveObservation()">
+          <p style="font-size: 15px"> Observações do Item </p>
+          <ion-icon name="save"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>  
 </ion-content>

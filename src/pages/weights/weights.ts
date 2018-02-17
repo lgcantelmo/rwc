@@ -6,7 +6,7 @@ import { Item } from '../../models/item/item';
 import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
 import { Invoice } from '../../models/invoice/invoice';
-import { EntryStep2Page } from '../entry2/entry2';
+import { EntryStep3Page } from '../entry3/entry3';
 
 @Component({
   selector: 'page-weights',
@@ -55,7 +55,7 @@ export class WeightsPage {
 
     this.invoiceSession.clear();
     this.invoiceSession.setItem(item);
-    this.nav.push(EntryStep2Page);
+    this.nav.push(EntryStep3Page);
   }
 
   private searchWeightItems() {

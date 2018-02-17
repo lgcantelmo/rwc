@@ -10,19 +10,19 @@
 </ion-header>
 <ion-content padding>
   <p style="color:#000000; font-size: 18px">
-    <strong>Item:                 </strong> {{item.description}}  <br>
-    <strong>Código de barras:     </strong> {{item.barcode}}      <br>
+    <strong>Item:                 </strong> {{item.description}}  <br> 
+    <strong *ngIf="navigate != 4 and navigate != 5">Código de barras:     </strong> {{item.barcode}}      <br *ngIf="navigate != 4">
   </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
     <p style="color:#000000; font-size: 18px">
       <strong>
-        Informe a quantidade por caixa:
+        {{navigate != 4 and navigate != 5 ? "Informe a quantidade por caixa:" : "Informe a qtd pesada (Kg): " }}
       </strong>    
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" #unitQtyInput placeholder="Qtd de caixas" [(ngModel)]="dto.unitQty" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
+      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" placeholder="{{navigate != 4 and navigate != 5 ? 'Qtd por caixa' : 'Qtd pesada (Kg)' }}" [(ngModel)]="dto.unitQty" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()" autofocus></ion-input>
     </ion-item>
   </div>    
   <div class="spacer" style="width:300px;height:30px;"></div>

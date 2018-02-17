@@ -27,6 +27,7 @@ export class Item {
   groupName: string;
   subgroupName: string;
   phase: string;
+  weight: string;
 
   detail: Number;
 

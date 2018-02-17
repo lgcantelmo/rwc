@@ -13,12 +13,29 @@
       <strong style="font-size: 18px"></strong>
       <p style="color:#000000;">
         <strong>
-          {{items.length > 0 ? "Itens para reconferência" : "Nenhum item disponível para reconferência."}}
+          {{items.length > 0 ? "Itens para reconferência" : ""}}
         </strong>
       </p>
   </div>
   <ion-list class="list-custom">
     <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
+      <strong style="font-size: 18px">{{item.code}}</strong>
+      <p style="font-size: 18px">{{item.description}}</p>
+      <ion-icon name="arrow-round-forward" item-right></ion-icon>
+    </ion-item>
+  </ion-list>
+  <div class="spacer" style="width:300px;height:10px;"></div>
+  <div class="show-list-numbers-and-dots">
+      <strong style="font-size: 18px"></strong>
+      <p style="color:#000000;">
+        <strong>
+          {{weights.length > 0 ? "Itens pesáveis para reconferência" : ""}}
+        </strong>
+      </p>
+  </div>
+  <div class="spacer" style="width:300px;height:10px;"></div>
+  <ion-list class="list-custom">
+    <ion-item color="none" *ngFor="let item of weights" on-click="goToWeightRecount(item.id)">
       <strong style="font-size: 18px">{{item.code}}</strong>
       <p style="font-size: 18px">{{item.description}}</p>
       <ion-icon name="arrow-round-forward" item-right></ion-icon>

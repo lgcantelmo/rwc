@@ -20,12 +20,20 @@
     <strong>Código de barras: </strong> {{item.barcode}}      <br>
   </p>
   <div class="spacer" style="width:300px;height:5px;"></div>
-  <p style="color:#000000; font-size: 18px">
-    <strong>Quantidade de caixas:    </strong> {{dto.boxQty}}  <br>
-    <strong>Quantidade unitária por caixa:   </strong> {{dto.unitQty}} <br>
-    <strong>Quantidade total contada:       </strong> {{dto.boxQty * dto.unitQty}} <br>
-    <strong>Validade:               </strong> {{dto.validate != null ? dto.validate : '-'}} <br>
-  </p>
+  <div *ngIf="navigate != 4">
+    <p style="color:#000000; font-size: 18px">
+      <strong>Quantidade de caixas:    </strong> {{dto.boxQty}}  <br>
+      <strong>Quantidade unitária por caixa:   </strong> {{dto.unitQty}} <br>
+      <strong>Quantidade total contada:       </strong> {{dto.boxQty * dto.unitQty}} <br>
+      <strong>Validade:               </strong> {{dto.validate != null ? validate : '-'}} <br>
+    </p>
+  </div>
+  <div *ngIf="navigate == 4">
+    <p style="color:#000000; font-size: 18px">
+      <strong>Quantidade pesada (Kg):    </strong> {{dto.unitQty}}  <br>
+      <strong>Validade:               </strong> {{validate != null ? validate : '-'}} <br>
+    </p>
+  </div>
   <div class="spacer" style="width:300px;height:20px;"></div>
   <ion-grid>
     <ion-row>
@@ -38,15 +46,15 @@
       <ion-col>
         <button ion-button color="stable" full icon-left on-click="saveObservation()">
           <ion-icon name="checkbox-outline"></ion-icon>
-          Observações
+          <p style="font-size: 15px"> Observações </p>
         </button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <button ion-button color="assertive" full icon-left on-click="save()">
-          <p style="font-size: 15px"> Finalizar Contagem </p>
           <ion-icon name="save"></ion-icon>
+          <p style="font-size: 15px"> Finalizar Contagem </p>
         </button>
       </ion-col>
     </ion-row>

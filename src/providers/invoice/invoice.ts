@@ -71,4 +71,9 @@ export class InvoiceProvider {
     var url = GlobalDefinitions.server_url + "/weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
+
+  save_observation_item(itemId: Number, invoiceId: Number, observation: string): any {
+     var url = GlobalDefinitions.server_url + "/invoice/save-observation-item.json?itemId=" + itemId + "&invoiceId=" + invoiceId + "&observation=" + observation + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
 }

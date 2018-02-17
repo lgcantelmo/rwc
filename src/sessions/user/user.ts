@@ -44,6 +44,10 @@ export class UserSession {
   }
 
   setTestMode() {
+    this.user = new User();
+    this.user.name = "Usuário de Teste";
+    this.user.id = 1;
+    this.user.login = "GNS";
     this.testing = true;
   }
 

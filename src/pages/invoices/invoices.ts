@@ -30,7 +30,7 @@ export class InvoicesPage {
     private invoiceProvider: InvoiceProvider) {
   }
 
-  ionViewCanEnter() {
+  ionViewDidEnter() {
     this.refresh();
   }
 
@@ -64,7 +64,7 @@ export class InvoicesPage {
     this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
     this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
-    this.nav.push(EntryStep1Page);
+    this.nav.setRoot(EntryStep1Page);
   }
 
   goToEntry2(id: Number) {
@@ -81,7 +81,7 @@ export class InvoicesPage {
     this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
     this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
-    this.nav.push(EntryStep1Page);
+    this.nav.setRoot(EntryStep1Page);
   }
     
   goToRecounts(id: Number) {
@@ -98,7 +98,7 @@ export class InvoicesPage {
     this.invoiceSession.clear();
     this.invoiceSession.setInvoice(invoice);
     this.invoiceSession.setNavigate(NavigatePages.EntryRecountItem);
-    this.nav.push(RecountsPage);
+    this.nav.setRoot(RecountsPage);
   }
     
   searchInvoices() {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { GlobalView } from '../../app/global.view';
@@ -15,8 +15,6 @@ import { NavigatePages } from '../../app/navigate';
   templateUrl: 'entry2.html'
 })
 export class EntryStep2Page {
-  
-  @ViewChild('boxQtyInput') boxQtyInput;
 
   private item: Item;
   private dto: InvoiceItem;
@@ -31,12 +29,6 @@ export class EntryStep2Page {
     this.dto = this.invoiceSession.getInvoiceItem();
   }    
 
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.boxQtyInput.setFocus();
-    }, 150);
-  }
-
   selectAll(event): void {
     event.target.select();
   }
@@ -44,14 +36,12 @@ export class EntryStep2Page {
   nextStep() {
 
     if (this.dto.boxQty == null) {
-      this.global.presentToast("Qtd. de caixa é obrigatória!", 'error');
-      this.boxQtyInput.setFocus();
+      this.global.presentToast("Quantidade é obrigatória!", 'error');
       return;
     }
     
     this.invoiceSession.setInvoiceItem(this.dto);
-    this.nav.push(EntryStep3Page);
-
+    this.nav.setRoot(EntryStep3Page);    
   }
 
   return () {
@@ -60,31 +50,18 @@ export class EntryStep2Page {
     switch( navigate ) {
 
       case( NavigatePages.EntryNormalCounter ) :
-        this.nav.push(EntryStep1Page)
-          .then(() => {
-            const startIndex = this.nav.getActive().index - 1;
-            this.nav.remove(startIndex, 1);
-          });
+        this.nav.setRoot(EntryStep1Page);    
       break;
 
       case( NavigatePages.EntryNotFoundItem ) :
-        this.nav.push(EntryNotFoundStepPage)
-          .then(() => {
-            const startIndex = this.nav.getActive().index - 1;
-            this.nav.remove(startIndex, 1);
-          });
+        this.nav.setRoot(EntryNotFoundStepPage);    
       break;
 
       case( NavigatePages.EntryRecountItem ) :
-        this.nav.push(RecountsPage)
-          .then(() => {
-            const startIndex = this.nav.getActive().index - 1;
-            this.nav.remove(startIndex, 1);
-          });
+        this.nav.setRoot(RecountsPage);    
       break;
       
     }
-
   }
 
 }

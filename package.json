@@ -20,11 +20,11 @@
     "brmasker-ionic-3": "^1.0.3",
     "cordova-android": "^6.3.0",
     "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.15",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-sqlite-storage": "^2.0.4",
     "ionic-angular": "3.7.1",
-    "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
     "rxjs": "5.4.3",
     "sw-toolbox": "3.6.0",
@@ -37,11 +37,11 @@
   "description": "RWC",
   "cordova": {
     "plugins": {
-      "ionic-plugin-keyboard": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
       "android"

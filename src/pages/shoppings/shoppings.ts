@@ -79,15 +79,12 @@ export class ShoppingsPage {
       }
     }
 
-    this.nav.push(ShoppingPage, { shopping: shopping });
+    this.itemSession.shopping = shopping;
+    this.nav.setRoot(ShoppingPage);  
   }
 
   returnToItem() {
-    this.nav.push(ItemPage)
-      .then(() => {
-        const startIndex = this.nav.getActive().index - 1;
-        this.nav.remove(startIndex, 1);
-      });
+    this.nav.setRoot(ItemPage);  
   }
 
 }

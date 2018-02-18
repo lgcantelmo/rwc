@@ -69,7 +69,7 @@ export class SearchItemPage {
 
     if (this.userSession.isTesting()) {
       this.itemSession.loadTestItem();
-      this.nav.push(ItemPage);
+      this.nav.setRoot(ItemPage);
     }
 
     else {
@@ -89,7 +89,7 @@ export class SearchItemPage {
           }
 
           this.itemSession.setItem(response.item);
-          this.nav.push(ItemPage);
+          this.nav.setRoot(ItemPage);
         },
         error => {
           this.global.finalizeProcess();

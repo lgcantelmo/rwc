@@ -8,7 +8,7 @@ import { GlobalView } from '../../app/global.view';
 import { Invoice } from '../../models/invoice/invoice';
 import { EntryStep2Page } from '../entry2/entry2';
 import { EntryStep3Page } from '../entry3/entry3';
-import { NavigatePages } from '../../app/navigate';
+import { InvoicesPage } from '../invoices/invoices';
 
 @Component({
   selector: 'page-recounts',
@@ -58,7 +58,7 @@ export class RecountsPage {
 
     this.invoiceSession.clear();
     this.invoiceSession.setItem(item);
-    this.nav.push(EntryStep2Page);
+    this.nav.setRoot(EntryStep2Page);    
   }
 
   goToWeightRecount(id: Number) {
@@ -74,10 +74,12 @@ export class RecountsPage {
 
     this.invoiceSession.clear();
     this.invoiceSession.setItem(item);
-    this.invoiceSession.setNavigate(NavigatePages.EntryWeigthRecountItem);
-    this.nav.push(EntryStep3Page);
+    this.nav.setRoot(EntryStep3Page); 
   }
 
+  return() {
+    this.nav.setRoot(InvoicesPage);
+  }
 
   searchInvoiceItems() {
     
@@ -93,14 +95,18 @@ export class RecountsPage {
           return;
         }
 
-        for (let i = 0; i < response.items.length; i++) {
-          let loaded = response.items[i];
-          if (loaded.weight == 'S') 
-            this.weights.push(loaded);
-          else
-            this.items.push(loaded);
-        }
+        this.items = [];
+        this.weights = [];
 
+        if ( response.items.length ) {
+          for (let i = 0; i < response.items.length; i++) {
+            let loaded = response.items[i];
+            if (loaded.weight == 'S') 
+              this.weights.push(loaded);
+            else
+              this.items.push(loaded);
+          }
+        }
       },
       error => {
         this.global.finalizeProcess();

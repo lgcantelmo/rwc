@@ -15,12 +15,12 @@
     <strong>Empresa:          </strong> {{invoice.nick}}    <br>
   </p>
   <div class="spacer" style="width:300px;height:5px;"></div>
-  <p style="color:#000000; font-size: 18px">
-    <strong>Item:             </strong> {{item.description}}  <br>
-    <strong>Código de barras: </strong> {{item.barcode}}      <br>
-  </p>
-  <div class="spacer" style="width:300px;height:5px;"></div>
-  <div *ngIf="navigate != 4">
+  <div *ngIf="item.weight != 'S'">
+    <p style="color:#000000; font-size: 18px">
+      <strong>Item:                 </strong> {{item.description}}  <br> 
+      <strong >Código de barras:    </strong> {{item.barcode}}    
+    </p>
+    <div class="spacer" style="width:300px;height:5px;"></div>
     <p style="color:#000000; font-size: 18px">
       <strong>Quantidade de caixas:    </strong> {{dto.boxQty}}  <br>
       <strong>Quantidade unitária por caixa:   </strong> {{dto.unitQty}} <br>
@@ -28,7 +28,11 @@
       <strong>Validade:               </strong> {{dto.validate != null ? validate : '-'}} <br>
     </p>
   </div>
-  <div *ngIf="navigate == 4">
+  <div *ngIf="item.weight == 'S'">
+    <p style="color:#000000; font-size: 18px">
+      <strong>Item:               </strong> {{item.description}}
+    </p>
+    <div class="spacer" style="width:300px;height:5px;"></div>
     <p style="color:#000000; font-size: 18px">
       <strong>Quantidade pesada (Kg):    </strong> {{dto.unitQty}}  <br>
       <strong>Validade:               </strong> {{validate != null ? validate : '-'}} <br>
@@ -38,22 +42,22 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="return()">
+        <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
           <p style="font-size: 15px"> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="saveObservation()">
+        <button ion-button color="stable" block large icon-left on-click="saveObservation()">
           <ion-icon name="checkbox-outline"></ion-icon>
-          <p style="font-size: 15px"> Observações </p>
+          <p style="font-size: 15px"> Observ. </p>
         </button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button color="assertive" full icon-left on-click="save()">
-          <ion-icon name="save"></ion-icon>
+        <button ion-button color="assertive" block large icon-left on-click="save()">
+          <ion-icon name="md-checkmark-circle-outline"></ion-icon>
           <p style="font-size: 15px"> Finalizar Contagem </p>
         </button>
       </ion-col>

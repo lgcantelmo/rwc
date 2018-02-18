@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { InvoiceItem } from '../../models/invoice_item/invoice_item';
 import { InvoiceSession } from '../../sessions/invoice/invoice';
@@ -17,10 +17,7 @@ import { Invoice } from '../../models/invoice/invoice';
   ]
 })
 export class EntryStep4Page {
-  
-  @ViewChild('validateInput') validateInput;
 
-  private navigate: Number;
   private invoice: Invoice;
   private item: Item;
   private dto: InvoiceItem;
@@ -33,7 +30,6 @@ export class EntryStep4Page {
   }
 
   ionViewCanEnter() {    
-    this.navigate = this.invoiceSession.getNavigate();
     this.invoice = this.invoiceSession.getInvoice();    
     this.item = this.invoiceSession.getItem();
     this.dto = this.invoiceSession.getInvoiceItem();
@@ -42,35 +38,50 @@ export class EntryStep4Page {
       this.dto.validate = '';
   }    
 
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.validateInput.setFocus();
-    }, 150);
-  }
-
   selectAll(event): void {
     event.target.select();
   }
 
   nextStep() {    
+
+    if (this.dto.validate != null && this.dto.validate.length) {
+      let validate = this.dto.validate;
+      if ( validate.length != 6) {
+        this.global.presentToast("Validade inválida!", 'error');
+        return;
+      }
+
+      let day = -1;
+      let month = -1;
+      let year = -1;
+      try {
+        day = Number(validate.substring(0,2));
+        month = Number(validate.substring(2,4));
+        year = Number(validate.substring(4,6)); 
+      }
+      catch(Exception) {
+      }
+
+      if( day < 1 || day > 31 || month < 1 || month > 12 || year < 1 ) {
+        this.global.presentToast("Validade inválida!", 'error');
+        return;
+      }
+    }
+    
     this.invoiceSession.setInvoiceItem(this.dto);
-    this.nav.push(EntryEndPage);
+    this.nav.setRoot(EntryEndPage);
   }
 
-  return () {
-    this.nav.push(EntryStep3Page)
-      .then(() => {
-        const startIndex = this.nav.getActive().index - 1;
-        this.nav.remove(startIndex, 1);
-      });
+  return() {
+    this.nav.setRoot(EntryStep3Page);
   }
 
   saveObservation () {    
     let prompt = this.alertCtrl.create({
-      title: 'Observações do Item!',
+      title: 'Observ. do Item!',
       inputs: [
         {
-          label: "Observações do Item",
+          label: "Observ. do Item",
           value: ""
         }
         ],
@@ -86,7 +97,7 @@ export class EntryStep4Page {
             
             let observation = data[0];
             if( observation.length == 0 ) {
-              this.global.presentToast("Observação obrigatória", 'error');
+              this.global.presentToast("Nenhuma observação registrada!", 'error');
               return;
             }
 

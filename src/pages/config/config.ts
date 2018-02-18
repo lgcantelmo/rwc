@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { LoginProvider } from '../../providers/login/login';
 import { LoginPage } from '../login/login';
 import { GlobalDefinitions } from '../../app/definitions';
+import { GlobalView } from '../../app/global.view';
 
 @Component({
   selector: 'page-config',
@@ -18,9 +19,8 @@ export class ConfigPage {
 
   constructor(
     public nav: NavController,
-    private toastCtrl: ToastController,
+    private global: GlobalView,
     private loginProvider: LoginProvider,
-    private loadingCtrl: LoadingController,
     private storage: Storage) {
   }
 
@@ -31,29 +31,28 @@ export class ConfigPage {
   save() {
 
     if (this.url == "") {
-      this.presentToast("URL obrigatória", 'error');
+      this.global.presentToast('URL obrigatória!', 'error');
       return;
     }
 
     this.storage.set('server_url', this.url);
     GlobalDefinitions.server_url = this.url;
 
-    this.presentToast("URL salva com sucesso!", 'success');
+    this.global.presentToast('URL salva com sucesso!', 'success');
   }
 
   serverTest() {
     var login = "K2ADMIN";
 
-    const loading = this.loadingCtrl.create({ content: "Aguarde..." });
-    loading.present();
+    this.global.waitingProcess();
 
     this.loginProvider.testGet(login).subscribe(
       data => {
         const response = JSON.parse((data as any)._body);        
         
         if(response == null || response.ok == false) {
-          loading.dismiss();
-          this.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
+          this.global.finalizeProcess();
+          this.global.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
           return;
         }
 
@@ -61,14 +60,14 @@ export class ConfigPage {
           data => {
             const response = JSON.parse((data as any)._body);     
 
-            loading.dismiss();
+            this.global.finalizeProcess();
 
             if(response == null || response.ok == false) {
-              this.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
+              this.global.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
               return;
             }
 
-            this.presentToast("Servidor está OK!", 'success');
+            this.global.presentToast("Servidor está OK!", 'success');
           },
           error => {
             return false;
@@ -76,29 +75,14 @@ export class ConfigPage {
         );
       },
       error => {
-        loading.dismiss();
-        this.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro! Confira se o servidor está fora do ar ou URL inválida!', 'error');
       }
     );
   }
 
   logout(params) {
     this.nav.setRoot(LoginPage);
-  }
-
-  presentToast(msg: string, type: string, log?: string) {
-    const toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000,
-      position: 'botton',
-      cssClass: type
-    });
-
-    toast.onDidDismiss(() => {
-      console.log(log);
-    });
-
-    toast.present();
   }
 
 }

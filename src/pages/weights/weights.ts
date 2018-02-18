@@ -7,6 +7,7 @@ import { InvoiceProvider } from '../../providers/invoice/invoice';
 import { GlobalView } from '../../app/global.view';
 import { Invoice } from '../../models/invoice/invoice';
 import { EntryStep3Page } from '../entry3/entry3';
+import { EntryStep1Page } from '../entry1/entry1';
 
 @Component({
   selector: 'page-weights',
@@ -55,7 +56,7 @@ export class WeightsPage {
 
     this.invoiceSession.clear();
     this.invoiceSession.setItem(item);
-    this.nav.push(EntryStep3Page);
+    this.nav.setRoot(EntryStep3Page);   
   }
 
   private searchWeightItems() {
@@ -79,6 +80,10 @@ export class WeightsPage {
         this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
       }
     );
+  }
+
+  return() {
+    this.nav.setRoot(EntryStep1Page);
   }
 
 }

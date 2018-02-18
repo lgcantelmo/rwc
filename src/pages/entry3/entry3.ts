@@ -16,9 +16,6 @@ import { RecountsPage } from '../recounts/recounts';
 })
 export class EntryStep3Page {
   
-  /*@ViewChild('unitQtyInput') unitQtyInput;*/
-
-  private navigate: Number;
   private item: Item;
   private dto: InvoiceItem;
 
@@ -28,17 +25,9 @@ export class EntryStep3Page {
   }
 
   ionViewCanEnter() {
-    this.navigate = this.invoiceSession.getNavigate();
     this.item = this.invoiceSession.getItem();
     this.dto = this.invoiceSession.getInvoiceItem();
   }
-
- /* ionViewLoaded() {
-    setTimeout(() => {
-      console.log("Init")
-      this.unitQtyInput.setFocus();
-    },200);
- }*/
 
   selectAll(event): void {
     event.target.select();
@@ -48,36 +37,37 @@ export class EntryStep3Page {
 
     if (this.dto.unitQty == null) {
       this.global.presentToast("Quantidade obrigatória!", 'error');
-      /*this.unitQtyInput.setFocus();*/
       return;
     }
     
     this.invoiceSession.setInvoiceItem(this.dto);
-    this.nav.push(EntryStep4Page);
+    this.nav.setRoot(EntryStep4Page);
   }
 
   return () {
 
-    if( this.invoiceSession.navigate == NavigatePages.EntryWeightItem ) {
-      this.nav.push(WeightsPage)
-        .then(() => {
-          const startIndex = this.nav.getActive().index - 1;
-          this.nav.remove(startIndex, 1);
-        });
-    }
-    else if( this.invoiceSession.navigate == NavigatePages.EntryWeigthRecountItem ) {
-      this.nav.push(RecountsPage)
-        .then(() => {
-          const startIndex = this.nav.getActive().index - 1;
-          this.nav.remove(startIndex, 1);
-        });
-    }
-    else {
-      this.nav.push(EntryStep2Page)
-      .then(() => {
-        const startIndex = this.nav.getActive().index - 1;
-        this.nav.remove(startIndex, 1);
-      });
+    let navigate = this.invoiceSession.getNavigate();
+    switch( navigate ) {
+
+      case( NavigatePages.EntryNormalCounter ) :
+        this.nav.setRoot(EntryStep2Page);    
+      break;
+
+      case( NavigatePages.EntryNotFoundItem ) :
+        this.nav.setRoot(EntryStep2Page);    
+      break;
+
+      case( NavigatePages.EntryRecountItem ) :
+        if( this.item.weight != "S" )
+        this.nav.setRoot(EntryStep2Page); 
+        else
+          this.nav.setRoot(RecountsPage);    
+      break;
+
+      case( NavigatePages.EntryWeightItem ) :
+        this.nav.setRoot(WeightsPage);    
+      break;
+      
     }
    
   }

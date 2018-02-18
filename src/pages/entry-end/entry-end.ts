@@ -23,7 +23,6 @@ import { WeightsPage } from '../weights/weights';
 })
 export class EntryEndPage {
   
-  private navigate: Number;
   private invoice: Invoice;
   private item: Item;
   private dto: InvoiceItem;
@@ -38,7 +37,6 @@ export class EntryEndPage {
   }
 
   ionViewCanEnter() {
-    this.navigate = this.invoiceSession.getNavigate();
     this.invoice = this.invoiceSession.getInvoice();    
     this.item = this.invoiceSession.getItem();
     this.dto = this.invoiceSession.getInvoiceItem();
@@ -57,7 +55,6 @@ export class EntryEndPage {
       return;
     }
 
-    // open waiting...
     this.global.waitingProcess();
 
     // definindo os ids no DTO:
@@ -73,7 +70,7 @@ export class EntryEndPage {
     //        -> setar null para o item e new para o dto em memória
     //        -> navego para a tela de consulta por código de barras
 
-    if( NavigatePages.EntryNotFoundItem ) 
+    if( this.invoiceSession.getNavigate() == NavigatePages.EntryNotFoundItem ) 
         this.saveNotFoundItem();    
     else {
       this.invoiceProvider.completed_invoice( this.dto ).subscribe(
@@ -167,44 +164,87 @@ export class EntryEndPage {
           // navega para continuar a contagem
           this.invoiceSession.clear();
 
-          if( this.invoiceSession.navigate == NavigatePages.EntryNormalCounter) {     
-            this.global.finalizeProcess();
-            this.global.presentToast("Apontamento salvo com sucesso!", 'success');       
-            this.nav.setRoot(EntryStep1Page);
-          }
-          else {
-            
-            // verifica se tem outros itens pesáveis disponiveis para contagem ou não
-            this.invoiceProvider.weight_items(this.invoice.id).subscribe(
-              data => {
-                    
-                const response = JSON.parse((data as any)._body);
-                if (response.ok == false) {
-                  this.global.finalizeProcess();
-                  this.global.presentToast(response.msg, 'error');
-                  return;
-                }
-        
-                if( response.items != null && response.items.length )   {    
-                  this.global.finalizeProcess();  
-                  this.global.presentToast("Apontamento salvo com sucesso!", 'success');         
-                  this.nav.setRoot(WeightsPage);  // encaminha para lista de itens pesáveis
-                }
-                else {
-                  this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
-                  this.global.presentToast("Todos itens pesáveis contados com sucesso!", 'success');
-                  this.nav.setRoot(EntryStep1Page); // encaminha para a tela de consulta de item por código de barras     
-                }          
+          switch( this.invoiceSession.getNavigate() ) {
 
-              },
-              error => {
-                this.global.finalizeProcess();
-                this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
-              }
-            );
+            case NavigatePages.EntryRecountItem:
+              this.global.presentToast("Apontamento salvo com sucesso!", 'success');       
+              this.nav.setRoot(RecountsPage);
+            break;
+           
+            case NavigatePages.EntryNotFoundItem:
+              this.global.presentToast("Apontamento salvo com sucesso!", 'success');       
+              this.nav.setRoot(EntryStep1Page);
+            break;
+            
+            case NavigatePages.EntryNormalCounter:
+              this.configNormalDestination();
+            break;
+
+            case NavigatePages.EntryWeightItem:
+              this.configWeightDestination();
+            break;
 
           }
         }
+      },
+      error => {
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+      }
+    );
+  }
+
+  private configNormalDestination() {
+    // verifica se tem outros itens não pesáveis disponiveis para contagem ou não
+    this.invoiceProvider.exists_not_weight_items(this.invoice.id).subscribe(
+      data => {
+            
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.global.finalizeProcess();
+          this.global.presentToast(response.msg, 'error');
+          return;
+        }
+
+        if( response.exists )   {    
+          this.global.presentToast("Apontamento salvo com sucesso!", 'success');         
+          this.nav.setRoot(EntryStep1Page);  // encaminha para a tela de consulta de item por código de barras    
+        }
+        else {
+          this.invoiceSession.setNavigate(NavigatePages.EntryWeightItem);
+          this.global.presentFixedToast("Itens não pesáveis contados com sucesso!", 'success');
+          this.nav.setRoot(WeightsPage);    // encaminha para lista de itens pesáveis
+        }          
+
+      },
+      error => {
+        this.global.finalizeProcess();
+        this.global.presentToast('Erro inesperado! Verifique o status do servidor!', 'error', error.error);
+      }
+    );
+  }
+
+  private configWeightDestination() {
+    // verifica se tem outros itens pesáveis disponiveis para contagem ou não
+    this.invoiceProvider.exists_weight_items(this.invoice.id).subscribe(
+      data => {
+            
+        const response = JSON.parse((data as any)._body);
+        if (response.ok == false) {
+          this.global.finalizeProcess();
+          this.global.presentToast(response.msg, 'error');
+          return;
+        }
+
+        if( response.exists )   {    
+          this.global.presentToast("Apontamento salvo com sucesso!", 'success');         
+          this.nav.setRoot(WeightsPage);  // encaminha para lista de itens pesáveis
+        }
+        else {
+          this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
+          this.global.presentFixedToast("Itens pesáveis contados com sucesso!", 'success');
+          this.nav.setRoot(EntryStep1Page);    // encaminha para a tela de consulta de item por código de barras     
+        }       
       },
       error => {
         this.global.finalizeProcess();
@@ -220,8 +260,6 @@ export class EntryEndPage {
     this.invoiceProvider.save_notfound_item( this.dto, this.item.description ).subscribe(
       data => {      
 
-        this.global.finalizeProcess();
-
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
           this.global.finalizeProcess();
@@ -232,6 +270,7 @@ export class EntryEndPage {
         // navega para continua a contagem
         this.global.presentToast("Apontamento salvo com sucesso!", 'success');
         this.invoiceSession.clear();
+        this.invoiceSession.setNavigate(NavigatePages.EntryNormalCounter);
         this.nav.setRoot(EntryStep1Page);
       },
       error => {
@@ -247,6 +286,7 @@ export class EntryEndPage {
       
         const response = JSON.parse((data as any)._body);
         if (response.ok == false) {
+          this.global.finalizeProcess();
           this.global.presentToast(response.msg, 'error');
           return;
         }
@@ -271,11 +311,7 @@ export class EntryEndPage {
   }
 
   return () {
-    this.nav.push(EntryStep4Page)
-      .then(() => {
-        const startIndex = this.nav.getActive().index - 1;
-        this.nav.remove(startIndex, 1);
-      });
+    this.nav.setRoot(EntryStep4Page);    
   }
 
   saveObservation () {    
@@ -305,7 +341,6 @@ export class EntryEndPage {
 
             this.dto.invoiceId = this.invoice.id;
 
-            // envia para o servidor
             this.global.waitingProcess();
 
             this.invoiceProvider.save_observation( this.dto.invoiceId, observation ).subscribe(

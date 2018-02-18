@@ -24,22 +24,25 @@ export class ItemPage {
 
   ionViewDidLoad() {
     // limpa o histórico para apontar para search-item direto
-    if(this.nav.getViews().length > 3) {
+    /*if(this.nav.getViews().length > 3) {
       const endIndex = this.nav.getActive().index - 1;
       this.nav.remove(2, endIndex);   
-    }
+    }*/
   }
 
   goToOrders() {
-    this.nav.push(OrdersPage);   
+    //this.nav.push(OrdersPage);   
+    this.nav.setRoot(OrdersPage);
   }
 
   goToShoppings() {
-    this.nav.push(ShoppingsPage);
+    //this.nav.push(ShoppingsPage); 
+    this.nav.setRoot(ShoppingsPage);
   }
 
   goToSales() {
-    this.nav.push(SalesPage);
+    //this.nav.push(SalesPage);
+    this.nav.setRoot(SalesPage);
   }
 
   returnToSearchItem() {

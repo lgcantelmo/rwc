@@ -10,7 +10,7 @@
 </ion-header>
 <ion-content padding>
   <p style="color:#d6af00; font-size: 18px">
-    <strong>Item não encontrado! </strong> 
+    <strong> Item não encontrado! </strong> 
   </p>
   <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
@@ -21,21 +21,21 @@
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="text" #descriptionInput placeholder="Descrição" [(ngModel)]="item.description" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>
+      <ion-input style="font-size: 18px" type="text" #descriptionInput placeholder="Descrição" [(ngModel)]="item.description" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="nextStep()" (keydown.tab)="nextStep()" autofocus></ion-input>
     </ion-item>
-  </div>    
-  <div class="spacer" style="width:300px;height:30px;"></div>
+  </div>   
+  <div class="spacer" style="width:300px;height:30px;"></div> 
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="return()">
+        <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
-          <p style="font-size: 15px"> Voltar </p>
+          <p> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="assertive" full icon-right on-click="nextStep()">
-          <p style="font-size: 15px"> Próximo </p>
+        <button ion-button color="assertive" block large icon-right on-click="nextStep()">
+          <p> Próximo </p>
           <ion-icon name="arrow-dropright"></ion-icon>
         </button>
       </ion-col>

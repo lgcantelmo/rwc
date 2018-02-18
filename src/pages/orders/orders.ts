@@ -82,15 +82,18 @@ export class OrdersPage {
       }
     }
 
-    this.nav.push(OrderPage, { order: order });
+    //this.nav.push(OrderPage, { order: order });
+    this.itemSession.order = order;
+    this.nav.setRoot(OrderPage);  
   }
 
   returnToItem() {
-    this.nav.push(ItemPage)
+    /*this.nav.push(ItemPage)
       .then(() => {
         const startIndex = this.nav.getActive().index - 1;
         this.nav.remove(startIndex, 1);
-      });
+      });*/
+    this.nav.setRoot(ItemPage);
   }
 
 }

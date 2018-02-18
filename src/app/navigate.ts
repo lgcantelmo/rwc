@@ -6,6 +6,5 @@ export class NavigatePages {
   public static EntryNotFoundItem = 2;
   public static EntryRecountItem = 3;
   public static EntryWeightItem = 4;
-  public static EntryWeigthRecountItem = 5;
   
 }

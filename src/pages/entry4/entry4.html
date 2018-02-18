@@ -9,11 +9,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <p style="color:#000000; font-size: 18px">
-    <strong>Item:                 </strong> {{item.description}}  <br>
-    <strong *ngIf="navigate != 4">Código de barras:     </strong> {{item.barcode}}      <br *ngIf="navigate != 4">
+  <p *ngIf="item.weight != 'S'" style="color:#000000; font-size: 18px">
+    <strong>Item:                 </strong> {{item.description}}  <br> 
+    <strong >Código de barras:    </strong> {{item.barcode}}    
   </p>
-  <div class="spacer" style="width:300px;height:10px;"></div>
+  <p *ngIf="item.weight == 'S'" style="color:#000000; font-size: 18px">
+    <strong>Item:               </strong> {{item.description}}
+  </p>
   <div class="div-box">
     <p style="color:#000000; font-size: 18px">
       <strong>
@@ -22,20 +24,20 @@
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" maxlength="6" #validateInput  placeholder="DDMMYY" [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (keyup.enter)="nextStep()"></ion-input>    
+      <ion-input style="font-size: 18px" type="number" pattern="[0-9]*" maxlength="6" placeholder="DDMMYY" [(ngModel)]="dto.validate" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="nextStep()" (keydown.tab)="nextStep()" autofocus></ion-input>    
     </ion-item>
   </div>    
   <div class="spacer" style="width:300px;height:30px;"></div>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="return()">
+        <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
           <p style="font-size: 15px"> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="assertive" full icon-right on-click="nextStep()">
+        <button ion-button color="assertive" block large icon-right on-click="nextStep()">
           <p style="font-size: 15px"> Próximo </p>
           <ion-icon name="arrow-dropright"></ion-icon>
         </button>
@@ -43,9 +45,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="saveObservation()">
+        <button ion-button color="stable" block large icon-left on-click="saveObservation()">
+          <ion-icon name="checkbox-outline"></ion-icon>
           <p style="font-size: 15px"> Observações do Item </p>
-          <ion-icon name="save"></ion-icon>
         </button>
       </ion-col>
     </ion-row>

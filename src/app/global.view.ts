@@ -41,8 +41,9 @@ export class GlobalView {
       message: msg,
       showCloseButton: true,
       closeButtonText: "X",
-      position: 'botton',
-      cssClass: type
+      position: 'top',
+      cssClass: type,
+      dismissOnPageChange: false
     });
     this.fixedToast.present();
   }

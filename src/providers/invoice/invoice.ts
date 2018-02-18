@@ -72,8 +72,18 @@ export class InvoiceProvider {
     return this.http.post(url, JSON.stringify({}));
   }
 
-  save_observation_item(itemId: Number, invoiceId: Number, observation: string): any {
+  save_observation_item(itemId: Number, invoiceId: Number, observation: string) {
      var url = GlobalDefinitions.server_url + "/invoice/save-observation-item.json?itemId=" + itemId + "&invoiceId=" + invoiceId + "&observation=" + observation + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  exists_not_weight_items(invoiceId: Number) {
+    var url = GlobalDefinitions.server_url + "/invoice/exist-not-weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    return this.http.post(url, JSON.stringify({}));
+  }
+
+  exists_weight_items(invoiceId: Number) {
+    var url = GlobalDefinitions.server_url + "/invoice/exists-weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 }

@@ -14,7 +14,6 @@
     <strong>Data de Entrada:  </strong> {{invoice.date}}    <br>
     <strong>Empresa:          </strong> {{invoice.nick}}    <br>
   </p>
-  <div class="spacer" style="width:300px;height:10px;"></div>
   <div class="div-box">
     <p style="color:#000000; font-size: 18px">
       <strong>
@@ -23,41 +22,34 @@
     </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input style="font-size: 18px" type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
+      <ion-input style="font-size: 18px" type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" [ngModelOptions]="{standalone: true}" (focus)="selectAll($event)" (keyup.enter)="searchItem()" (keydown.tab)="searchItem()" autofocus></ion-input>
     </ion-item>
   </div>   
-  <div class="spacer" style="width:300px;height:30px;"></div>
   <ion-grid>
     <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="return()">
+        <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
-          <p style="font-size: 15px"> Voltar </p>
+          <p> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="assertive" full icon-right on-click="nextStep()">
-          <p style="font-size: 15px"> Próximo </p>
+        <button ion-button color="assertive" block large icon-right on-click="nextStep()">
+          <p> Próximo </p>
           <ion-icon name="arrow-dropright"></ion-icon>
         </button>
       </ion-col>
-    </ion-row>
-  </ion-grid>    
-  <div class="spacer" style="width:300px;height:5px;"></div>
-  <div class="show-list-numbers-and-dots">
-    <p style="color:#000000; font-size:12px;">
-      Se preferir, identifique o código de barras através do leitor.
-    </p>       
-  </div>  
-  <div class="spacer" style="width:300px;height:10px;"></div>
-  <ion-grid>
-    <ion-row>
       <ion-col>
-        <button ion-button color="stable" full icon-left on-click="goToWeights()">
+        <button ion-button color="stable" block large icon-left on-click="goToWeights()">
           <ion-icon name="ios-cube-outline"></ion-icon>
-          <p style="font-size: 15px"> Visualizar Itens Pesáveis </p>
+          <p> Ver Itens Pesáveis </p>
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>    
+  <div class="show-list-numbers-and-dots">
+    <p style="font-size:12px;">
+      Se preferir, identifique o código de barras através do leitor.
+    </p>       
+  </div>  
 </ion-content>

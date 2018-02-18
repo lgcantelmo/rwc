@@ -10,12 +10,12 @@
 </ion-header>
 <ion-content padding>
   <div [hidden]="showBarcodeDiv">
-    <h5 style="color:#000000;">
-      Informe o código abaixo:
-    </h5>
+    <p style="color:#000000; font-size: 18px">
+      <strong>Informe o código abaixo: </strong>
+    </p>
     <ion-item>
       <ion-label></ion-label>
-      <ion-input type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" (focus)="selectAll($event)" (keyup.enter)="searchItem()"></ion-input>
+      <ion-input type="text" #barcodeInput placeholder="Código de Barras" [(ngModel)]="barcode" (focus)="selectAll($event)" (keyup.enter)="searchItem()" (keydown.tab)="searchItem()" autofocus></ion-input>
     </ion-item>
     <div class="spacer" style="width:300px;height:10px;"></div>
     <button ion-button large color="assertive" block icon-left on-click="searchItem()">
@@ -23,7 +23,7 @@
       Consultar
     </button>
     <div class="show-list-numbers-and-dots">
-      <p style="color:#000000;font-size:10px;">
+      <p style="font-size:12px;">
         Se preferir, identifique o código de barras através do leitor.
       </p>
     </div>

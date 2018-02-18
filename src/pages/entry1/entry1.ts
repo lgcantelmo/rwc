@@ -55,6 +55,19 @@ export class EntryStep1Page {
     event.target.select();
   }
 
+  nextStep() {
+    this.searchItem();
+  }
+
+  return() {
+    this.nav.setRoot(InvoicesPage);
+  }
+
+  goToWeights() {    
+    this.invoiceSession.setNavigate(NavigatePages.EntryWeightItem);
+    this.nav.setRoot(WeightsPage);
+  }
+
   private searchItem() {
 
     if (this.barcode == "") {
@@ -89,6 +102,7 @@ export class EntryStep1Page {
           if (response.itemNotFound == true) {            
             this.invoiceSession.clear();
             this.invoiceSession.getItem().barcode = this.barcode;
+            this.global.presentToast(response.msg, 'error');
             this.goToNotFoundItem();
             return;
           }
@@ -111,40 +125,11 @@ export class EntryStep1Page {
 
   private goToNotFoundItem() {
     this.invoiceSession.setNavigate(NavigatePages.EntryNotFoundItem);
-    this.nav.push(EntryNotFoundStepPage);
+    this.nav.setRoot(EntryNotFoundStepPage);
   }
 
   private goToStep2() {
-    this.nav.push(EntryStep2Page);
-  }
-
-  nextStep() {
-
-    let navigate = this.invoiceSession.getNavigate();
-    switch( navigate ) {
-
-      case( NavigatePages.EntryNormalCounter ) :
-        if( this.invoiceSession.item.id ==  -1 )
-          this.searchItem();
-        else
-          this.goToStep2();
-      break;
-
-      case( NavigatePages.EntryNotFoundItem ) :
-        this.goToNotFoundItem();
-      break;
-      
-    }
-      
-  }
-
-  return() {
-    this.nav.setRoot(InvoicesPage);
-  }
-
-  goToWeights() {    
-    this.invoiceSession.setNavigate(NavigatePages.EntryWeightItem);
-    this.nav.push(WeightsPage);
+    this.nav.setRoot(EntryStep2Page);
   }
 
   private checkWeightItems() {

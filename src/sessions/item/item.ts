@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { Item } from '../../models/item/item';
 import { Shopping } from '../../models/shopping/shopping';
 import { Sale } from '../../models/sale/sale';
+import { Order } from '../../models/order/order';
 
 @Injectable()
 export class ItemSession {
@@ -12,6 +13,10 @@ export class ItemSession {
   items: Array<Item>;
   showBarcodeDiv: boolean = false;
 
+  order: Order;
+  shopping: Shopping;
+  sale: Sale;
+
   constructor() {
   }
 
@@ -19,6 +24,22 @@ export class ItemSession {
     this.item = new Item();
     this.items = [];
     this.showBarcodeDiv = false;
+
+    this.order = new Order();
+    this.shopping = new Shopping();
+    this.sale = new Sale();
+  }
+
+  getOrder() {
+    return this.order;
+  }
+
+  getShooping() {
+    return this.shopping;
+  }
+
+  getSale() {
+    return this.sale;
   }
 
   getItem() {

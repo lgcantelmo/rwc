@@ -63,12 +63,12 @@ export class InvoiceProvider {
   }
 
   invoice_items(invoiceId: Number) {
-    var url = GlobalDefinitions.server_url + "/invoiceitems.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/invoice/invoiceitems.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
   weight_items(invoiceId: Number) {
-    var url = GlobalDefinitions.server_url + "/weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/invoice/weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
@@ -78,12 +78,12 @@ export class InvoiceProvider {
   }
 
   exists_not_weight_items(invoiceId: Number) {
-    var url = GlobalDefinitions.server_url + "/invoice/exist-not-weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/invoice/exist-not-weights.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 
   exists_weight_items(invoiceId: Number) {
-    var url = GlobalDefinitions.server_url + "/invoice/exists-weight-items.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
+    var url = GlobalDefinitions.server_url + "/invoice/exist-weights.json?invoiceId=" + invoiceId + "&key=" + GlobalDefinitions.private_key;
     return this.http.post(url, JSON.stringify({}));
   }
 }

@@ -14,49 +14,50 @@
     <strong>Data de Entrada:  </strong> {{invoice.date}}    <br>
     <strong>Empresa:          </strong> {{invoice.nick}}    <br>
   </p>
-  <div *ngIf="items.length > 0">
-    <div class="show-list-numbers-and-dots" >
-        <strong style="font-size: 18px"></strong>
-        <p style="color:#000000;">
-          <strong>Itens não pesáveis</strong>
-        </p>
-    </div>
-    <ion-list class="list-custom">
-      <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
-        <strong style="font-size: 18px">{{item.code}}</strong>
-        <p style="font-size: 18px">{{item.description}}</p>
-        <ion-icon name="arrow-round-forward" item-right></ion-icon>
-      </ion-item>
-    </ion-list>
-    <div class="spacer" style="width:300px;height:10px;"></div>
-  </div>
-  <div *ngIf="weights.length > 0">
-    <div class="show-list-numbers-and-dots">
-        <strong style="font-size: 18px"></strong>
-        <p style="color:#000000;">
-          <strong>Itens pesáveis</strong>
-        </p>
-    </div>
-    <ion-list class="list-custom">
-      <ion-item color="none" *ngFor="let item of weights" on-click="goToWeightRecount(item.id)">
-        <strong style="font-size: 18px">{{item.code}}</strong>
-        <p style="font-size: 18px">{{item.description}}</p>
-        <ion-icon name="arrow-round-forward" item-right></ion-icon>
-      </ion-item>
-    </ion-list>
-  </div>
+  <ion-list class="list-custom">
+    
+    <ion-item text-wrap on-click="toggleLevel1(0)" [ngClass]="'active: isLevel1Shown(0)'">
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(0) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong style="font-size: 18px">Itens não pesáveis</strong>
+        <ion-badge item-right color="assertive">{{items.length}}</ion-badge>
+      </div>      
+      <ion-list class="list-custom" *ngIf="isLevel1Shown(0)">        
+        <ion-item color="none" *ngFor="let item of items" on-click="goToRecount(item.id)">
+          <strong style="font-size: 18px">{{item.code}}</strong>
+          <p style="font-size: 18px">{{item.description}}</p>
+          <ion-icon name="arrow-round-forward" item-right></ion-icon>
+        </ion-item> 
+      </ion-list>   
+    </ion-item>
+
+    <ion-item text-wrap on-click="toggleLevel1(1)" [ngClass]="'active: isLevel1Shown(1)'">
+      <div>
+        <ion-icon color="success" item-left [name]="isLevel1Shown(1) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+        <strong style="font-size: 18px">Itens pesáveis</strong>
+        <ion-badge item-right color="assertive">{{weights.length}}</ion-badge>
+      </div>      
+      <ion-list class="list-custom" *ngIf="isLevel1Shown(1)">        
+        <ion-item color="none" *ngFor="let item of weights" on-click="goToWeightRecount(item.id)">
+          <strong style="font-size: 18px">{{item.code}}</strong>
+          <p style="font-size: 18px">{{item.description}}</p>
+          <ion-icon name="arrow-round-forward" item-right></ion-icon>
+        </ion-item>     
+      </ion-list>   
+    </ion-item>   
+  </ion-list>
   <ion-grid>
     <ion-row>
       <ion-col>
         <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
-          <p> Voltar </p>
+          <p style="font-size: 15px"> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="assertive" block large icon-right on-click="refresh()">
-          <p> Atualizar </p>
-          <ion-icon name="arrow-dropright"></ion-icon>
+        <button ion-button color="assertive" block large icon-left on-click="refresh()">
+          <ion-icon name="refresh"></ion-icon>
+          <p style="font-size: 15px"> Atualizar </p>
         </button>
       </ion-col>
     </ion-row>

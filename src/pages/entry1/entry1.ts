@@ -37,7 +37,9 @@ export class EntryStep1Page {
   ionViewCanEnter() { 
     this.invoice = this.invoiceSession.getInvoice();
     this.barcode = this.invoiceSession.getItem().barcode;
-    this.checkWeightItems();
+
+    if ( !this.userSession.isTesting() ) 
+     this.checkWeightItems();
   }
 
   ionViewDidLoad()
@@ -54,7 +56,7 @@ export class EntryStep1Page {
   selectAll(event): void {
     event.target.select();
   }
-
+  
   nextStep() {
     this.searchItem();
   }
@@ -80,12 +82,15 @@ export class EntryStep1Page {
       this.barcode = "0" + this.barcode;
 
     if (this.userSession.isTesting()) {
+      this.invoiceSession.loadTestInvoices();
+      this.invoiceSession.setInvoiceItem(new InvoiceItem());
+
       if (this.barcode == "xxx") {
         this.invoiceSession.clear();
         this.goToNotFoundItem();
         return;
       }
-      this.invoiceSession.setInvoiceItem(new InvoiceItem());
+
       this.goToStep2();
       return;
     }

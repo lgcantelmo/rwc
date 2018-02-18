@@ -99,6 +99,8 @@ export class InvoiceSession {
     this.item.code = "19261";
     this.item.description = "FUBA MIMOSO SINHA FINO 500G *REC09)*****";
     this.item.detail = 1;
+    this.item.barcode = '7896473410599';
+    this.item.weight = 'N';
 
     for(let i=0; i<5; i++) {
       items.push(this.item);

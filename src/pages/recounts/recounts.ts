@@ -22,6 +22,7 @@ export class RecountsPage {
   items: Array<Item> = [];
   weights: Array<Item> = [];
   invoice: Invoice;
+  showLevel1 = null;
 
   constructor(public nav: NavController,
     private global: GlobalView,
@@ -114,5 +115,18 @@ export class RecountsPage {
       }
     );
   }
+
+  toggleLevel1(idx) {
+    if (this.isLevel1Shown(idx)) {
+      this.showLevel1 = null;
+    } else {
+      this.showLevel1 = idx;
+    }
+  };
+
+  isLevel1Shown(idx) {
+    return this.showLevel1 === idx;
+  };
+
 
 }

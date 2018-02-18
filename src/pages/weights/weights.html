@@ -15,7 +15,7 @@
     <strong>Empresa:          </strong> {{invoice.nick}}    <br>
   </p>
   <div class="show-list-numbers-and-dots">
-    <p style="color:#000000;">
+    <p style="color:#000000; font-size: 18px">
       <strong>
         {{items.length > 0 ? "Itens pesáveis para conferência" : "Nenhum item pesável disponível para contagem."}}
       </strong>
@@ -33,13 +33,13 @@
       <ion-col>
         <button ion-button color="stable" block large icon-left on-click="return()">
           <ion-icon name="arrow-dropleft"></ion-icon>
-          <p> Voltar </p>
+          <p style="font-size: 15px"> Voltar </p>
         </button>
       </ion-col>
       <ion-col>
-        <button ion-button color="assertive" block large icon-right on-click="refresh()">
-          <p> Atualizar </p>
-          <ion-icon name="arrow-dropright"></ion-icon>
+        <button ion-button color="assertive" block large icon-left on-click="refresh()">
+          <ion-icon name="refresh"></ion-icon>
+          <p style="font-size: 15px"> Atualizar </p>
         </button>
       </ion-col>
     </ion-row>
